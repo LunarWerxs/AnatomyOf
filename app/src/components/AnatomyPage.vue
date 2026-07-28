@@ -25,14 +25,34 @@ const variant = computed<ExampleVariant>(() =>
 // guard against out-of-order resolution when the route changes mid-load.
 // A dropped chunk request is retried rather than left as a permanently blank page.
 const language = ref<LanguageDef | null>(null)
+
+// Monotonic id for the in-flight load. Only the newest one may commit, so a slow
+// chunk that lands after the user has moved on is discarded instead of yanking the
+// page back. Comparing against the route id alone is not enough: two loads of the
+// SAME id can be in flight after a there-and-back-again click.
+let latest = 0
+
 watch(
   () => meta.value.id,
   async (id) => {
-    // Concept pages render a mockup, not code, so they don't pay for Shiki here.
-    if (meta.value.category !== 'concept') warmHighlighter(meta.value.shikiLang)
+    const mine = ++latest
+    // Grammars are by far the largest assets here, and warming one for every route
+    // the user passes THROUGH is what made a quick click-through look frozen: a
+    // dozen of them queue up on the connection and the chunk for the language
+    // actually landed on waits behind all of them.
+    //
+    // So only the very first load warms eagerly, where fetching Shiki's core,
+    // engine and grammar alongside the data chunk is a real cold-start win. After
+    // that the warm waits until the data has landed AND this is still the current
+    // route, which means a language merely passed through never costs a grammar.
+    // Concept pages render a mockup, not code, so they never pay for Shiki at all.
+    const cold = language.value === null
+    if (cold && meta.value.category !== 'concept') warmHighlighter(meta.value.shikiLang)
     try {
       const def = await importChunk(() => loadLanguage(id))
-      if (meta.value.id === id) language.value = def
+      if (mine !== latest) return
+      language.value = def
+      if (!cold && def.category !== 'concept') warmHighlighter(def.shikiLang)
     } catch (error) {
       console.error(`[anatomy] failed to load language "${id}"`, error)
     }
