@@ -2,26 +2,21 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Smoothly crossfade colors when the theme is toggled. The class is added to
-   <html> only for the duration of the switch (see AppSidebar), so it never
-   interferes with normal hover/interaction transitions. */
-.theme-transition,
-.theme-transition *,
-.theme-transition *::before,
-.theme-transition *::after {
-  transition:
-    background-color 0.35s ease,
-    border-color 0.35s ease,
-    color 0.35s ease,
-    fill 0.35s ease,
-    stroke 0.35s ease !important;
+/* Crossfade the theme switch as a single compositor animation over a snapshot of
+   the page (see AppSidebar). The previous approach put a 0.35s color transition on
+   every element with !important, which made one flip recalculate style and repaint
+   the entire tree for the whole duration: fine when idle, roughly 700ms of dropped
+   frames on a machine already under load. Browsers without view transitions get an
+   instant switch, which is cheaper than the stutter it replaces. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.28s;
+  animation-timing-function: ease;
 }
 @media (prefers-reduced-motion: reduce) {
-  .theme-transition,
-  .theme-transition *,
-  .theme-transition *::before,
-  .theme-transition *::after {
-    transition: none !important;
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
   }
 }
 

@@ -2,7 +2,7 @@
 import { useColorMode } from '@vueuse/core'
 import { Moon, Search, Sparkles, Sun, X } from 'lucide-vue-next'
 import { TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { comingSoon } from '../data/comingSoon'
 import type { LanguageMeta } from '../lib/types'
 import BrandMark from './BrandMark.vue'
@@ -52,16 +52,29 @@ function onScroll(event: Event) {
 
 const mode = useColorMode({ storageKey: 'anatomy-theme', initialValue: 'dark' })
 
-let themeTransitionTimer: ReturnType<typeof setTimeout> | undefined
+type ViewTransitionDocument = Document & {
+  startViewTransition?: (callback: () => unknown) => { finished: Promise<void> }
+}
 
 function toggleTheme() {
-  // Enable color transitions just for the switch, then remove so they don't
-  // affect normal interactions.
-  const root = document.documentElement
-  root.classList.add('theme-transition')
-  clearTimeout(themeTransitionTimer)
-  themeTransitionTimer = setTimeout(() => root.classList.remove('theme-transition'), 450)
-  mode.value = mode.value === 'dark' ? 'light' : 'dark'
+  const next = mode.value === 'dark' ? 'light' : 'dark'
+  const doc = document as ViewTransitionDocument
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  // A view transition crossfades one snapshot of the page on the compositor.
+  // Where it isn't available, switch instantly rather than falling back to
+  // transitioning every element, which is the stutter this replaced.
+  if (reduced || typeof doc.startViewTransition !== 'function') {
+    mode.value = next
+    return
+  }
+
+  // The DOM change has to happen inside the callback, and useColorMode writes the
+  // class in a watcher, so wait for Vue to flush before the snapshot is taken.
+  doc.startViewTransition(async () => {
+    mode.value = next
+    await nextTick()
+  })
 }
 </script>
 
