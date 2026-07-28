@@ -17,7 +17,7 @@ export const cobol: LanguageDef = {
       title: 'Identification Division',
       body: 'Identifies the program (name, author, etc.).',
       details:
-        'Every COBOL source unit opens with the `IDENTIFICATION DIVISION`, the mandatory first of the four divisions (`IDENTIFICATION`, `ENVIRONMENT`, `DATA`, `PROCEDURE`). It exists purely for bookkeeping: it names the program and can optionally record author, install date, and remarks, none of which affect runtime behavior.\n\nHistorically this division carried paragraphs like `AUTHOR.` and `DATE-WRITTEN.` for shop documentation standards. Modern compilers still accept them but treat them as comments in all but name — the only clause with teeth is `PROGRAM-ID`.',
+        'Every COBOL source unit opens with the `IDENTIFICATION DIVISION`, the mandatory first of the four divisions (`IDENTIFICATION`, `ENVIRONMENT`, `DATA`, `PROCEDURE`). It exists purely for bookkeeping: it names the program and can optionally record author, install date, and remarks, none of which affect runtime behavior.\n\nHistorically this division carried paragraphs like `AUTHOR.` and `DATE-WRITTEN.` for shop documentation standards. Modern compilers still accept them but treat them as comments in all but name. The only clause with teeth is `PROGRAM-ID`.',
       learnMore: 'https://gnucobol.sourceforge.io/doc/gnucobol.html',
       color: 'blue',
       side: 'left',
@@ -37,7 +37,7 @@ export const cobol: LanguageDef = {
       title: 'Environment Division',
       body: 'Specifies the computer environment (source/object computer, file assignments).',
       details:
-        "The `ENVIRONMENT DIVISION` is where COBOL admits that hardware exists. Its `CONFIGURATION SECTION` records the `SOURCE-COMPUTER` (where the program is compiled) and `OBJECT-COMPUTER` (where it runs) — vestiges of an era when compiling and running happened on genuinely different machines.\n\nA larger `INPUT-OUTPUT SECTION` (not shown here) uses `FILE-CONTROL` to bind logical file names in the program to physical datasets or paths, decoupling the `DATA DIVISION`'s view of a file from wherever the operating system actually stores it.",
+        "The `ENVIRONMENT DIVISION` is where COBOL admits that hardware exists. Its `CONFIGURATION SECTION` records the `SOURCE-COMPUTER` (where the program is compiled) and `OBJECT-COMPUTER` (where it runs), vestiges of an era when compiling and running happened on genuinely different machines.\n\nA larger `INPUT-OUTPUT SECTION` (not shown here) uses `FILE-CONTROL` to bind logical file names in the program to physical datasets or paths, decoupling the `DATA DIVISION`'s view of a file from wherever the operating system actually stores it.",
       learnMore: 'https://gnucobol.sourceforge.io/doc/gnucobol.html#Environment-Division',
       color: 'teal',
       side: 'left',
@@ -47,7 +47,7 @@ export const cobol: LanguageDef = {
       title: 'Data Division',
       body: 'Defines all data items processed by the program.',
       details:
-        "The `DATA DIVISION` is COBOL's answer to variable declarations: every piece of storage the program will touch — files, records, working variables, screen layouts — must be described here before `PROCEDURE DIVISION` can reference it. There is no equivalent to declaring a variable inline at first use.\n\nIts major sections include `FILE SECTION` (record layouts for files opened via `FILE-CONTROL`), `WORKING-STORAGE SECTION` (program variables), and `LINKAGE SECTION` (parameters passed in from a caller). Declaring data this exhaustively up front is part of why COBOL programs read as verbose but are famously explicit about memory layout.",
+        "The `DATA DIVISION` is COBOL's answer to variable declarations: every piece of storage the program will touch (files, records, working variables, screen layouts) must be described here before `PROCEDURE DIVISION` can reference it. There is no equivalent to declaring a variable inline at first use.\n\nIts major sections include `FILE SECTION` (record layouts for files opened via `FILE-CONTROL`), `WORKING-STORAGE SECTION` (program variables), and `LINKAGE SECTION` (parameters passed in from a caller). Declaring data this exhaustively up front is part of why COBOL programs read as verbose but are famously explicit about memory layout.",
       learnMore: 'https://gnucobol.sourceforge.io/doc/gnucobol.html#Data-Division',
       color: 'green',
       side: 'left',
@@ -57,7 +57,7 @@ export const cobol: LanguageDef = {
       title: 'Working-Storage Section',
       body: "Allocates memory for variables and constants that persist for the program's run.",
       details:
-        'Items declared in `WORKING-STORAGE SECTION` are allocated once and retain their values across the whole run (or, in a called subprogram, across calls unless it terminates) — closer in spirit to static storage than to stack locals. Each item is a fixed-width field whose size is fully determined at compile time by its `PICTURE` clause.\n\nBecause COBOL has no dynamic heap allocation in the C sense, `WORKING-STORAGE` is where nearly all of a traditional program\'s "variables" live, initialized with `VALUE` clauses rather than assignment statements executed at runtime.',
+        'Items declared in `WORKING-STORAGE SECTION` are allocated once and retain their values across the whole run (or, in a called subprogram, across calls unless it terminates), closer in spirit to static storage than to stack locals. Each item is a fixed-width field whose size is fully determined at compile time by its `PICTURE` clause.\n\nBecause COBOL has no dynamic heap allocation in the C sense, `WORKING-STORAGE` is where nearly all of a traditional program\'s "variables" live, initialized with `VALUE` clauses rather than assignment statements executed at runtime.',
       learnMore: 'https://gnucobol.sourceforge.io/doc/gnucobol.html#Working_002dStorage-Section',
       color: 'purple',
       side: 'right',
@@ -67,7 +67,7 @@ export const cobol: LanguageDef = {
       title: 'Level Number & PICTURE Clause',
       body: 'Defines hierarchy (01, 05, ...) and data type/format (`PIC X`, `PIC 9`).',
       details:
-        "The level number (`01`, `05`, `10`, ...) establishes a data item's place in a hierarchy, letting a group item (like a customer record) contain elementary items (like name and balance) the way a struct contains fields — `01` always marks a top-level record or standalone item. Numbers need not be consecutive; the gaps conventionally leave room to insert fields later without renumbering everything.\n\nThe `PICTURE` clause (abbreviated `PIC`) is COBOL's type system: `X` marks alphanumeric characters, `9` marks a numeric digit, and `V` marks an implied decimal point that consumes no storage. So `PIC 9(5)` is five digits and `PIC X(12)` is twelve characters of text, with `VALUE` optionally supplying an initial literal.",
+        "The level number (`01`, `05`, `10`, ...) establishes a data item's place in a hierarchy, letting a group item (like a customer record) contain elementary items (like name and balance) the way a struct contains fields. `01` always marks a top-level record or standalone item. Numbers need not be consecutive; the gaps conventionally leave room to insert fields later without renumbering everything.\n\nThe `PICTURE` clause (abbreviated `PIC`) is COBOL's type system: `X` marks alphanumeric characters, `9` marks a numeric digit, and `V` marks an implied decimal point that consumes no storage. So `PIC 9(5)` is five digits and `PIC X(12)` is twelve characters of text, with `VALUE` optionally supplying an initial literal.",
       learnMore: 'https://gnucobol.sourceforge.io/doc/gnucobol.html#PICTURE-Clause',
       color: 'sky',
       side: 'right',
@@ -77,7 +77,7 @@ export const cobol: LanguageDef = {
       title: 'Procedure Division',
       body: 'Contains the executable instructions (paragraphs, statements).',
       details:
-        "The `PROCEDURE DIVISION` is where the actual logic lives — everything before it is declaration. It is organized into paragraphs (optionally grouped into sections), which are executed either by falling through from the previous paragraph or by explicit `PERFORM`, COBOL's primary mechanism for structured control transfer without an unstructured `GOTO`.\n\nA `PROCEDURE DIVISION` can also declare `USING` parameters when the program is meant to be `CALL`ed as a subprogram, mirroring the parameter list a function would take in more modern languages.",
+        "The `PROCEDURE DIVISION` is where the actual logic lives. Everything before it is declaration. It is organized into paragraphs (optionally grouped into sections), which are executed either by falling through from the previous paragraph or by explicit `PERFORM`, COBOL's primary mechanism for structured control transfer without an unstructured `GOTO`.\n\nA `PROCEDURE DIVISION` can also declare `USING` parameters when the program is meant to be `CALL`ed as a subprogram, mirroring the parameter list a function would take in more modern languages.",
       learnMore: 'https://gnucobol.sourceforge.io/doc/gnucobol.html#Procedure-Division',
       color: 'red',
       side: 'left',
@@ -87,7 +87,7 @@ export const cobol: LanguageDef = {
       title: 'Paragraph',
       body: 'A named section of code within the Procedure Division.',
       details:
-        'A paragraph is simply a user-defined name followed by a period, after which any number of statements run until the next paragraph header or end of division — there is no explicit "end paragraph" marker. Paragraphs are COBOL\'s original unit of reusable logic, invoked with `PERFORM paragraph-name` and returning control automatically when the paragraph finishes.\n\nBefore structured programming conventions took hold, paragraphs were often chained with `GO TO`, producing famously tangled control flow; modern style favors `PERFORM` almost exclusively, and many shops ban `GO TO` outright in their coding standards.',
+        'A paragraph is simply a user-defined name followed by a period, after which any number of statements run until the next paragraph header or end of division. There is no explicit "end paragraph" marker. Paragraphs are COBOL\'s original unit of reusable logic, invoked with `PERFORM paragraph-name` and returning control automatically when the paragraph finishes.\n\nBefore structured programming conventions took hold, paragraphs were often chained with `GO TO`, producing famously tangled control flow; modern style favors `PERFORM` almost exclusively, and many shops ban `GO TO` outright in their coding standards.',
       learnMore: 'https://gnucobol.sourceforge.io/doc/gnucobol.html#PERFORM-Statement',
       color: 'orange',
       side: 'right',

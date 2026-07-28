@@ -8,7 +8,7 @@ import AnatomyView from './AnatomyView.vue'
 const route = useRoute()
 const router = useRouter()
 
-// Lightweight metadata for the current route — used to validate the URL and to
+// Lightweight metadata for the current route, used to validate the URL and to
 // decide which full definition to load. The heavy annotations/examples come from
 // loadLanguage() below, not this array.
 const meta = computed(

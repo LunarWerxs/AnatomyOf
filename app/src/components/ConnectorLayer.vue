@@ -170,7 +170,7 @@ function onWindowResize() {
 }
 
 // The card columns are sticky, so scrolling changes their position relative to
-// the (scrolling) code panel — recompute the lines to keep them anchored.
+// the (scrolling) code panel, recompute the lines to keep them anchored.
 function onScroll() {
   track(0)
 }

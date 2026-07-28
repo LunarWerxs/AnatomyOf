@@ -27,7 +27,7 @@ export const scala: LanguageDef = {
       title: 'Import statement',
       body: 'Brings classes or packages into scope.',
       details:
-        "`import java.time.LocalDate` brings a single class into scope, but Scala imports are more flexible than Java's: `import java.time._` wildcard-imports everything in a package, `import java.time.{LocalDate, LocalTime}` selects several names at once, and `import java.time.{LocalDate => LD}` renames a name on the way in to dodge a collision.\n\nImports can also appear anywhere a statement can, not just at the top of the file — scoping an import to a single method or block keeps its effect local, which is handy when two libraries export a colliding name.",
+        "`import java.time.LocalDate` brings a single class into scope, but Scala imports are more flexible than Java's: `import java.time._` wildcard-imports everything in a package, `import java.time.{LocalDate, LocalTime}` selects several names at once, and `import java.time.{LocalDate => LD}` renames a name on the way in to dodge a collision.\n\nImports can also appear anywhere a statement can, not just at the top of the file: scoping an import to a single method or block keeps its effect local, which is handy when two libraries export a colliding name.",
       learnMore: 'https://docs.scala-lang.org/tour/packages-and-imports.html',
       color: 'sky',
       side: 'left',
@@ -45,9 +45,9 @@ export const scala: LanguageDef = {
     {
       id: 'object',
       title: 'Object definition (singleton)',
-      body: 'Defines a singleton object — exactly one instance ever exists.',
+      body: 'Defines a singleton object. Exactly one instance ever exists.',
       details:
-        'An `object` declares a class and its sole instance in one step; the runtime lazily creates that instance the first time it is referenced. This is how Scala gets rid of Java\'s `static` keyword entirely — anything you would have made static in Java becomes a member of an `object` instead.\n\nA common pattern pairs an `object` with a `class` of the same name (a "companion object"), which gets privileged access to the class\'s private members and is the idiomatic home for factory methods and constants related to that type.',
+        'An `object` declares a class and its sole instance in one step; the runtime lazily creates that instance the first time it is referenced. This is how Scala gets rid of Java\'s `static` keyword entirely. Anything you would have made static in Java becomes a member of an `object` instead.\n\nA common pattern pairs an `object` with a `class` of the same name (a "companion object"), which gets privileged access to the class\'s private members and is the idiomatic home for factory methods and constants related to that type.',
       learnMore: 'https://docs.scala-lang.org/tour/singleton-objects.html',
       color: 'green',
       side: 'left',
@@ -57,7 +57,7 @@ export const scala: LanguageDef = {
       title: 'Variable declaration',
       body: '`val` (immutable) or `var` (mutable).',
       details:
-        '`val` binds a name to a value permanently — closer to a Java `final` variable than a constant, since the value itself can still be a mutable object. `var` allows reassignment, but idiomatic Scala reaches for `val` by default and treats `var` as the exception that needs a reason.\n\nType annotations (`val version: String = "1.0.0"`) are usually optional thanks to type inference, but are common on public members and constructor parameters to keep the inferred API stable as an implementation changes.',
+        '`val` binds a name to a value permanently: closer to a Java `final` variable than a constant, since the value itself can still be a mutable object. `var` allows reassignment, but idiomatic Scala reaches for `val` by default and treats `var` as the exception that needs a reason.\n\nType annotations (`val version: String = "1.0.0"`) are usually optional thanks to type inference, but are common on public members and constructor parameters to keep the inferred API stable as an implementation changes.',
       learnMore: 'https://docs.scala-lang.org/tour/basics.html#variables',
       color: 'amber',
       side: 'right',
@@ -87,7 +87,7 @@ export const scala: LanguageDef = {
       title: 'String interpolation',
       body: 'Embeds expressions in strings using `$` or `${}`.',
       details:
-        'An `s"..."` string lets `$name` splice in a simple identifier, while `${expression}` handles anything more complex, including method calls and field access like `${AppConfig.version}`. The `s` prefix is itself just a method call desugared by the compiler — Scala also ships `f"..."` for `printf`-style formatting and `raw"..."` for strings that skip escape processing.\n\nBecause interpolators are ordinary macros, libraries define custom ones too; the same `$`/`${}` splicing syntax can back things like SQL query builders or JSON literals with compile-time checking of the interpolated types.',
+        'An `s"..."` string lets `$name` splice in a simple identifier, while `${expression}` handles anything more complex, including method calls and field access like `${AppConfig.version}`. The `s` prefix is itself just a method call desugared by the compiler, Scala also ships `f"..."` for `printf`-style formatting and `raw"..."` for strings that skip escape processing.\n\nBecause interpolators are ordinary macros, libraries define custom ones too; the same `$`/`${}` splicing syntax can back things like SQL query builders or JSON literals with compile-time checking of the interpolated types.',
       learnMore: 'https://docs.scala-lang.org/overviews/core/string-interpolation.html',
       color: 'pink',
       side: 'right',
@@ -118,7 +118,7 @@ export const scala: LanguageDef = {
       title: 'Control flow (expression & loop)',
       body: '`if` is an expression; `for` loops or comprehends.',
       details:
-        'Because `if`/`else` is an expression rather than a statement, `val status = if (alice.age > 25) "Adult" else "Young"` needs no ternary operator — the branch that runs supplies the value directly, and both branches must produce compatible types. `for (i <- 1 to 3) { ... }` iterates a `Range`, with `<-` reading as "drawn from."\n\nThe same `for` syntax is sugar for chained `map`/`flatMap`/`filter` calls, so a `for` loop with a `yield` clause becomes a comprehension that builds a new collection rather than just looping for side effects — a distinction worth knowing since the two look nearly identical.',
+        'Because `if`/`else` is an expression rather than a statement, `val status = if (alice.age > 25) "Adult" else "Young"` needs no ternary operator. The branch that runs supplies the value directly, and both branches must produce compatible types. `for (i <- 1 to 3) { ... }` iterates a `Range`, with `<-` reading as "drawn from."\n\nThe same `for` syntax is sugar for chained `map`/`flatMap`/`filter` calls, so a `for` loop with a `yield` clause becomes a comprehension that builds a new collection rather than just looping for side effects: a distinction worth knowing since the two look nearly identical.',
       learnMore: 'https://docs.scala-lang.org/tour/for-comprehensions.html',
       color: 'indigo',
       side: 'left',

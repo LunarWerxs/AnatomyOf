@@ -17,7 +17,7 @@ export const pascal: LanguageDef = {
       title: 'Program heading',
       body: 'Names an executable program with `program Name;`.',
       details:
-        'A Pascal executable commonly starts with a `program` heading followed by an identifier and semicolon. The name documents the compilation unit and may be used by tooling, but it is not a function that the runtime calls.\n\nA unit uses `unit Name;` instead and exposes an `interface` plus an `implementation`. Libraries can use `library Name;`. The final punctuation also changes by role: a complete program or unit finishes with `end.` — the period is part of the syntax, not prose.',
+        'A Pascal executable commonly starts with a `program` heading followed by an identifier and semicolon. The name documents the compilation unit and may be used by tooling, but it is not a function that the runtime calls.\n\nA unit uses `unit Name;` instead and exposes an `interface` plus an `implementation`. Libraries can use `library Name;`. The final punctuation also changes by role: a complete program or unit finishes with `end.`. The period is part of the syntax, not prose.',
       learnMore: 'https://www.freepascal.org/docs-html/current/ref/ref.html',
       color: 'blue',
       side: 'left',

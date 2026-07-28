@@ -27,7 +27,7 @@ export const fortran: LanguageDef = {
       title: 'Module definition',
       body: 'Encapsulates procedures and data with `module` / `end module`.',
       details:
-        "A `module` groups related procedures, derived types, and data under one namespace, replacing the `COMMON` blocks that older Fortran used to share state across program units. Other program units pull in a module's contents with a `use` statement rather than textual `include`.\n\nModules compile to `.mod` files that encode interfaces, so the compiler checks argument types and counts across module boundaries — a huge reliability win over the implicit-interface calling conventions of FORTRAN 77.",
+        "A `module` groups related procedures, derived types, and data under one namespace, replacing the `COMMON` blocks that older Fortran used to share state across program units. Other program units pull in a module's contents with a `use` statement rather than textual `include`.\n\nModules compile to `.mod` files that encode interfaces, so the compiler checks argument types and counts across module boundaries: a huge reliability win over the implicit-interface calling conventions of FORTRAN 77.",
       learnMore: 'https://fortranwiki.org/fortran/show/Module',
       color: 'blue',
       side: 'left',
@@ -47,7 +47,7 @@ export const fortran: LanguageDef = {
       title: 'Contains',
       body: "Separates a module or program's data/definitions from its internal procedures.",
       details:
-        "The `contains` statement marks the boundary between a module's (or program's) declarations and the subroutines/functions defined inside it. Everything after `contains` is an internal procedure that automatically has access to the host's variables through host association.\n\nA program unit may have at most one `contains`, and procedures defined after it cannot themselves contain further nested procedures beyond one level — Fortran keeps the nesting shallow on purpose.",
+        "The `contains` statement marks the boundary between a module's (or program's) declarations and the subroutines/functions defined inside it. Everything after `contains` is an internal procedure that automatically has access to the host's variables through host association.\n\nA program unit may have at most one `contains`, and procedures defined after it cannot themselves contain further nested procedures beyond one level. Fortran keeps the nesting shallow on purpose.",
       learnMore: 'https://fortranwiki.org/fortran/show/contains',
       color: 'purple',
       side: 'right',
@@ -77,7 +77,7 @@ export const fortran: LanguageDef = {
       title: 'Use statement',
       body: 'Imports entities from a module.',
       details:
-        "`use module_name` brings a module's public procedures, types, and variables into the current scope. Adding `, only: calculate_square` restricts the import to exactly the named entities, which keeps large scientific codebases from silently colliding on common names like `x` or `n`.\n\n`use` statements must appear before any other declarations in a program unit, immediately after the `program`, `module`, or `subroutine` header — a holdover from the compiler needing to resolve the full symbol table before it processes anything else.",
+        "`use module_name` brings a module's public procedures, types, and variables into the current scope. Adding `, only: calculate_square` restricts the import to exactly the named entities, which keeps large scientific codebases from silently colliding on common names like `x` or `n`.\n\n`use` statements must appear before any other declarations in a program unit, immediately after the `program`, `module`, or `subroutine` header: a holdover from the compiler needing to resolve the full symbol table before it processes anything else.",
       learnMore: 'https://fortranwiki.org/fortran/show/use',
       color: 'orange',
       side: 'right',
@@ -97,7 +97,7 @@ export const fortran: LanguageDef = {
       title: 'Program definition',
       body: 'The main execution point, opened with `program` and closed with `end program`.',
       details:
-        'Exactly one `program` block per executable marks where execution begins — analogous to `main` in C or `def main()` elsewhere, except the block also declares its own local variables and can `use` any modules it needs. Fortran does not require the program name to match the source filename.\n\nA standalone program still benefits from `implicit none` and can itself contain internal procedures after `contains`, making it a legitimate host program unit in its own right, not just an entry point that immediately delegates elsewhere.',
+        'Exactly one `program` block per executable marks where execution begins: analogous to `main` in C or `def main()` elsewhere, except the block also declares its own local variables and can `use` any modules it needs. Fortran does not require the program name to match the source filename.\n\nA standalone program still benefits from `implicit none` and can itself contain internal procedures after `contains`, making it a legitimate host program unit in its own right, not just an entry point that immediately delegates elsewhere.',
       learnMore: 'https://fortranwiki.org/fortran/show/program',
       color: 'red',
       side: 'left',
@@ -137,7 +137,7 @@ export const fortran: LanguageDef = {
       title: 'Subroutine call',
       body: 'Executes a subroutine with `call`.',
       details:
-        'A subroutine cannot be invoked like a function; it must be invoked with the `call` statement, e.g. `call calculate_square(i, square_val)`. Arguments are matched positionally to the subroutine\'s dummy arguments unless keyword form (`call foo(n=5)`) is used.\n\nBecause arguments are typically passed by reference, a `call` can change the caller\'s variables directly through any `intent(out)` or `intent(inout)` parameter — there is no need to capture a return value since the "return" happens by mutating what you passed in.',
+        'A subroutine cannot be invoked like a function; it must be invoked with the `call` statement, e.g. `call calculate_square(i, square_val)`. Arguments are matched positionally to the subroutine\'s dummy arguments unless keyword form (`call foo(n=5)`) is used.\n\nBecause arguments are typically passed by reference, a `call` can change the caller\'s variables directly through any `intent(out)` or `intent(inout)` parameter. There is no need to capture a return value since the "return" happens by mutating what you passed in.',
       learnMore: 'https://fortranwiki.org/fortran/show/call',
       color: 'blue',
       side: 'right',

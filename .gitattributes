@@ -3,7 +3,7 @@
 # `bun run check`) and churns diffs. git auto-detects binary files and leaves them alone.
 * text=auto eol=lf
 
-# Binary assets — never apply text/EOL filters.
+# Binary assets: never apply text/EOL filters.
 *.webp binary
 *.png binary
 *.jpg binary

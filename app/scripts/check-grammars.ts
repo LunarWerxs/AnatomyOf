@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 
 /**
  * Build guard: every `shikiLang` used by a language in src/data/ must have a
- * matching `import('@shikijs/langs/<id>')` in src/lib/highlighter.ts —
+ * matching `import('@shikijs/langs/<id>')` in src/lib/highlighter.ts,
  * otherwise that language's code panel fails to highlight at runtime.
  *
  * `shikiLang` must be the canonical grammar id (e.g. 'bat', not the 'batch'
@@ -32,7 +32,7 @@ if (missing.length > 0) {
   console.error('✗ Shiki grammars missing from src/lib/highlighter.ts:')
   for (const [lang, files] of missing) {
     console.error(
-      `    '${lang}' (shikiLang of ${files.map((f) => `src/data/${f}`).join(', ')}) — add import('@shikijs/langs/${lang}') to the langs array`,
+      `    '${lang}' (shikiLang of ${files.map((f) => `src/data/${f}`).join(', ')}): add import('@shikijs/langs/${lang}') to the langs array`,
     )
   }
   process.exit(1)

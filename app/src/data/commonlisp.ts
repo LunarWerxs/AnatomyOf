@@ -17,7 +17,7 @@ export const commonLisp: LanguageDef = {
       title: 'Comment',
       body: 'A semicolon starts a line comment; more semicolons conventionally mark broader scope.',
       details:
-        'One or more semicolons comment out the remainder of a line. By convention, `;` annotates a nearby expression, `;;` explains a local section, and `;;;` introduces a top-level definition or file section.\n\nCommon Lisp also has reader comments: `#| ... |#` nests for blocks, and `#;` tells the reader to skip the next complete form — useful when temporarily disabling a balanced expression.',
+        'One or more semicolons comment out the remainder of a line. By convention, `;` annotates a nearby expression, `;;` explains a local section, and `;;;` introduces a top-level definition or file section.\n\nCommon Lisp also has reader comments: `#| ... |#` nests for blocks, and `#;` tells the reader to skip the next complete form: useful when temporarily disabling a balanced expression.',
       learnMore: 'https://www.lispworks.com/documentation/HyperSpec/Front/index.htm',
       color: 'slate',
       side: 'left',
@@ -47,7 +47,7 @@ export const commonLisp: LanguageDef = {
       title: 'Global special variable',
       body: '`defparameter` defines a dynamically scoped global and assigns its value.',
       details:
-        '`defparameter` always assigns the supplied initial value when the form is evaluated. The surrounding asterisks are a naming convention that warns readers the variable is special — dynamically bindable — rather than an ordinary lexical local.\n\n`defvar` differs by preserving an existing bound value, which makes it useful for user-configurable state during interactive development.',
+        '`defparameter` always assigns the supplied initial value when the form is evaluated. The surrounding asterisks are a naming convention that warns readers the variable is special (dynamically bindable) rather than an ordinary lexical local.\n\n`defvar` differs by preserving an existing bound value, which makes it useful for user-configurable state during interactive development.',
       learnMore: 'https://www.lispworks.com/documentation/HyperSpec/Front/index.htm',
       color: 'purple',
       side: 'left',
@@ -67,7 +67,7 @@ export const commonLisp: LanguageDef = {
       title: 'Function definition (`defun`)',
       body: 'Binds a named function with a parameter list and one or more body forms.',
       details:
-        '`defun` installs a global function definition. Its body evaluates from left to right, and the value of the final form becomes the function’s return value — no dedicated `return` statement is required.\n\nCommon Lisp keeps a symbol’s function binding separate from its variable binding, which is why the same printed symbol can name both without conflict.',
+        '`defun` installs a global function definition. Its body evaluates from left to right, and the value of the final form becomes the function’s return value. No dedicated `return` statement is required.\n\nCommon Lisp keeps a symbol’s function binding separate from its variable binding, which is why the same printed symbol can name both without conflict.',
       learnMore: 'https://www.lispworks.com/documentation/HyperSpec/Front/index.htm',
       color: 'indigo',
       side: 'right',

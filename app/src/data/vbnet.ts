@@ -17,7 +17,7 @@ export const vbnet: LanguageDef = {
       title: 'Comment',
       body: "Single-line (`'`), ignored by the compiler.",
       details:
-        "A comment starts with an apostrophe (`'`) and runs to the end of the line; the compiler discards everything after it. There is no dedicated block-comment syntax — a multi-line explanation just means prefixing every line with its own apostrophe, which is very on-brand for a language descended from BASIC's `REM` statement.\n\nThe legacy keyword `REM` still works as a comment marker for historical compatibility, but essentially no VB.NET code written this century uses it; the apostrophe is the idiomatic form in every style guide and every IDE snippet.",
+        "A comment starts with an apostrophe (`'`) and runs to the end of the line; the compiler discards everything after it. There is no dedicated block-comment syntax. A multi-line explanation just means prefixing every line with its own apostrophe, which is very on-brand for a language descended from BASIC's `REM` statement.\n\nThe legacy keyword `REM` still works as a comment marker for historical compatibility, but essentially no VB.NET code written this century uses it; the apostrophe is the idiomatic form in every style guide and every IDE snippet.",
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/visual-basic/programming-guide/program-structure/comments-in-code',
       color: 'slate',
@@ -28,7 +28,7 @@ export const vbnet: LanguageDef = {
       title: 'Imports statement',
       body: 'Imports namespaces to use their types without full qualification.',
       details:
-        '`Imports System` brings every public type in the `System` namespace into scope, so the rest of the file can write `Console.WriteLine` instead of `System.Console.WriteLine`. Imports are conventionally listed at the very top of the file, before any namespace or module declaration.\n\nA project can also declare project-level imports in its `.vbproj` file, which apply implicitly to every source file without an explicit `Imports` line — useful for namespaces like `System.Linq` that nearly every file in a project ends up needing.',
+        '`Imports System` brings every public type in the `System` namespace into scope, so the rest of the file can write `Console.WriteLine` instead of `System.Console.WriteLine`. Imports are conventionally listed at the very top of the file, before any namespace or module declaration.\n\nA project can also declare project-level imports in its `.vbproj` file, which apply implicitly to every source file without an explicit `Imports` line: useful for namespaces like `System.Linq` that nearly every file in a project ends up needing.',
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/visual-basic/language-reference/statements/imports-statement-net-namespace-and-type',
       color: 'blue',
@@ -39,7 +39,7 @@ export const vbnet: LanguageDef = {
       title: 'Namespace declaration',
       body: 'Organizes code into logical groups.',
       details:
-        'A `Namespace` block groups related types under a dotted name, such as `MyConsoleApp`, so that two types named the same thing can coexist as long as they live in different namespaces. Namespaces are purely organizational and, like in C#, need not match the file or folder layout on disk.\n\nUnlike a `Module` or `Class` block, a `Namespace` cannot itself hold executable code or fields directly — it only contains further type declarations, closed with a matching `End Namespace`.',
+        'A `Namespace` block groups related types under a dotted name, such as `MyConsoleApp`, so that two types named the same thing can coexist as long as they live in different namespaces. Namespaces are purely organizational and, like in C#, need not match the file or folder layout on disk.\n\nUnlike a `Module` or `Class` block, a `Namespace` cannot itself hold executable code or fields directly. It only contains further type declarations, closed with a matching `End Namespace`.',
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/visual-basic/language-reference/statements/namespace-statement',
       color: 'sky',
@@ -61,7 +61,7 @@ export const vbnet: LanguageDef = {
       title: 'Variable declaration (Dim/Const)',
       body: 'Declares variables (`Dim`) and constants (`Const`).',
       details:
-        '`Dim greeting As String = "Hello, VB.NET!"` declares a variable with an explicit type using the `As` clause. With `Option Strict On` (recommended in every project template since VB 2005), the compiler enforces that type and disallows silent narrowing conversions; without it, VB.NET quietly falls back to its dynamically-typed `Variant`-like heritage, for better or worse.\n\n`Const MaxCount As Integer = 3` declares a compile-time constant that cannot be reassigned. Unlike `Dim`, a `Const` must be initialized at declaration and its value must be resolvable at compile time — no calling a function to produce it.',
+        '`Dim greeting As String = "Hello, VB.NET!"` declares a variable with an explicit type using the `As` clause. With `Option Strict On` (recommended in every project template since VB 2005), the compiler enforces that type and disallows silent narrowing conversions; without it, VB.NET quietly falls back to its dynamically-typed `Variant`-like heritage, for better or worse.\n\n`Const MaxCount As Integer = 3` declares a compile-time constant that cannot be reassigned. Unlike `Dim`, a `Const` must be initialized at declaration and its value must be resolvable at compile time: no calling a function to produce it.',
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/visual-basic/language-reference/statements/dim-statement',
       color: 'purple',
@@ -72,7 +72,7 @@ export const vbnet: LanguageDef = {
       title: 'Subroutine definition (Sub)',
       body: 'Defines a procedure that does not return a value.',
       details:
-        '`Sub` declares a procedure with no return value — the VB.NET equivalent of a `void` method. `Sub Main(args As String())` is the conventional entry point for a console application, discovered by the .NET runtime the same way `Main` is in C#.\n\nA `Sub` is invoked as a statement on its own line, never as part of an expression, since it produces nothing to use. Every `Sub` block closes with `End Sub`, and like most VB.NET block keywords this pairing is enforced by the compiler, not just a style convention.',
+        '`Sub` declares a procedure with no return value, the VB.NET equivalent of a `void` method. `Sub Main(args As String())` is the conventional entry point for a console application, discovered by the .NET runtime the same way `Main` is in C#.\n\nA `Sub` is invoked as a statement on its own line, never as part of an expression, since it produces nothing to use. Every `Sub` block closes with `End Sub`, and like most VB.NET block keywords this pairing is enforced by the compiler, not just a style convention.',
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/visual-basic/language-reference/statements/sub-statement',
       color: 'red',
@@ -104,7 +104,7 @@ export const vbnet: LanguageDef = {
       title: 'Control flow (loop)',
       body: 'Executes code repeatedly (`For`, `While`).',
       details:
-        '`For i As Integer = 1 To MaxCount ... Next` counts a loop variable through an inclusive range, optionally with a `Step` clause to change the increment. `For Each element In collection` iterates any `IEnumerable`, and `While`/`Do While`/`Do Until` loops repeat based on a condition checked before or after the body.\n\nEvery loop form is closed by its own matching keyword (`Next`, `End While`, `Loop`), which is part of why VB.NET reads as unusually verbose next to brace languages — but it also means a stray closing brace can never silently close the wrong block.',
+        '`For i As Integer = 1 To MaxCount ... Next` counts a loop variable through an inclusive range, optionally with a `Step` clause to change the increment. `For Each element In collection` iterates any `IEnumerable`, and `While`/`Do While`/`Do Until` loops repeat based on a condition checked before or after the body.\n\nEvery loop form is closed by its own matching keyword (`Next`, `End While`, `Loop`), which is part of why VB.NET reads as unusually verbose next to brace languages: but it also means a stray closing brace can never silently close the wrong block.',
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/visual-basic/language-reference/statements/for-next-statement',
       color: 'rose',
@@ -115,7 +115,7 @@ export const vbnet: LanguageDef = {
       title: 'Control flow (conditional)',
       body: 'Selects which code to execute based on a condition (`If`, `Select Case`).',
       details:
-        '`If ... Then ... Else ... End If` routes execution based on a `Boolean` condition. The single-line form (`If x Then y`) omits `End If` entirely, while the block form spanning multiple lines requires it — a frequent source of confusion for newcomers copy-pasting snippets between the two styles.\n\n`Select Case` handles multi-branch dispatch more cleanly than a chain of `ElseIf`s, supporting single values, ranges (`Case 1 To 5`), and comma-separated lists (`Case 1, 3, 5`) per `Case` clause.',
+        '`If ... Then ... Else ... End If` routes execution based on a `Boolean` condition. The single-line form (`If x Then y`) omits `End If` entirely, while the block form spanning multiple lines requires it, a frequent source of confusion for newcomers copy-pasting snippets between the two styles.\n\n`Select Case` handles multi-branch dispatch more cleanly than a chain of `ElseIf`s, supporting single values, ranges (`Case 1 To 5`), and comma-separated lists (`Case 1, 3, 5`) per `Case` clause.',
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/visual-basic/language-reference/statements/if-then-else-statement',
       color: 'orange',

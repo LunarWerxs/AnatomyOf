@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 
-# Secrets / local env — never commit these
+# Secrets / local env: never commit these
 .env
 .env.*
 !.env.example

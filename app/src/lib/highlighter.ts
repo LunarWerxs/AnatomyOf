@@ -18,7 +18,7 @@ let highlighterPromise: Promise<HighlighterCore> | null = null
  *
  * The Shiki core + the JS regex engine are pulled in with dynamic import() (not a
  * top-level import) so they land in their own async chunk instead of the entry
- * bundle — nothing Shiki-related loads until the first code block renders.
+ * bundle. Nothing Shiki-related loads until the first code block renders.
  *
  * Uses the fine-grained core API so only the grammars listed below are
  * bundled, instead of every grammar/theme Shiki ships. When adding a new

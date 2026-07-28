@@ -19,7 +19,7 @@ export function sendVisitPing() {
       id = crypto.randomUUID()
       localStorage.setItem(ID_KEY, id)
     }
-    // Context the server can't infer on its own — still nothing personal: UI language,
+    // Context the server can't infer on its own: still nothing personal: UI language,
     // timezone, where the visit came from (server keeps the hostname only), first-visit flag.
     const params = new URLSearchParams({ iid: id })
     if (navigator.language) params.set('locale', navigator.language)
@@ -28,9 +28,9 @@ export function sendVisitPing() {
     if (document.referrer) params.set('ref', document.referrer)
     if (firstVisit) params.set('new', '1')
     // no-cors: the request still reaches the server (that IS the ping); the opaque response
-    // is discarded — the id rides ?iid= because no-cors forbids custom headers.
+    // is discarded, the id rides ?iid= because no-cors forbids custom headers.
     void fetch(`${PING_URL}?${params.toString()}`, { mode: 'no-cors', keepalive: true })
   } catch {
-    // storage/fetch unavailable (private mode, extensions) — analytics silently skipped
+    // storage/fetch unavailable (private mode, extensions), analytics silently skipped
   }
 }

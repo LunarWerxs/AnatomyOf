@@ -33,7 +33,7 @@ const isPhone = computed(() => props.which === 'mobileapp')
 
 const url = computed(() => {
   if (props.which === 'settings') return 'app.example.com/settings'
-  if (props.which === 'mobileapp') return 'Acme — iOS / Android'
+  if (props.which === 'mobileapp') return 'Acme, iOS / Android'
   if (props.which === 'dashboard') return 'app.example.com/dashboard'
   if (props.which === 'email') return 'mail.example.com'
   return 'acme.example.com'

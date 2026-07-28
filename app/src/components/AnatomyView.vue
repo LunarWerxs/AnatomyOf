@@ -26,7 +26,7 @@ const resolved = computed(() =>
 const panelKey = computed(() => `${props.language.id}:${props.variant}`)
 const fileName = computed(() => `example${props.language.extensions[0]}`)
 const titleNoun = computed(() => props.language.titleNoun ?? 'file')
-// Leading space baked in — a whitespace-only text node between </a> and the
+// Leading space baked in, a whitespace-only text node between </a> and the
 // noun gets trimmed by Vue's template compiler, producing "Bashfile".
 const nounSuffix = computed(() => (titleNoun.value ? ` ${titleNoun.value}` : ''))
 
@@ -84,7 +84,7 @@ if (hoverNoneMq) {
 // no real hover there, and the synthetic mouseenter/mouseleave that a browser
 // fires around a tap (especially the mouseleave emitted while scrolling) would
 // otherwise clear a pinned descriptor. Keeping this pointer-only makes the pin
-// sticky — on touch, hoveredId is changed solely by explicit taps below.
+// sticky. On touch, hoveredId is changed solely by explicit taps below.
 function onPartHover(id: string | null) {
   if (!isTouch.value) hoveredId.value = id
 }

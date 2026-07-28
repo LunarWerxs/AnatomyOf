@@ -95,7 +95,7 @@ export const batch: LanguageDef = {
       title: 'Label & goto',
       body: 'Marks a point in the script (:label) and jumps to it.',
       details:
-        'A line starting with a single colon, such as `:end`, defines a label — a named jump target that `cmd.exe` does not execute as a command. `goto :end` transfers control directly to that label, skipping everything in between, which is commonly used to implement early exits or simple error handling.\n\nLabels also double as subroutine entry points: `call :label` jumps to the label and, unlike a plain `goto`, returns to the line after the `call` once the subroutine reaches `exit /b` or falls off the end of the script. This makes `call`/label pairs the closest thing batch has to functions.',
+        'A line starting with a single colon, such as `:end`, defines a label, a named jump target that `cmd.exe` does not execute as a command. `goto :end` transfers control directly to that label, skipping everything in between, which is commonly used to implement early exits or simple error handling.\n\nLabels also double as subroutine entry points: `call :label` jumps to the label and, unlike a plain `goto`, returns to the line after the `call` once the subroutine reaches `exit /b` or falls off the end of the script. This makes `call`/label pairs the closest thing batch has to functions.',
       learnMore:
         'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/goto',
       color: 'amber',

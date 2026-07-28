@@ -32,7 +32,7 @@ const paragraphs = computed(() =>
 )
 
 function formatRange([start, end]: [number, number]): string {
-  return start === end ? `line ${start}` : `lines ${start}–${end}`
+  return start === end ? `line ${start}` : `lines ${start}-${end}`
 }
 </script>
 

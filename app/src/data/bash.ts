@@ -17,7 +17,7 @@ export const bash: LanguageDef = {
       title: 'Shebang',
       body: 'Specifies the interpreter to execute the script.',
       details:
-        'The shebang (`#!`) must be the very first bytes of the file. On Unix-like systems the kernel reads it to decide which interpreter runs the script — `#!/bin/bash` hard-codes the path to Bash, while `#!/usr/bin/env bash` asks `env` to locate `bash` on the current `PATH`, which is more portable across systems where Bash lives somewhere else.\n\nThe shebang only matters when the file is invoked directly, e.g. `./script.sh` after `chmod +x` has made it executable. Running it as `bash script.sh` ignores the shebang entirely, since the interpreter is already chosen by the command line.',
+        'The shebang (`#!`) must be the very first bytes of the file. On Unix-like systems the kernel reads it to decide which interpreter runs the script: `#!/bin/bash` hard-codes the path to Bash, while `#!/usr/bin/env bash` asks `env` to locate `bash` on the current `PATH`, which is more portable across systems where Bash lives somewhere else.\n\nThe shebang only matters when the file is invoked directly, e.g. `./script.sh` after `chmod +x` has made it executable. Running it as `bash script.sh` ignores the shebang entirely, since the interpreter is already chosen by the command line.',
       learnMore: 'https://en.wikipedia.org/wiki/Shebang_(Unix)',
       color: 'slate',
       side: 'left',
@@ -27,7 +27,7 @@ export const bash: LanguageDef = {
       title: 'Comment',
       body: 'Uses `#` for a real line comment; a quoted here-document fed to `:` is a common no-op workaround for blocks.',
       details:
-        "A `#` starts a comment that runs to the end of the line; everything after it is ignored. Bash has no dedicated block-comment syntax, so multi-line comments are usually faked with a here-document attached to the no-op `:` builtin, e.g. `: <<'END_COMMENT' ... END_COMMENT`.\n\nQuoting the delimiter (`'END_COMMENT'` rather than `END_COMMENT`) prevents the shell from performing variable expansion or command substitution inside the block, so arbitrary text — including `$` and backticks — can sit there safely without being interpreted.",
+        "A `#` starts a comment that runs to the end of the line; everything after it is ignored. Bash has no dedicated block-comment syntax, so multi-line comments are usually faked with a here-document attached to the no-op `:` builtin, e.g. `: <<'END_COMMENT' ... END_COMMENT`.\n\nQuoting the delimiter (`'END_COMMENT'` rather than `END_COMMENT`) prevents the shell from performing variable expansion or command substitution inside the block, so arbitrary text (including `$` and backticks) can sit there safely without being interpreted.",
       learnMore: 'https://www.gnu.org/software/bash/manual/bash.html#Here-Documents',
       color: 'blue',
       side: 'right',
@@ -37,7 +37,7 @@ export const bash: LanguageDef = {
       title: 'Variable assignment & expansion',
       body: 'Assigns with `NAME=value` (no spaces) and reads with `$NAME` or `${NAME}`.',
       details:
-        'Assignment is `NAME=value` with no spaces around the `=`; a space would make the shell parse `NAME` as a command name instead. Reading a variable requires the `$` sigil — `$NAME` or the equivalent, more explicit `${NAME}`, which is needed when the name is immediately followed by other characters, e.g. `${NAME}_suffix`.\n\nUnquoted expansions are word-split and glob-expanded by the shell, which is rarely what you want — `echo $path` can break on spaces or expand `*` in the value. Wrapping expansions in double quotes, `"$NAME"`, disables both behaviors and is the safe default; single quotes disable expansion entirely.',
+        'Assignment is `NAME=value` with no spaces around the `=`; a space would make the shell parse `NAME` as a command name instead. Reading a variable requires the `$` sigil: `$NAME` or the equivalent, more explicit `${NAME}`, which is needed when the name is immediately followed by other characters, e.g. `${NAME}_suffix`.\n\nUnquoted expansions are word-split and glob-expanded by the shell, which is rarely what you want. `echo $path` can break on spaces or expand `*` in the value. Wrapping expansions in double quotes, `"$NAME"`, disables both behaviors and is the safe default; single quotes disable expansion entirely.',
       learnMore: 'https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion',
       color: 'green',
       side: 'left',
@@ -47,7 +47,7 @@ export const bash: LanguageDef = {
       title: 'Function definition',
       body: 'A reusable block of commands, defined with `name() { ... }`.',
       details:
-        "A function groups commands under a name using `name() { ... }` (the `function` keyword is an optional, non-POSIX alternative spelling). Inside the body, `$1`, `$2`, etc. refer to the function's own positional parameters — the arguments it was called with — not the script's, and `local` scopes a variable to the function instead of leaking it into the caller.\n\nFunctions must be defined before the point in the script where they are first called, since Bash executes top to bottom and has no forward-declaration mechanism. A function's exit status is the exit status of the last command it ran, unless it calls `return` explicitly.",
+        "A function groups commands under a name using `name() { ... }` (the `function` keyword is an optional, non-POSIX alternative spelling). Inside the body, `$1`, `$2`, etc. refer to the function's own positional parameters (the arguments it was called with) not the script's, and `local` scopes a variable to the function instead of leaking it into the caller.\n\nFunctions must be defined before the point in the script where they are first called, since Bash executes top to bottom and has no forward-declaration mechanism. A function's exit status is the exit status of the last command it ran, unless it calls `return` explicitly.",
       learnMore: 'https://www.gnu.org/software/bash/manual/bash.html#Shell-Functions',
       color: 'purple',
       side: 'left',
@@ -57,7 +57,7 @@ export const bash: LanguageDef = {
       title: 'Command execution & variable expansion',
       body: 'Runs commands (`echo`, `date`) and expands variables (`$NAME`, `${NAME}`).',
       details:
-        'Every non-blank line that is not a control-flow keyword is a command: a program name (or builtin like `echo`) followed by whitespace-separated arguments. Bash expands variables before running the command, substituting `$NAME`/`${NAME}` with their stored value as plain text.\n\nBecause expansion happens before word-splitting, an argument built from an unquoted variable can silently split into several arguments if its value contains spaces. Quoting the expansion — `echo "Hello, $name!"` — keeps it as a single argument regardless of what it contains.',
+        'Every non-blank line that is not a control-flow keyword is a command: a program name (or builtin like `echo`) followed by whitespace-separated arguments. Bash expands variables before running the command, substituting `$NAME`/`${NAME}` with their stored value as plain text.\n\nBecause expansion happens before word-splitting, an argument built from an unquoted variable can silently split into several arguments if its value contains spaces. Quoting the expansion (`echo "Hello, $name!"`) keeps it as a single argument regardless of what it contains.',
       learnMore: 'https://www.gnu.org/software/bash/manual/bash.html#Shell-Expansions',
       color: 'red',
       side: 'right',
@@ -67,7 +67,7 @@ export const bash: LanguageDef = {
       title: 'Command substitution',
       body: "Replaces `$(command)` with that command's output.",
       details:
-        'The `$(command)` form runs `command` in a subshell and substitutes its standard output, with a trailing newline stripped, into the surrounding text — `current_date=$(date +"%Y-%m-%d")` captures the formatted date into a variable. The older backtick form, `` `command` ``, does the same thing but nests awkwardly, since embedding a substitution inside another requires escaping the inner backticks.\n\n`$(...)` is preferred in modern scripts because it nests cleanly (`$(cmd1 $(cmd2))`) and is easier to read. As with any expansion, wrap the result in double quotes when using it, e.g. `echo "Current date: $current_date"`, so embedded whitespace is not word-split.',
+        'The `$(command)` form runs `command` in a subshell and substitutes its standard output, with a trailing newline stripped, into the surrounding text, `current_date=$(date +"%Y-%m-%d")` captures the formatted date into a variable. The older backtick form, `` `command` ``, does the same thing but nests awkwardly, since embedding a substitution inside another requires escaping the inner backticks.\n\n`$(...)` is preferred in modern scripts because it nests cleanly (`$(cmd1 $(cmd2))`) and is easier to read. As with any expansion, wrap the result in double quotes when using it, e.g. `echo "Current date: $current_date"`, so embedded whitespace is not word-split.',
       learnMore: 'https://www.gnu.org/software/bash/manual/bash.html#Command-Substitution',
       color: 'orange',
       side: 'right',
@@ -77,7 +77,7 @@ export const bash: LanguageDef = {
       title: 'Control flow (conditional)',
       body: 'Executes code based on a condition (`if`, `elif`, `else`, `case`).',
       details:
-        '`if condition; then ... elif ...; else ... fi` branches on the exit status of `condition` — zero means true, anything else means false. The condition is often a call to `test`, more commonly written with brackets: `[ -f "config.conf" ]` checks that a file exists, `[ "$a" = "$b" ]` compares strings.\n\nBash\'s extended `[[ ... ]]` form is preferred over the POSIX `[ ... ]` when it is available: it supports `&&`/`||` and pattern matching directly, and — critically — does not word-split or glob-expand unquoted variables inside it, so `[[ $name = Alice ]]` is safe even without quotes, unlike `[ $name = Alice ]`.',
+        '`if condition; then ... elif ...; else ... fi` branches on the exit status of `condition`. Zero means true, anything else means false. The condition is often a call to `test`, more commonly written with brackets: `[ -f "config.conf" ]` checks that a file exists, `[ "$a" = "$b" ]` compares strings.\n\nBash\'s extended `[[ ... ]]` form is preferred over the POSIX `[ ... ]` when it is available: it supports `&&`/`||` and pattern matching directly, and (critically) does not word-split or glob-expand unquoted variables inside it, so `[[ $name = Alice ]]` is safe even without quotes, unlike `[ $name = Alice ]`.',
       learnMore: 'https://www.gnu.org/software/bash/manual/bash.html#Conditional-Constructs',
       color: 'amber',
       side: 'left',
@@ -87,7 +87,7 @@ export const bash: LanguageDef = {
       title: 'Control flow (loop)',
       body: 'Repeats commands (`for`, `while`, `until`).',
       details:
-        '`for i in {1..3}; do ... done` iterates over a fixed list of values (here, a brace-expanded range); `while condition; do ... done` repeats as long as `condition` exits successfully, and `until` is its inverse. `break` exits a loop immediately and `continue` skips to the next iteration.\n\nBash also supports the C-style `for (( i=0; i<3; i++ )); do ... done`, and `for f in *.txt; do ... done` to iterate over glob-expanded filenames — a very common scripting pattern for batch-processing files.',
+        '`for i in {1..3}; do ... done` iterates over a fixed list of values (here, a brace-expanded range); `while condition; do ... done` repeats as long as `condition` exits successfully, and `until` is its inverse. `break` exits a loop immediately and `continue` skips to the next iteration.\n\nBash also supports the C-style `for (( i=0; i<3; i++ )); do ... done`, and `for f in *.txt; do ... done` to iterate over glob-expanded filenames: a very common scripting pattern for batch-processing files.',
       learnMore: 'https://www.gnu.org/software/bash/manual/bash.html#Looping-Constructs',
       color: 'teal',
       side: 'left',
@@ -97,7 +97,7 @@ export const bash: LanguageDef = {
       title: 'Function call',
       body: 'Executing a defined function with arguments.',
       details:
-        'A function is called exactly like any other command: its name followed by arguments, e.g. `greet_user "Alice"` — no parentheses, and arguments are separated by spaces rather than commas. Inside the function body those arguments become its positional parameters `$1`, `$2`, and so on, shadowing the script\'s own.\n\nA function must be defined earlier in the file (or sourced from another file) before it can be called; Bash has no notion of hoisting. Because a script executes top to bottom, calling a function before its definition simply fails with a "command not found" error.',
+        'A function is called exactly like any other command: its name followed by arguments, e.g. `greet_user "Alice"`. No parentheses, and arguments are separated by spaces rather than commas. Inside the function body those arguments become its positional parameters `$1`, `$2`, and so on, shadowing the script\'s own.\n\nA function must be defined earlier in the file (or sourced from another file) before it can be called; Bash has no notion of hoisting. Because a script executes top to bottom, calling a function before its definition simply fails with a "command not found" error.',
       learnMore: 'https://www.gnu.org/software/bash/manual/bash.html#Positional-Parameters',
       color: 'pink',
       side: 'right',

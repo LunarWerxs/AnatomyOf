@@ -17,7 +17,7 @@ export const objectivec: LanguageDef = {
       title: 'Comment',
       body: 'Single-line (`//`) or block (`/* ... */`), ignored by the compiler.',
       details:
-        "Because Objective-C is a strict superset of C, it inherits C's two comment forms verbatim: `//` runs to the end of the line, and `/* ... */` spans multiple lines but does not nest. Both are stripped before compilation and have no effect on the compiled binary whatsoever.\n\nHeader files (`.h`) lean on comments especially heavily, since they are the public contract of a class — the declarations a `.m` implementation file promises to fulfill. A well-commented header often serves as the only documentation a consumer of a framework ever reads.",
+        "Because Objective-C is a strict superset of C, it inherits C's two comment forms verbatim: `//` runs to the end of the line, and `/* ... */` spans multiple lines but does not nest. Both are stripped before compilation and have no effect on the compiled binary whatsoever.\n\nHeader files (`.h`) lean on comments especially heavily, since they are the public contract of a class, the declarations a `.m` implementation file promises to fulfill. A well-commented header often serves as the only documentation a consumer of a framework ever reads.",
       learnMore: 'https://en.cppreference.com/w/c/comment',
       color: 'slate',
       side: 'left',
@@ -27,7 +27,7 @@ export const objectivec: LanguageDef = {
       title: 'Import directive',
       body: 'Includes header files and automatically prevents multiple inclusions.',
       details:
-        "`#import <Foundation/Foundation.h>` pulls in Foundation's declarations — `NSString`, `NSObject`, `NSLog`, and the rest of the base classes almost every Objective-C file depends on. Angle brackets search framework/system include paths; quotes (`\"MyHeader.h\"`) search the local project directory first.\n\n`#import` is Objective-C's own preprocessor extension over plain C's `#include`: it tracks which files it has already pulled in and silently skips repeats, so headers no longer need hand-written `#ifndef` include guards. It is otherwise textual substitution performed by the same preprocessor pass C uses.",
+        "`#import <Foundation/Foundation.h>` pulls in Foundation's declarations: `NSString`, `NSObject`, `NSLog`, and the rest of the base classes almost every Objective-C file depends on. Angle brackets search framework/system include paths; quotes (`\"MyHeader.h\"`) search the local project directory first.\n\n`#import` is Objective-C's own preprocessor extension over plain C's `#include`: it tracks which files it has already pulled in and silently skips repeats, so headers no longer need hand-written `#ifndef` include guards. It is otherwise textual substitution performed by the same preprocessor pass C uses.",
       learnMore: 'https://en.wikipedia.org/wiki/Include_directive',
       color: 'blue',
       side: 'right',
@@ -37,7 +37,7 @@ export const objectivec: LanguageDef = {
       title: 'Interface declaration',
       body: "Defines a class's public API with `@interface`, inheriting from a superclass.",
       details:
-        "`@interface Person : NSObject { ... }` opens a class declaration named `Person`, inheriting from `NSObject`, the root class most Objective-C objects ultimately descend from. Everything between `@interface` and the matching `@end` — ivars, property declarations, and method signatures — makes up the class's public interface, conventionally placed in a `.h` header so other files can `#import` it.\n\nObjective-C supports single class inheritance: a class has exactly one superclass. Shared contracts across unrelated hierarchies are expressed with protocols, while categories can add methods to an existing class without subclassing it.",
+        "`@interface Person : NSObject { ... }` opens a class declaration named `Person`, inheriting from `NSObject`, the root class most Objective-C objects ultimately descend from. Everything between `@interface` and the matching `@end` (ivars, property declarations, and method signatures) makes up the class's public interface, conventionally placed in a `.h` header so other files can `#import` it.\n\nObjective-C supports single class inheritance: a class has exactly one superclass. Shared contracts across unrelated hierarchies are expressed with protocols, while categories can add methods to an existing class without subclassing it.",
       learnMore:
         'https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/DefiningClasses/DefiningClasses.html',
       color: 'sky',
@@ -48,7 +48,7 @@ export const objectivec: LanguageDef = {
       title: 'Instance variable',
       body: 'Private data stored in an object, often prefixed with an underscore.',
       details:
-        '`NSInteger _age;` declared inside the `@interface` braces is an instance variable (ivar) — raw storage that belongs to every instance of the class, invisible outside it by default. The leading underscore is a long-standing convention signaling "backing storage, do not touch directly," reserving the un-prefixed name for a property\'s public accessor.\n\nModern Objective-C rarely hand-declares ivars for properties, since `@property` auto-synthesizes a matching underscored ivar for you. Explicit ivars still show up for state that should never be exposed through a property at all.',
+        '`NSInteger _age;` declared inside the `@interface` braces is an instance variable (ivar). Raw storage that belongs to every instance of the class, invisible outside it by default. The leading underscore is a long-standing convention signaling "backing storage, do not touch directly," reserving the un-prefixed name for a property\'s public accessor.\n\nModern Objective-C rarely hand-declares ivars for properties, since `@property` auto-synthesizes a matching underscored ivar for you. Explicit ivars still show up for state that should never be exposed through a property at all.',
       learnMore:
         'https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/EncapsulatingData/EncapsulatingData.html',
       color: 'teal',
@@ -70,7 +70,7 @@ export const objectivec: LanguageDef = {
       title: 'Method declaration',
       body: "Defines a method's signature; `-` for instance methods, `+` for class methods.",
       details:
-        "A leading `-` marks an instance method (`- (void)sayHello;` operates on a specific object), while a leading `+` marks a class method (`+ (Person *)personWithName:(NSString *)name age:(NSInteger)age;` operates on the class itself, commonly used for factory constructors). The parenthesized type before the selector fragment is the return type, and each labeled colon segment (`name:`, `age:`) is part of the method's full selector name.\n\nUnlike C++ or Java, Objective-C selectors are not overloaded by parameter type alone — `personWithName:age:` is one indivisible name, and every keyword before a colon is meant to read like a sentence describing what the call does. This is the readability trade-off for the verbosity Objective-C is famous (or infamous) for.",
+        "A leading `-` marks an instance method (`- (void)sayHello;` operates on a specific object), while a leading `+` marks a class method (`+ (Person *)personWithName:(NSString *)name age:(NSInteger)age;` operates on the class itself, commonly used for factory constructors). The parenthesized type before the selector fragment is the return type, and each labeled colon segment (`name:`, `age:`) is part of the method's full selector name.\n\nUnlike C++ or Java, Objective-C selectors are not overloaded by parameter type alone. `personWithName:age:` is one indivisible name, and every keyword before a colon is meant to read like a sentence describing what the call does. This is the readability trade-off for the verbosity Objective-C is famous (or infamous) for.",
       learnMore:
         'https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/DefiningClasses/DefiningClasses.html',
       color: 'purple',
@@ -102,7 +102,7 @@ export const objectivec: LanguageDef = {
       title: 'Self keyword',
       body: 'Refers to the current instance of the class.',
       details:
-        '`self` inside an instance method refers to the object the message was sent to, analogous to `this` in C++ or Java. Inside a class method, `self` instead refers to the class object itself, which is why `[self alloc]` inside a `+` method allocates an instance of whatever class actually received the call, correctly supporting subclasses without being hard-coded.\n\n`self.name` reads through the synthesized accessor (calling `-name`), which is a meaningfully different operation than reaching directly for the ivar `_name` — the accessor path respects `strong`/`copy`/`weak` memory semantics and any custom logic layered into a hand-written setter, while direct ivar access bypasses all of it.',
+        '`self` inside an instance method refers to the object the message was sent to, analogous to `this` in C++ or Java. Inside a class method, `self` instead refers to the class object itself, which is why `[self alloc]` inside a `+` method allocates an instance of whatever class actually received the call, correctly supporting subclasses without being hard-coded.\n\n`self.name` reads through the synthesized accessor (calling `-name`), which is a meaningfully different operation than reaching directly for the ivar `_name`: the accessor path respects `strong`/`copy`/`weak` memory semantics and any custom logic layered into a hand-written setter, while direct ivar access bypasses all of it.',
       learnMore:
         'https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithObjects/WorkingwithObjects.html',
       color: 'amber',
@@ -134,7 +134,7 @@ export const objectivec: LanguageDef = {
       title: 'Method call',
       body: 'Sends a message to an object using bracket syntax: `[receiver message]`.',
       details:
-        '`[bob sayHello];` is a message send: the runtime looks up `sayHello` in `bob`\'s class (and its superclasses) and invokes whatever it finds, resolved dynamically at runtime rather than bound at compile time the way a C function call is. `[Person personWithName:@"Bob" age:30];` shows the same syntax with a multi-part selector, each argument slotting after its matching colon-labeled keyword.\n\nBecause dispatch happens at runtime through the Objective-C runtime library, sending a message to `nil` is not a crash — it silently returns `nil`/`0`/`NO` — which is a deliberate design choice distinct from most C-family languages, where calling through a null pointer segfaults immediately.',
+        '`[bob sayHello];` is a message send: the runtime looks up `sayHello` in `bob`\'s class (and its superclasses) and invokes whatever it finds, resolved dynamically at runtime rather than bound at compile time the way a C function call is. `[Person personWithName:@"Bob" age:30];` shows the same syntax with a multi-part selector, each argument slotting after its matching colon-labeled keyword.\n\nBecause dispatch happens at runtime through the Objective-C runtime library, sending a message to `nil` is not a crash (it silently returns `nil`/`0`/`NO`) which is a deliberate design choice distinct from most C-family languages, where calling through a null pointer segfaults immediately.',
       learnMore:
         'https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithObjects/WorkingwithObjects.html',
       color: 'rose',

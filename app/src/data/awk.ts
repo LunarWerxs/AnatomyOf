@@ -17,7 +17,7 @@ export const awk: LanguageDef = {
       title: 'Shebang',
       body: 'Specifies the interpreter path (optional, for executable scripts).',
       details:
-        'The shebang (`#!`) must be the very first bytes of the file. On Unix-like systems the kernel reads it to pick the interpreter, so `#!/usr/bin/awk -f` hands the rest of the file to `awk` as a `-f` script when it is invoked directly, e.g. `./report.awk` after `chmod +x`.\n\nIt is entirely optional when you instead run `awk -f report.awk data.txt`, and it is skipped over as an ordinary comment if the interpreter is invoked explicitly. AWK predates most of the languages that borrowed its shebang convention, having shipped with Unix since 1977 — it was extracting fields out of text files before "data engineering" was a job title.',
+        'The shebang (`#!`) must be the very first bytes of the file. On Unix-like systems the kernel reads it to pick the interpreter, so `#!/usr/bin/awk -f` hands the rest of the file to `awk` as a `-f` script when it is invoked directly, e.g. `./report.awk` after `chmod +x`.\n\nIt is entirely optional when you instead run `awk -f report.awk data.txt`, and it is skipped over as an ordinary comment if the interpreter is invoked explicitly. AWK predates most of the languages that borrowed its shebang convention, having shipped with Unix since 1977. It was extracting fields out of text files before "data engineering" was a job title.',
       learnMore: 'https://en.wikipedia.org/wiki/Shebang_(Unix)',
       color: 'slate',
       side: 'left',
@@ -37,7 +37,7 @@ export const awk: LanguageDef = {
       title: 'BEGIN block',
       body: 'Executed once before any input is read. Used for initialization.',
       details:
-        'A `BEGIN { ... }` block runs exactly once, before AWK reads the first line of input — before the field separator is even applied to anything. It is the natural place to set up variables like counters, print a report header, or reconfigure built-ins such as `FS`.\n\nA program may have multiple `BEGIN` blocks; AWK concatenates them in the order they appear, as if they were one block. If a program consists of only a `BEGIN` block, AWK never opens the input file at all, which is a handy trick for using `awk` as a plain calculator.',
+        'A `BEGIN { ... }` block runs exactly once, before AWK reads the first line of input, before the field separator is even applied to anything. It is the natural place to set up variables like counters, print a report header, or reconfigure built-ins such as `FS`.\n\nA program may have multiple `BEGIN` blocks; AWK concatenates them in the order they appear, as if they were one block. If a program consists of only a `BEGIN` block, AWK never opens the input file at all, which is a handy trick for using `awk` as a plain calculator.',
       learnMore: 'https://www.gnu.org/software/gawk/manual/html_node/BEGIN_002fEND.html',
       color: 'green',
       side: 'left',
@@ -57,7 +57,7 @@ export const awk: LanguageDef = {
       title: 'Built-in variables',
       body: 'Special variables like `FS` (Field Separator), `NR` (Number of Records).',
       details:
-        'AWK maintains a set of built-in variables that update automatically as it reads input: `NR` is the total record count seen so far, `NF` is the number of fields in the current record, and `FS`/`OFS` control how fields are split on input and joined on output (`FS = ","` switches from the default whitespace-splitting to CSV-style parsing). `FILENAME` and `RS` (record separator) round out the most commonly tuned ones.\n\nBecause these are ordinary global variables rather than read-only constants, a program can reassign `FS` mid-run — for instance after a `BEGIN` block, or partway through processing a file whose format changes — and every subsequent record split uses the new value.',
+        'AWK maintains a set of built-in variables that update automatically as it reads input: `NR` is the total record count seen so far, `NF` is the number of fields in the current record, and `FS`/`OFS` control how fields are split on input and joined on output (`FS = ","` switches from the default whitespace-splitting to CSV-style parsing). `FILENAME` and `RS` (record separator) round out the most commonly tuned ones.\n\nBecause these are ordinary global variables rather than read-only constants, a program can reassign `FS` mid-run (for instance after a `BEGIN` block, or partway through processing a file whose format changes) and every subsequent record split uses the new value.',
       learnMore: 'https://www.gnu.org/software/gawk/manual/html_node/Built_002din-Variables.html',
       color: 'sky',
       side: 'right',
@@ -67,7 +67,7 @@ export const awk: LanguageDef = {
       title: 'Pattern (condition)',
       body: 'Controls if the action block is executed. If empty, action runs for every record.',
       details:
-        'AWK\'s core structure is `pattern { action }`: for every input record, each pattern is tested, and its action runs only if the pattern matches. A pattern can be a comparison like `$1 == "data"`, a regular expression like `/error/` (implicitly tested against the whole record, `$0`), a range `/start/,/end/`, or omitted entirely — an empty pattern matches every record, which is how `{ print }` becomes a one-line `cat` replacement.\n\nThe special patterns `BEGIN` and `END` are the only ones not tied to a record; every other pattern is re-evaluated once per line of input, in the order the pattern-action pairs appear in the source.',
+        'AWK\'s core structure is `pattern { action }`: for every input record, each pattern is tested, and its action runs only if the pattern matches. A pattern can be a comparison like `$1 == "data"`, a regular expression like `/error/` (implicitly tested against the whole record, `$0`), a range `/start/,/end/`, or omitted entirely: an empty pattern matches every record, which is how `{ print }` becomes a one-line `cat` replacement.\n\nThe special patterns `BEGIN` and `END` are the only ones not tied to a record; every other pattern is re-evaluated once per line of input, in the order the pattern-action pairs appear in the source.',
       learnMore: 'https://www.gnu.org/software/gawk/manual/html_node/Pattern-Overview.html',
       color: 'orange',
       side: 'left',
@@ -77,7 +77,7 @@ export const awk: LanguageDef = {
       title: 'Action (block)',
       body: 'Commands to execute when the pattern is matched.',
       details:
-        "The `{ ... }` following a pattern is a block of statements executed once per matching record — assignments, `print`/`printf`, control flow, or calls to user-defined functions. Statements are typically separated by newlines or semicolons, and the block shares AWK's implicit global scope, so a variable like `total` accumulates naturally across every record that matches.\n\nIf a pattern has no action at all, AWK assumes `{ print }` — printing the whole matched record verbatim — which is why grep-like one-liners such as `awk '/error/'` need no braces to work.",
+        "The `{ ... }` following a pattern is a block of statements executed once per matching record: assignments, `print`/`printf`, control flow, or calls to user-defined functions. Statements are typically separated by newlines or semicolons, and the block shares AWK's implicit global scope, so a variable like `total` accumulates naturally across every record that matches.\n\nIf a pattern has no action at all, AWK assumes `{ print }` (printing the whole matched record verbatim) which is why grep-like one-liners such as `awk '/error/'` need no braces to work.",
       learnMore: 'https://www.gnu.org/software/gawk/manual/html_node/Action-Overview.html',
       color: 'red',
       side: 'left',
@@ -87,7 +87,7 @@ export const awk: LanguageDef = {
       title: 'Field access ($N)',
       body: 'Accesses fields in the current record (`$0` is the whole record, `$1` is first field, etc.).',
       details:
-        'Every input record is automatically split into fields on `FS`, addressable as `$1`, `$2`, ... `$NF`, while `$0` refers to the entire, unsplit record. Fields can be reassigned (`$2 = "redacted"`), which rebuilds `$0` by rejoining every field with `OFS`; assigning past `NF` (e.g. `$(NF+2) = "x"`) extends the record with empty fields in between.\n\nField numbers need not be literals — `$NF` is the last field and `$(i+1)` computes an index at runtime — which lets a single action generalize across records with a varying number of columns instead of hardcoding positions.',
+        'Every input record is automatically split into fields on `FS`, addressable as `$1`, `$2`, ... `$NF`, while `$0` refers to the entire, unsplit record. Fields can be reassigned (`$2 = "redacted"`), which rebuilds `$0` by rejoining every field with `OFS`; assigning past `NF` (e.g. `$(NF+2) = "x"`) extends the record with empty fields in between.\n\nField numbers need not be literals (`$NF` is the last field and `$(i+1)` computes an index at runtime) which lets a single action generalize across records with a varying number of columns instead of hardcoding positions.',
       learnMore: 'https://www.gnu.org/software/gawk/manual/html_node/Fields.html',
       color: 'teal',
       side: 'right',
@@ -97,7 +97,7 @@ export const awk: LanguageDef = {
       title: 'END block',
       body: 'Executed once after all input is read. Used for finalization and reporting.',
       details:
-        'An `END { ... }` block runs exactly once, after the last input record has been processed, making it the natural place for summary output like totals, averages, or a closing banner. Variables set during the main pattern-action pairs — like an accumulator built up across every matching record — are still in scope here, since AWK variables are global by default.\n\nCrucially, `END` still has access to the final values of built-ins like `NR`, so `print "Records Processed: " NR` inside `END` reports exactly how many records the whole run consumed, even though no new record triggers it.',
+        'An `END { ... }` block runs exactly once, after the last input record has been processed, making it the natural place for summary output like totals, averages, or a closing banner. Variables set during the main pattern-action pairs (like an accumulator built up across every matching record) are still in scope here, since AWK variables are global by default.\n\nCrucially, `END` still has access to the final values of built-ins like `NR`, so `print "Records Processed: " NR` inside `END` reports exactly how many records the whole run consumed, even though no new record triggers it.',
       learnMore: 'https://www.gnu.org/software/gawk/manual/html_node/BEGIN_002fEND.html',
       color: 'indigo',
       side: 'right',

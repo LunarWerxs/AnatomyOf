@@ -27,7 +27,7 @@ export const cpp: LanguageDef = {
       title: 'Preprocessor directive',
       body: 'Processed before compilation (starts with `#`).',
       details:
-        "`#include <iostream>` runs through the preprocessor, a text-substitution pass that copy-pastes the named header's declarations into the file before the compiler proper runs. Angle brackets search the standard/system include paths; quotes search the local project directory first.\n\nC++ inherits the preprocessor from C, but modern C++ leans on it far less — templates, `constexpr`, and (since C++20) modules replace many of the macro tricks C code relies on. Headers like `<iostream>` and `<string>` pull in the standard library facilities used throughout this file.",
+        "`#include <iostream>` runs through the preprocessor, a text-substitution pass that copy-pastes the named header's declarations into the file before the compiler proper runs. Angle brackets search the standard/system include paths; quotes search the local project directory first.\n\nC++ inherits the preprocessor from C, but modern C++ leans on it far less: templates, `constexpr`, and (since C++20) modules replace many of the macro tricks C code relies on. Headers like `<iostream>` and `<string>` pull in the standard library facilities used throughout this file.",
       learnMore: 'https://en.cppreference.com/w/cpp/preprocessor/include.html',
       color: 'blue',
       side: 'right',
@@ -47,7 +47,7 @@ export const cpp: LanguageDef = {
       title: 'Class definition',
       body: 'The blueprint for objects (`class ...`).',
       details:
-        '`class Greeter { ... };` defines a new type: a bundle of data (member variables) and behavior (member functions) that objects of that type will share. Note the semicolon after the closing brace — unlike a function body, a class definition is a declaration and must be terminated.\n\nClasses are the foundation of object-oriented C++ and also enable RAII (Resource Acquisition Is Initialization): a constructor acquires a resource and the destructor releases it automatically when the object goes out of scope, which is how C++ manages memory and handles without a garbage collector.',
+        '`class Greeter { ... };` defines a new type: a bundle of data (member variables) and behavior (member functions) that objects of that type will share. Note the semicolon after the closing brace: unlike a function body, a class definition is a declaration and must be terminated.\n\nClasses are the foundation of object-oriented C++ and also enable RAII (Resource Acquisition Is Initialization): a constructor acquires a resource and the destructor releases it automatically when the object goes out of scope, which is how C++ manages memory and handles without a garbage collector.',
       learnMore: 'https://en.cppreference.com/w/cpp/language/classes.html',
       color: 'green',
       side: 'left',
@@ -57,7 +57,7 @@ export const cpp: LanguageDef = {
       title: 'Access specifier',
       body: 'Controls visibility (`public`, `private`, `protected`).',
       details:
-        "`private:` and `public:` are labels, not blocks — every member declared after one applies until the next specifier appears. Private members are only reachable from inside the class's own member functions; public members form the class's external interface that other code is allowed to call.\n\nA third specifier, `protected`, behaves like `private` but also stays visible to derived classes. Classes default to `private` access when no specifier is given (the `struct` keyword defines the same kind of type but defaults to `public`), so `Greeter` states `private:` explicitly for its data.",
+        "`private:` and `public:` are labels, not blocks. Every member declared after one applies until the next specifier appears. Private members are only reachable from inside the class's own member functions; public members form the class's external interface that other code is allowed to call.\n\nA third specifier, `protected`, behaves like `private` but also stays visible to derived classes. Classes default to `private` access when no specifier is given (the `struct` keyword defines the same kind of type but defaults to `public`), so `Greeter` states `private:` explicitly for its data.",
       learnMore: 'https://en.cppreference.com/w/cpp/language/access.html',
       color: 'teal',
       side: 'left',
@@ -67,7 +67,7 @@ export const cpp: LanguageDef = {
       title: 'Member variable (field)',
       body: 'Data stored within an object.',
       details:
-        '`string greeting;` declares a per-object field: every `Greeter` instance gets its own independent copy of `greeting`. Because it sits under `private:`, only `Greeter`\'s own member functions can read or write it directly — outside code must go through a public method.\n\nMember variables are typically initialized in the constructor, as `greeting` is here via the constructor\'s parameter. Modern C++ also allows default member initializers written directly at the declaration (e.g. `string greeting = "Hi";`), which apply whenever a constructor does not override them.',
+        '`string greeting;` declares a per-object field: every `Greeter` instance gets its own independent copy of `greeting`. Because it sits under `private:`, only `Greeter`\'s own member functions can read or write it directly. Outside code must go through a public method.\n\nMember variables are typically initialized in the constructor, as `greeting` is here via the constructor\'s parameter. Modern C++ also allows default member initializers written directly at the declaration (e.g. `string greeting = "Hi";`), which apply whenever a constructor does not override them.',
       learnMore: 'https://en.cppreference.com/w/cpp/language/data_members.html',
       color: 'orange',
       side: 'right',
@@ -87,7 +87,7 @@ export const cpp: LanguageDef = {
       title: 'Member method',
       body: 'A function defined within a class.',
       details:
-        "`void greet(string name) { ... }` is a function that belongs to `Greeter` and can freely read the object's own member variables — here it reaches `greeting` without needing it passed in as a parameter. Every non-static member function implicitly receives a pointer to the calling object, accessible explicitly as `this`.\n\nMember functions can be marked `const` to promise they will not modify the object, `virtual` to allow derived classes to override them, or `static` to belong to the class itself rather than any particular instance.",
+        "`void greet(string name) { ... }` is a function that belongs to `Greeter` and can freely read the object's own member variables, here it reaches `greeting` without needing it passed in as a parameter. Every non-static member function implicitly receives a pointer to the calling object, accessible explicitly as `this`.\n\nMember functions can be marked `const` to promise they will not modify the object, `virtual` to allow derived classes to override them, or `static` to belong to the class itself rather than any particular instance.",
       learnMore: 'https://en.cppreference.com/w/cpp/language/member_functions.html',
       color: 'red',
       side: 'left',
@@ -107,7 +107,7 @@ export const cpp: LanguageDef = {
       title: 'Local variable',
       body: 'A variable declared inside a function.',
       details:
-        '`string userName = "World";` declares a variable scoped to the block it appears in — here, the body of `main`. It is constructed when execution reaches the declaration and destroyed automatically when that scope ends, which for a `std::string` means its destructor frees any heap memory it allocated.\n\nC++ favors this kind of automatic, stack-managed lifetime (RAII) over manual allocation: because the object\'s destructor runs deterministically at scope exit, resources are released without needing a garbage collector or explicit `free`.',
+        '`string userName = "World";` declares a variable scoped to the block it appears in: here, the body of `main`. It is constructed when execution reaches the declaration and destroyed automatically when that scope ends, which for a `std::string` means its destructor frees any heap memory it allocated.\n\nC++ favors this kind of automatic, stack-managed lifetime (RAII) over manual allocation: because the object\'s destructor runs deterministically at scope exit, resources are released without needing a garbage collector or explicit `free`.',
       learnMore: 'https://en.cppreference.com/w/cpp/language/storage_duration.html',
       color: 'slate',
       side: 'right',
@@ -117,7 +117,7 @@ export const cpp: LanguageDef = {
       title: 'Object instantiation',
       body: 'Creating an instance of a class.',
       details:
-        '`Greeter myGreeter("Hello");` constructs a new `Greeter` object on the stack, passing `"Hello"` to its constructor, which stores it as `greeting`. No `new` keyword is needed here because the object\'s lifetime is tied to the enclosing scope rather than the heap.\n\nHeap allocation is still available via `new Greeter("Hello")`, which returns a pointer and requires an explicit `delete` (or, in modern C++, a smart pointer like `std::unique_ptr` that deletes automatically) — stack construction like this example is preferred whenever the object does not need to outlive its scope.',
+        '`Greeter myGreeter("Hello");` constructs a new `Greeter` object on the stack, passing `"Hello"` to its constructor, which stores it as `greeting`. No `new` keyword is needed here because the object\'s lifetime is tied to the enclosing scope rather than the heap.\n\nHeap allocation is still available via `new Greeter("Hello")`, which returns a pointer and requires an explicit `delete` (or, in modern C++, a smart pointer like `std::unique_ptr` that deletes automatically). Stack construction like this example is preferred whenever the object does not need to outlive its scope.',
       learnMore: 'https://en.cppreference.com/w/cpp/language/object.html',
       color: 'amber',
       side: 'right',
@@ -214,7 +214,7 @@ export const cpp: LanguageDef = {
       },
       { code: '};', refs: ['class'] },
       { code: '' },
-      { code: '// Main function – entry point', refs: ['comment'] },
+      { code: '// Main function - entry point', refs: ['comment'] },
       { code: 'int main() {', refs: ['main-function'] },
       {
         code: '    // Local variable\n    string userName = "World";',

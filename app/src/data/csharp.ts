@@ -17,7 +17,7 @@ export const csharp: LanguageDef = {
       title: 'Using directive',
       body: 'Imports namespaces for use in the file.',
       details:
-        '`using System;` brings every public type in the `System` namespace — `Console`, `String`, `Int32`, and so on — into scope so the rest of the file can refer to them by their short name instead of the fully qualified `System.Console`. Using directives are conventionally listed at the very top of the file, before the namespace declaration.\n\nModern C# (10+) also supports implicit usings, where the compiler silently adds the most common `using` directives for a project type, and `global using` declarations that apply a directive to every file in the project from one place.',
+        '`using System;` brings every public type in the `System` namespace (`Console`, `String`, `Int32`, and so on) into scope so the rest of the file can refer to them by their short name instead of the fully qualified `System.Console`. Using directives are conventionally listed at the very top of the file, before the namespace declaration.\n\nModern C# (10+) also supports implicit usings, where the compiler silently adds the most common `using` directives for a project type, and `global using` declarations that apply a directive to every file in the project from one place.',
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-directive',
       color: 'blue',
@@ -80,7 +80,7 @@ export const csharp: LanguageDef = {
       title: 'Method definition',
       body: 'A reusable block of code declared with a return type and parameter list.',
       details:
-        'A method declares an access modifier, a return type, a name, and a parenthesized parameter list, e.g. `public int Add(int a, int b)`. `void` means the method returns nothing; any other return type obliges every reachable code path through the method to return a value of that type.\n\nMethods are invoked on an instance (`calculator.Add(5, 10)`) unless declared `static`, in which case they belong to the class itself and are called through the class name, like `IncrementCounter()` inside `Program`. C# supports overloading — multiple methods with the same name but different parameter lists — resolved at compile time.',
+        'A method declares an access modifier, a return type, a name, and a parenthesized parameter list, e.g. `public int Add(int a, int b)`. `void` means the method returns nothing; any other return type obliges every reachable code path through the method to return a value of that type.\n\nMethods are invoked on an instance (`calculator.Add(5, 10)`) unless declared `static`, in which case they belong to the class itself and are called through the class name, like `IncrementCounter()` inside `Program`. C# supports overloading (multiple methods with the same name but different parameter lists) resolved at compile time.',
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/methods',
       color: 'purple',
@@ -113,7 +113,7 @@ export const csharp: LanguageDef = {
       title: 'Control flow (conditional)',
       body: 'Executes code based on a condition (`if`, `else if`, `else`).',
       details:
-        '`if`/`else if`/`else` route execution based on a `bool` expression — unlike C or JavaScript, C# does not allow integers or other types to stand in for a condition, which rules out a whole class of accidental-assignment bugs (`if (x = 1)` is a compile error, not a silent truth value).\n\nC# also offers a `switch` statement and, since C# 8, `switch` expressions with pattern matching, which can match on type, value ranges, and destructured properties in a single concise expression.',
+        '`if`/`else if`/`else` route execution based on a `bool` expression: unlike C or JavaScript, C# does not allow integers or other types to stand in for a condition, which rules out a whole class of accidental-assignment bugs (`if (x = 1)` is a compile error, not a silent truth value).\n\nC# also offers a `switch` statement and, since C# 8, `switch` expressions with pattern matching, which can match on type, value ranges, and destructured properties in a single concise expression.',
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements',
       color: 'orange',
@@ -124,7 +124,7 @@ export const csharp: LanguageDef = {
       title: 'Object instantiation',
       body: 'Creates a new instance of a class with `new`.',
       details:
-        "`new Calculator()` allocates memory for a fresh object on the managed heap, runs the matching constructor, and evaluates to a reference to that object. Since C# 9, target-typed `new` lets the type be inferred from context, as in `Calculator calculator = new();`.\n\nBecause objects are accessed through references, assigning one variable to another copies the reference, not the object — both variables then point at the same instance. The CLR's garbage collector reclaims unreachable objects automatically; C# has no manual `free` or `delete`.",
+        "`new Calculator()` allocates memory for a fresh object on the managed heap, runs the matching constructor, and evaluates to a reference to that object. Since C# 9, target-typed `new` lets the type be inferred from context, as in `Calculator calculator = new();`.\n\nBecause objects are accessed through references, assigning one variable to another copies the reference, not the object, both variables then point at the same instance. The CLR's garbage collector reclaims unreachable objects automatically; C# has no manual `free` or `delete`.",
       learnMore:
         'https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/new-operator',
       color: 'pink',

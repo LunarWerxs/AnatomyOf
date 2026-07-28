@@ -17,7 +17,7 @@ export const elixir: LanguageDef = {
       title: 'Module definition',
       body: 'Defines a named collection of functions, macros, etc., using `defmodule`.',
       details:
-        '`defmodule` opens a namespace that groups related functions, macros, and structs under a dotted name like `MyApp.User`. Unlike a class, a module is not instantiated — it is purely a compile-time grouping, and all its `def`-declared functions are really just functions living in that namespace.\n\nModule names compile to atoms (`MyApp.User` becomes `:"Elixir.MyApp.User"` under the hood), which is how the BEAM locates and loads the corresponding `.beam` bytecode file at runtime.',
+        '`defmodule` opens a namespace that groups related functions, macros, and structs under a dotted name like `MyApp.User`. Unlike a class, a module is not instantiated. It is purely a compile-time grouping, and all its `def`-declared functions are really just functions living in that namespace.\n\nModule names compile to atoms (`MyApp.User` becomes `:"Elixir.MyApp.User"` under the hood), which is how the BEAM locates and loads the corresponding `.beam` bytecode file at runtime.',
       learnMore: 'https://hexdocs.pm/elixir/Kernel.html#defmodule/2',
       color: 'blue',
       side: 'left',
@@ -47,7 +47,7 @@ export const elixir: LanguageDef = {
       title: 'Module attribute (constant)',
       body: 'A compile-time constant, starting with `@`.',
       details:
-        'Outside of `@moduledoc`/`@doc`, an `@name value` line registers a module attribute — a value that is evaluated once at compile time and inlined everywhere it is referenced in that module, similar to a macro constant. It is not a mutable module-level variable; reassigning `@default_role` later in the same module simply shadows the earlier value for subsequent reads.\n\nBecause the value is baked into the compiled bytecode, module attributes are ideal for configuration-like constants (`@default_role`, `@max_retries`) but cannot be used to share mutable state at runtime — for that you would reach for `Agent`, `GenServer`, or `:persistent_term`.',
+        'Outside of `@moduledoc`/`@doc`, an `@name value` line registers a module attribute. A value that is evaluated once at compile time and inlined everywhere it is referenced in that module, similar to a macro constant. It is not a mutable module-level variable; reassigning `@default_role` later in the same module simply shadows the earlier value for subsequent reads.\n\nBecause the value is baked into the compiled bytecode, module attributes are ideal for configuration-like constants (`@default_role`, `@max_retries`) but cannot be used to share mutable state at runtime: for that you would reach for `Agent`, `GenServer`, or `:persistent_term`.',
       learnMore: 'https://hexdocs.pm/elixir/module-attributes.html',
       color: 'green',
       side: 'right',
@@ -57,7 +57,7 @@ export const elixir: LanguageDef = {
       title: 'Struct definition',
       body: 'Defines a map with a fixed set of keys using `defstruct`.',
       details:
-        "`defstruct` declares the struct associated with the enclosing module: a bare `%ModuleName{}` map whose keys are fixed at compile time. Keys can be given default values (`defstruct [:id, :name, role: @default_role]`), and any key omitted at construction falls back to its default or `nil`.\n\nUnlike a plain map, a struct carries a `__struct__` field naming its module, which lets `Enumerable`, `Inspect`, and other protocols dispatch differently for structs than for ordinary maps — and it is why you cannot add a key to a struct that wasn't declared in `defstruct`, even accidentally.",
+        "`defstruct` declares the struct associated with the enclosing module: a bare `%ModuleName{}` map whose keys are fixed at compile time. Keys can be given default values (`defstruct [:id, :name, role: @default_role]`), and any key omitted at construction falls back to its default or `nil`.\n\nUnlike a plain map, a struct carries a `__struct__` field naming its module, which lets `Enumerable`, `Inspect`, and other protocols dispatch differently for structs than for ordinary maps: and it is why you cannot add a key to a struct that wasn't declared in `defstruct`, even accidentally.",
       learnMore: 'https://hexdocs.pm/elixir/structs.html',
       color: 'purple',
       side: 'right',
@@ -67,7 +67,7 @@ export const elixir: LanguageDef = {
       title: 'Public function (def)',
       body: 'A function callable from outside the module, defined with `def`.',
       details:
-        '`def` defines a function that is exported from the module and callable as `MyApp.User.new(1, "Alice")`. Function bodies are expressions, not statement blocks — the value of the last expression is the return value, and there is no explicit `return` keyword in idiomatic Elixir.\n\nFunctions are identified by name *and* arity, written `new/2`; `def new(id)` and `def new(id, name)` are two entirely separate functions that happen to share a name, which is how Elixir gets clause-based dispatch and optional-argument-like ergonomics without argument-count juggling.',
+        '`def` defines a function that is exported from the module and callable as `MyApp.User.new(1, "Alice")`. Function bodies are expressions, not statement blocks: the value of the last expression is the return value, and there is no explicit `return` keyword in idiomatic Elixir.\n\nFunctions are identified by name *and* arity, written `new/2`; `def new(id)` and `def new(id, name)` are two entirely separate functions that happen to share a name, which is how Elixir gets clause-based dispatch and optional-argument-like ergonomics without argument-count juggling.',
       learnMore: 'https://hexdocs.pm/elixir/Kernel.html#def/2',
       color: 'amber',
       side: 'left',
@@ -77,7 +77,7 @@ export const elixir: LanguageDef = {
       title: 'Struct instantiation',
       body: 'Creates a new instance of a struct.',
       details:
-        '`%__MODULE__{id: id, name: name}` builds a new struct value populated with the given fields; `__MODULE__` is a compile-time macro that expands to whatever module it appears in, so the struct-building code stays correct even if the module is renamed. The same `%Struct{...}` syntax also appears in function heads for pattern matching, as in `greet(%__MODULE__{name: name, role: role})`.\n\nStructs, like all Elixir data, are immutable — `%{user | name: "Bob"}` update syntax produces a brand-new struct rather than mutating the original, and the old value remains valid and unchanged wherever else it is referenced.',
+        '`%__MODULE__{id: id, name: name}` builds a new struct value populated with the given fields; `__MODULE__` is a compile-time macro that expands to whatever module it appears in, so the struct-building code stays correct even if the module is renamed. The same `%Struct{...}` syntax also appears in function heads for pattern matching, as in `greet(%__MODULE__{name: name, role: role})`.\n\nStructs, like all Elixir data, are immutable. `%{user | name: "Bob"}` update syntax produces a brand-new struct rather than mutating the original, and the old value remains valid and unchanged wherever else it is referenced.',
       learnMore: 'https://hexdocs.pm/elixir/structs.html#default-values-and-required-keys',
       color: 'teal',
       side: 'right',
@@ -97,7 +97,7 @@ export const elixir: LanguageDef = {
       title: 'String interpolation',
       body: 'Embedding expressions in strings using `#{}`.',
       details:
-        'Inside a double-quoted string, `#{expression}` is evaluated and its result is converted to a string (via the `String.Chars` protocol) and spliced into place — `"#{greeting}, #{name}!"` builds a single binary at runtime from the surrounding literal text and the two interpolated values.\n\nInterpolation only works in double-quoted strings and sigils that support it (like `~s""`); single-quoted values in Elixir are charlists, not strings, and do not interpolate the same way.',
+        'Inside a double-quoted string, `#{expression}` is evaluated and its result is converted to a string (via the `String.Chars` protocol) and spliced into place. `"#{greeting}, #{name}!"` builds a single binary at runtime from the surrounding literal text and the two interpolated values.\n\nInterpolation only works in double-quoted strings and sigils that support it (like `~s""`); single-quoted values in Elixir are charlists, not strings, and do not interpolate the same way.',
       learnMore: 'https://hexdocs.pm/elixir/String.html',
       color: 'orange',
       side: 'right',
@@ -117,7 +117,7 @@ export const elixir: LanguageDef = {
       title: 'Script/top-level execution',
       body: 'Code executed outside of any module or function.',
       details:
-        'Code written outside a `defmodule` block runs immediately, top to bottom, as the file is loaded or compiled — there is no `if __name__ == "__main__":` equivalent needed because a `.exs` script file is meant to be run directly with `elixir script.exs`. Compiled `.ex` files, by contrast, are typically just modules with no top-level side effects, loaded into an application rather than executed as a script.\n\nThis top-level code is where you typically see calls into the modules just defined, wiring together the pieces of a small script before it exits.',
+        'Code written outside a `defmodule` block runs immediately, top to bottom, as the file is loaded or compiled. There is no `if __name__ == "__main__":` equivalent needed because a `.exs` script file is meant to be run directly with `elixir script.exs`. Compiled `.ex` files, by contrast, are typically just modules with no top-level side effects, loaded into an application rather than executed as a script.\n\nThis top-level code is where you typically see calls into the modules just defined, wiring together the pieces of a small script before it exits.',
       learnMore: 'https://en.wikipedia.org/wiki/Entry_point',
       color: 'indigo',
       side: 'left',
@@ -127,7 +127,7 @@ export const elixir: LanguageDef = {
       title: 'Function call',
       body: 'Executing a function, e.g. `MyApp.User.new(1, "Alice")`.',
       details:
-        'A remote call is written `Module.function(args)`; Elixir resolves `MyApp.User.new/2` at compile time when possible and raises `UndefinedFunctionError` at runtime if no matching module/function/arity triple exists. Parentheses are optional in many contexts (`IO.puts "hi"` is valid), though most style guides keep them for clarity outside of pipelines.\n\nBecause functions dispatch on arity as well as name, calling `new/2` never risks accidentally hitting a same-named `new/1` clause meant for a different use case — the compiler picks the exact match.',
+        'A remote call is written `Module.function(args)`; Elixir resolves `MyApp.User.new/2` at compile time when possible and raises `UndefinedFunctionError` at runtime if no matching module/function/arity triple exists. Parentheses are optional in many contexts (`IO.puts "hi"` is valid), though most style guides keep them for clarity outside of pipelines.\n\nBecause functions dispatch on arity as well as name, calling `new/2` never risks accidentally hitting a same-named `new/1` clause meant for a different use case. The compiler picks the exact match.',
       learnMore: 'https://hexdocs.pm/elixir/modules-and-functions.html',
       color: 'rose',
       side: 'right',
@@ -137,7 +137,7 @@ export const elixir: LanguageDef = {
       title: 'Pipe operator (|>)',
       body: 'Passes the result of the left expression as the first argument to the right.',
       details:
-        '`a |> f(b)` is rewritten by the compiler into `f(a, b)` — the value on the left slots into the *first* argument position of the call on the right. Chaining pipes turns deeply nested calls like `h(g(f(x)))` into a linear top-to-bottom pipeline `x |> f() |> g() |> h()` that reads in the order the data actually flows.\n\nBecause each stage is just a function call, anything callable can appear in a pipeline, including anonymous functions and remote calls like `String.upcase/1`; only the target position of the first argument is special-cased, every other argument is written normally.',
+        '`a |> f(b)` is rewritten by the compiler into `f(a, b)`, the value on the left slots into the *first* argument position of the call on the right. Chaining pipes turns deeply nested calls like `h(g(f(x)))` into a linear top-to-bottom pipeline `x |> f() |> g() |> h()` that reads in the order the data actually flows.\n\nBecause each stage is just a function call, anything callable can appear in a pipeline, including anonymous functions and remote calls like `String.upcase/1`; only the target position of the first argument is special-cased, every other argument is written normally.',
       learnMore: 'https://hexdocs.pm/elixir/Kernel.html#%7C%3E/2',
       color: 'purple',
       side: 'left',

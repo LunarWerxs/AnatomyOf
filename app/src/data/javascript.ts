@@ -72,7 +72,7 @@ export const javascript: LanguageDef = {
       title: 'Control flow (conditional)',
       body: 'Executes code based on a condition, e.g. `if`, `else`.',
       details:
-        '`if`/`else if`/`else` branch on the truthiness of an expression — `0`, `""`, `null`, `undefined`, `NaN`, and `false` are all falsy, everything else (including `"0"` and empty objects/arrays) is truthy. The ternary operator (`cond ? a : b`) offers a compact expression form for simple branches.\n\n`switch` compares a value against several `case`s using strict equality (`===`) and falls through to subsequent cases unless each ends in `break`. Optional chaining (`?.`) and nullish coalescing (`??`) let common conditional-access patterns be written without an explicit `if`.',
+        '`if`/`else if`/`else` branch on the truthiness of an expression. `0`, `""`, `null`, `undefined`, `NaN`, and `false` are all falsy, everything else (including `"0"` and empty objects/arrays) is truthy. The ternary operator (`cond ? a : b`) offers a compact expression form for simple branches.\n\n`switch` compares a value against several `case`s using strict equality (`===`) and falls through to subsequent cases unless each ends in `break`. Optional chaining (`?.`) and nullish coalescing (`??`) let common conditional-access patterns be written without an explicit `if`.',
       learnMore:
         'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else',
       color: 'red',
@@ -94,7 +94,7 @@ export const javascript: LanguageDef = {
       title: 'Arrow function',
       body: 'Concise syntax for writing functions using `=>`.',
       details:
-        'Arrow functions have no implicit parameters beyond what is listed and, crucially, no own `this`, `arguments`, or `super` — they capture `this` lexically from the enclosing scope, which avoids the classic `var self = this` workaround needed with regular functions inside callbacks. A single expression body (`(x) => x * 2`) implicitly returns that value; a block body (`(x) => { return x * 2 }`) requires an explicit `return`.\n\nBecause they lack their own `this`, arrow functions cannot be used as constructors (`new` throws) and are a poor fit for object methods that rely on the calling object. They shine as short callbacks passed to `.map()`, `.filter()`, event handlers, and Promise chains.',
+        'Arrow functions have no implicit parameters beyond what is listed and, crucially, no own `this`, `arguments`, or `super`: they capture `this` lexically from the enclosing scope, which avoids the classic `var self = this` workaround needed with regular functions inside callbacks. A single expression body (`(x) => x * 2`) implicitly returns that value; a block body (`(x) => { return x * 2 }`) requires an explicit `return`.\n\nBecause they lack their own `this`, arrow functions cannot be used as constructors (`new` throws) and are a poor fit for object methods that rely on the calling object. They shine as short callbacks passed to `.map()`, `.filter()`, event handlers, and Promise chains.',
       learnMore:
         'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions',
       color: 'orange',

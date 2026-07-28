@@ -17,7 +17,7 @@ export const css: LanguageDef = {
       title: 'Comment',
       body: 'Written as /* ... */; ignored by the browser.',
       details:
-        'CSS has only one comment syntax, `/* ... */`, and it can span multiple lines since there is no single-line `//` form. Comments are stripped before the browser builds the CSSOM, so they carry zero runtime cost.\n\nThey are commonly used to label sections of a large stylesheet, leave TODOs, or temporarily disable a declaration during debugging. Nesting comments is not allowed — the first `*/` closes the comment.',
+        'CSS has only one comment syntax, `/* ... */`, and it can span multiple lines since there is no single-line `//` form. Comments are stripped before the browser builds the CSSOM, so they carry zero runtime cost.\n\nThey are commonly used to label sections of a large stylesheet, leave TODOs, or temporarily disable a declaration during debugging. Nesting comments is not allowed: the first `*/` closes the comment.',
       learnMore: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Comments',
       color: 'slate',
       side: 'left',
@@ -27,7 +27,7 @@ export const css: LanguageDef = {
       title: 'At-rule (@import)',
       body: 'Instructs the browser to load an external resource.',
       details:
-        "`@import` pulls in rules from another stylesheet, optionally gated by a media query, e.g. `@import url('print.css') print;`. Any `@import` statements must appear before all other rules (only `@charset` can precede them), or the browser ignores them.\n\nEach imported file blocks parsing until it is fetched, which can hurt page load performance, especially when imports chain. For that reason a `<link>` tag in the HTML `<head>` is usually preferred — it lets the browser discover and fetch stylesheets in parallel instead of serially.",
+        "`@import` pulls in rules from another stylesheet, optionally gated by a media query, e.g. `@import url('print.css') print;`. Any `@import` statements must appear before all other rules (only `@charset` can precede them), or the browser ignores them.\n\nEach imported file blocks parsing until it is fetched, which can hurt page load performance, especially when imports chain. For that reason a `<link>` tag in the HTML `<head>` is usually preferred. It lets the browser discover and fetch stylesheets in parallel instead of serially.",
       learnMore: 'https://developer.mozilla.org/en-US/docs/Web/CSS/@import',
       color: 'blue',
       side: 'left',
@@ -87,7 +87,7 @@ export const css: LanguageDef = {
       title: 'Declaration (property: value;)',
       body: 'A single style rule pairing a property with a value.',
       details:
-        'A declaration is a single `property: value;` pair — the smallest unit of styling instruction, ending in a semicolon (optional on the last declaration in a block, but conventional to include). Declaring the same property twice in one block simply lets the later occurrence win.\n\nSome properties, called shorthands, set several related longhand properties at once, e.g. `font: italic 1em/1.5 sans-serif;` expands to `font-style`, `font-size`, `line-height`, and `font-family` in one line.',
+        'A declaration is a single `property: value;` pair: the smallest unit of styling instruction, ending in a semicolon (optional on the last declaration in a block, but conventional to include). Declaring the same property twice in one block simply lets the later occurrence win.\n\nSome properties, called shorthands, set several related longhand properties at once, e.g. `font: italic 1em/1.5 sans-serif;` expands to `font-style`, `font-size`, `line-height`, and `font-family` in one line.',
       learnMore: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties',
       color: 'purple',
       side: 'right',
@@ -97,7 +97,7 @@ export const css: LanguageDef = {
       title: 'Property',
       body: 'The style attribute being changed, such as justify-content or font-size.',
       details:
-        'The property names the aspect of rendering being controlled — layout (`display`, `justify-content`), box model (`padding`, `margin`), or typography (`font-size`, `color`), among hundreds of others defined across the CSS specifications. Browsers ignore declarations whose property name they do not recognize, which is what makes progressive enhancement with new CSS features safe.\n\nVendor-prefixed properties like `-webkit-appearance` once let browsers ship experimental features before standardization; most mainstream properties no longer need a prefix, but some still appear in compatibility-focused codebases.',
+        'The property names the aspect of rendering being controlled: layout (`display`, `justify-content`), box model (`padding`, `margin`), or typography (`font-size`, `color`), among hundreds of others defined across the CSS specifications. Browsers ignore declarations whose property name they do not recognize, which is what makes progressive enhancement with new CSS features safe.\n\nVendor-prefixed properties like `-webkit-appearance` once let browsers ship experimental features before standardization; most mainstream properties no longer need a prefix, but some still appear in compatibility-focused codebases.',
       learnMore: 'https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_properties_reference',
       color: 'amber',
       side: 'right',

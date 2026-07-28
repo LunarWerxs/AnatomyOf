@@ -39,7 +39,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 function submit() {
   error.value = ''
-  // Honeypot tripped — silently pretend success so bots get no signal.
+  // Honeypot tripped, silently pretend success so bots get no signal.
   if (honeypot.value) {
     done.value = true
     return
@@ -58,11 +58,11 @@ function submit() {
     // Open the visitor's mail client, pre-addressed and pre-filled.
     const body = `Suggestion: ${suggestion.value.trim()}\nFrom: ${email.value.trim()}`
     window.location.href = `mailto:${SUGGEST_DEST_EMAIL}?subject=${encodeURIComponent(
-      'AnatomyOf — suggestion',
+      'AnatomyOf: suggestion',
     )}&body=${encodeURIComponent(body)}`
     done.value = true
   } catch {
-    error.value = `Could not open your mail app — email us at ${SUGGEST_DEST_EMAIL}`
+    error.value = `Could not open your mail app, email us at ${SUGGEST_DEST_EMAIL}`
   } finally {
     submitting.value = false
   }
@@ -130,7 +130,7 @@ function submit() {
             <Check class="size-5" />
           </span>
           <p class="text-sm font-semibold text-zinc-800 dark:text-zinc-100">Opening your email app…</p>
-          <p class="text-xs text-zinc-500 dark:text-zinc-400">Just hit send — thanks!</p>
+          <p class="text-xs text-zinc-500 dark:text-zinc-400">Just hit send, thanks!</p>
         </div>
 
         <DialogClose

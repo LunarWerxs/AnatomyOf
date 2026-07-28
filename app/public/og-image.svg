@@ -17,7 +17,7 @@
 
   <!-- title -->
   <text x="96" y="330" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="88" font-weight="800" letter-spacing="-2" fill="#fafafa">AnatomyOf</text>
-  <text x="98" y="392" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="34" font-weight="500" fill="#94a3b8">Interactive, annotated tours of source files — one language at a time.</text>
+  <text x="98" y="392" font-family="'Segoe UI', system-ui, -apple-system, sans-serif" font-size="34" font-weight="500" fill="#94a3b8">Interactive, annotated tours of source files, one language at a time.</text>
 
   <!-- accent chips -->
   <g font-family="'Segoe UI', system-ui, sans-serif" font-size="24" font-weight="700">

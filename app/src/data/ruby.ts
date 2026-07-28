@@ -17,7 +17,7 @@ export const ruby: LanguageDef = {
       title: 'Shebang',
       body: 'Specifies the interpreter path.',
       details:
-        'The shebang (`#!`) must be the very first line of the file. On Unix-like systems the kernel reads it to choose which interpreter runs the script — `/usr/bin/env ruby` asks `env` to find `ruby` on the current `PATH`, which is more portable than hard-coding a path like `/usr/bin/ruby`.\n\nIt is only consulted when the file is executed directly, e.g. `./script.rb` after `chmod +x`. Running the file with `ruby script.rb` ignores the shebang entirely, and Windows has no concept of it at all.',
+        'The shebang (`#!`) must be the very first line of the file. On Unix-like systems the kernel reads it to choose which interpreter runs the script. `/usr/bin/env ruby` asks `env` to find `ruby` on the current `PATH`, which is more portable than hard-coding a path like `/usr/bin/ruby`.\n\nIt is only consulted when the file is executed directly, e.g. `./script.rb` after `chmod +x`. Running the file with `ruby script.rb` ignores the shebang entirely, and Windows has no concept of it at all.',
       learnMore: 'https://en.wikipedia.org/wiki/Shebang_(Unix)',
       color: 'slate',
       side: 'left',
@@ -27,7 +27,7 @@ export const ruby: LanguageDef = {
       title: 'Comment',
       body: 'Single-line (`#`) or block (`=begin...=end`), ignored by the interpreter.',
       details:
-        '`#` starts a comment that runs to the end of the line, the most common style in idiomatic Ruby. A `=begin`/`=end` pair brackets a block comment spanning multiple lines; both markers must start at the beginning of a line, with no leading whitespace.\n\nBlock comments are rarely used in practice — most style guides prefer stacking `#` lines even for long explanations, since `=begin`/`=end` are easy to misplace and some editors highlight them poorly. Both forms are stripped before execution and have no runtime effect.',
+        '`#` starts a comment that runs to the end of the line, the most common style in idiomatic Ruby. A `=begin`/`=end` pair brackets a block comment spanning multiple lines; both markers must start at the beginning of a line, with no leading whitespace.\n\nBlock comments are rarely used in practice: most style guides prefer stacking `#` lines even for long explanations, since `=begin`/`=end` are easy to misplace and some editors highlight them poorly. Both forms are stripped before execution and have no runtime effect.',
       learnMore: 'https://docs.ruby-lang.org/en/master/syntax/comments_rdoc.html',
       color: 'blue',
       side: 'right',
@@ -37,7 +37,7 @@ export const ruby: LanguageDef = {
       title: 'Require statement',
       body: 'Imports modules or libraries.',
       details:
-        "`require 'date'` loads a standard library or gem by name, executing it once and caching the result so a second `require` of the same file is a no-op. `require_relative` does the same for a file path relative to the current file, which is the usual way to pull in another file from your own project.\n\nUnlike some languages, `require` is a normal method call, not special syntax — it can appear anywhere, though convention places all requires at the top of the file. Bundler and `Gemfile`s manage which gem versions are available to `require` in a given project.",
+        "`require 'date'` loads a standard library or gem by name, executing it once and caching the result so a second `require` of the same file is a no-op. `require_relative` does the same for a file path relative to the current file, which is the usual way to pull in another file from your own project.\n\nUnlike some languages, `require` is a normal method call, not special syntax. It can appear anywhere, though convention places all requires at the top of the file. Bundler and `Gemfile`s manage which gem versions are available to `require` in a given project.",
       learnMore: 'https://docs.ruby-lang.org/en/master/Kernel.html#method-i-require',
       color: 'sky',
       side: 'right',
@@ -47,7 +47,7 @@ export const ruby: LanguageDef = {
       title: 'Class definition',
       body: 'Blueprint for objects (`class ... end`).',
       details:
-        'A `class` block defines a new type; in Ruby, every value — including numbers, strings, and even classes themselves — is an object, and every object is an instance of some class. `class Person ... end` opens the class body, where method definitions, constants, and macro-like calls such as `attr_accessor` are evaluated.\n\nRuby classes are "open": reopening `class Person` later, even in another file, adds to the same class rather than redefining it. This lets libraries and application code alike patch existing classes (including Ruby\'s own built-ins), a flexibility that is powerful but easy to overuse.',
+        'A `class` block defines a new type; in Ruby, every value (including numbers, strings, and even classes themselves) is an object, and every object is an instance of some class. `class Person ... end` opens the class body, where method definitions, constants, and macro-like calls such as `attr_accessor` are evaluated.\n\nRuby classes are "open": reopening `class Person` later, even in another file, adds to the same class rather than redefining it. This lets libraries and application code alike patch existing classes (including Ruby\'s own built-ins), a flexibility that is powerful but easy to overuse.',
       learnMore: 'https://en.wikipedia.org/wiki/Class_(computer_programming)',
       color: 'green',
       side: 'left',
@@ -57,7 +57,7 @@ export const ruby: LanguageDef = {
       title: 'Attribute accessor',
       body: '`attr_accessor` generates getter and setter methods.',
       details:
-        "`attr_accessor :name, :age` is shorthand for defining both a reader (`name`) and a writer (`name=`) method for each instance variable named, so `person.name` and `person.name = 'Alice'` both work without hand-writing the methods. `attr_reader` generates only the getter and `attr_writer` only the setter, for when one direction should stay private.\n\nUnder the hood these are just regular method definitions created at class-body evaluation time — `attr_accessor` is a plain method call (a common Ruby idiom sometimes called a 'macro'), not special syntax, and takes a comma-separated list of symbols.",
+        "`attr_accessor :name, :age` is shorthand for defining both a reader (`name`) and a writer (`name=`) method for each instance variable named, so `person.name` and `person.name = 'Alice'` both work without hand-writing the methods. `attr_reader` generates only the getter and `attr_writer` only the setter, for when one direction should stay private.\n\nUnder the hood these are just regular method definitions created at class-body evaluation time. `attr_accessor` is a plain method call (a common Ruby idiom sometimes called a 'macro'), not special syntax, and takes a comma-separated list of symbols.",
       learnMore: 'https://docs.ruby-lang.org/en/master/Module.html#method-i-attr_accessor',
       color: 'teal',
       side: 'right',
@@ -67,7 +67,7 @@ export const ruby: LanguageDef = {
       title: 'Constructor method',
       body: 'The `initialize` method runs automatically when a new object is created.',
       details:
-        '`Person.new("Alice", 30)` allocates a new object and calls its `initialize` method with the given arguments, so `initialize` is where you set up instance state. It is a regular instance method — the only thing special about it is that `.new` calls it for you and cannot be invoked directly.\n\n`initialize` is private by convention (Ruby marks it private automatically), reinforcing that objects should only be built through `.new`. Like any method it can take default arguments, keyword arguments, or a splat, giving `.new` the same flexible calling conventions as any other method.',
+        '`Person.new("Alice", 30)` allocates a new object and calls its `initialize` method with the given arguments, so `initialize` is where you set up instance state. It is a regular instance method, the only thing special about it is that `.new` calls it for you and cannot be invoked directly.\n\n`initialize` is private by convention (Ruby marks it private automatically), reinforcing that objects should only be built through `.new`. Like any method it can take default arguments, keyword arguments, or a splat, giving `.new` the same flexible calling conventions as any other method.',
       learnMore: 'https://docs.ruby-lang.org/en/master/Class.html#method-i-new',
       color: 'purple',
       side: 'left',
@@ -77,7 +77,7 @@ export const ruby: LanguageDef = {
       title: 'Instance variable',
       body: 'Data stored within an object instance, prefixed with `@`.',
       details:
-        'A name starting with `@`, like `@name`, is an instance variable: it belongs to a specific object and lives as long as that object does. Instance variables need no declaration — referencing an unset one simply evaluates to `nil` — and they are invisible outside the object unless exposed through a method like an `attr_accessor`-generated getter.\n\nEach object keeps its own independent set of instance variables even when many objects share the same class, which is exactly how `alice = Person.new("Alice", 30)` and a second `Person` instance can hold different names without interfering with each other.',
+        'A name starting with `@`, like `@name`, is an instance variable: it belongs to a specific object and lives as long as that object does. Instance variables need no declaration (referencing an unset one simply evaluates to `nil`) and they are invisible outside the object unless exposed through a method like an `attr_accessor`-generated getter.\n\nEach object keeps its own independent set of instance variables even when many objects share the same class, which is exactly how `alice = Person.new("Alice", 30)` and a second `Person` instance can hold different names without interfering with each other.',
       learnMore: 'https://docs.ruby-lang.org/en/master/syntax/assignment_rdoc.html#label-Variables',
       color: 'red',
       side: 'right',
@@ -87,7 +87,7 @@ export const ruby: LanguageDef = {
       title: 'Method definition',
       body: 'Defines a reusable block of code with `def ... end`.',
       details:
-        'A `def` inside a class body defines an instance method, callable on any instance of that class; a `def` at the top level of a file defines a method on `Object` itself, effectively a global function. Either way the body runs until `end`, and the value of the last evaluated expression is returned automatically — an explicit `return` is only needed to exit early.\n\nRuby methods accept positional, keyword, default, and splat (`*args`) parameters, and because Ruby uses duck typing there are no parameter type declarations: any object responding to the right methods can be passed in.',
+        'A `def` inside a class body defines an instance method, callable on any instance of that class; a `def` at the top level of a file defines a method on `Object` itself, effectively a global function. Either way the body runs until `end`, and the value of the last evaluated expression is returned automatically. An explicit `return` is only needed to exit early.\n\nRuby methods accept positional, keyword, default, and splat (`*args`) parameters, and because Ruby uses duck typing there are no parameter type declarations: any object responding to the right methods can be passed in.',
       learnMore: 'https://docs.ruby-lang.org/en/master/syntax/methods_rdoc.html',
       color: 'orange',
       side: 'left',
@@ -97,7 +97,7 @@ export const ruby: LanguageDef = {
       title: 'String interpolation',
       body: 'Embeds expressions in double-quoted strings using `#{}`.',
       details:
-        '`"Hello, my name is #{@name}"` evaluates the expression inside `#{...}` and inserts its `to_s` representation directly into the surrounding string. Interpolation only works inside double-quoted strings (or `%Q{}`/heredocs) — single-quoted strings treat `#{}` as literal text.\n\nAny expression can go inside the braces, not just a variable name: method calls, arithmetic, and even multi-statement logic are all valid, e.g. `"Total: #{price * qty}"`. This is generally preferred over string concatenation with `+` for both readability and performance.',
+        '`"Hello, my name is #{@name}"` evaluates the expression inside `#{...}` and inserts its `to_s` representation directly into the surrounding string. Interpolation only works inside double-quoted strings (or `%Q{}`/heredocs), single-quoted strings treat `#{}` as literal text.\n\nAny expression can go inside the braces, not just a variable name: method calls, arithmetic, and even multi-statement logic are all valid, e.g. `"Total: #{price * qty}"`. This is generally preferred over string concatenation with `+` for both readability and performance.',
       learnMore: 'https://docs.ruby-lang.org/en/master/syntax/literals_rdoc.html#label-Strings',
       color: 'amber',
       side: 'right',
@@ -107,7 +107,7 @@ export const ruby: LanguageDef = {
       title: 'Object instantiation & method call',
       body: 'Creating an instance and executing methods on it.',
       details:
-        '`Person.new("Alice", 30)` creates a new `Person` object, passing its arguments through to `initialize`, and binds the result to the local variable `alice`. From then on, `alice.greet` looks up the `greet` method on `alice`\'s class and calls it with `alice` as the implicit receiver (`self` inside the method).\n\nMethod calls in Ruby can drop parentheses when unambiguous — `alice.greet` and `alice.greet()` are equivalent — and dot-chaining multiple calls together (`alice.greet.upcase`) is idiomatic for building small transformations out of simple methods.',
+        '`Person.new("Alice", 30)` creates a new `Person` object, passing its arguments through to `initialize`, and binds the result to the local variable `alice`. From then on, `alice.greet` looks up the `greet` method on `alice`\'s class and calls it with `alice` as the implicit receiver (`self` inside the method).\n\nMethod calls in Ruby can drop parentheses when unambiguous (`alice.greet` and `alice.greet()` are equivalent) and dot-chaining multiple calls together (`alice.greet.upcase`) is idiomatic for building small transformations out of simple methods.',
       learnMore: 'https://docs.ruby-lang.org/en/master/syntax/calling_methods_rdoc.html',
       color: 'rose',
       side: 'left',
@@ -117,7 +117,7 @@ export const ruby: LanguageDef = {
       title: 'Control flow (conditional)',
       body: 'Executes code based on a condition (`if`, `else`, `elsif`, `case`).',
       details:
-        '`if ... else ... end` branches on truthiness; in Ruby only `nil` and `false` are falsy, so `0` and `""` (unlike in some other languages) both count as true. `elsif` chains additional conditions, and the whole construct evaluates to a value, so `x = if cond then a else b end` is valid.\n\nRuby also offers a trailing modifier form, `puts "big" if x > 10`, and `case`/`when` for matching a value against several patterns — often clearer than a long `elsif` chain. `unless` is the negated counterpart of `if`.',
+        '`if ... else ... end` branches on truthiness; in Ruby only `nil` and `false` are falsy, so `0` and `""` (unlike in some other languages) both count as true. `elsif` chains additional conditions, and the whole construct evaluates to a value, so `x = if cond then a else b end` is valid.\n\nRuby also offers a trailing modifier form, `puts "big" if x > 10`, and `case`/`when` for matching a value against several patterns, often clearer than a long `elsif` chain. `unless` is the negated counterpart of `if`.',
       learnMore: 'https://docs.ruby-lang.org/en/master/syntax/control_expressions_rdoc.html',
       color: 'indigo',
       side: 'right',

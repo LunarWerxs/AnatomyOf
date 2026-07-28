@@ -26,7 +26,7 @@ export interface AnnotationDef {
    */
   details: string
   /**
-   * Optional "Learn more" URL shown in the detail modal — a stable, authoritative
+   * Optional "Learn more" URL shown in the detail modal: a stable, authoritative
    * reference for this specific concept (official docs, MDN, cppreference,
    * Wikipedia…). Collected by `scripts/check-links.ts` for dead-link checking.
    */
@@ -59,12 +59,12 @@ export interface LanguageDef {
    */
   category?: 'language' | 'concept'
   /**
-   * Sidebar sort key for the "Languages" group (ascending — lower = more
+   * Sidebar sort key for the "Languages" group (ascending, lower = more
    * popular). Based on the TIOBE Index position (July 2026 snapshot). A few
    * entries TIOBE can't rank directly use a documented convention:
-   *   · HTML/CSS take a decimal slot (6.1 / 6.2) — TIOBE excludes markup, so
+   *   · HTML/CSS take a decimal slot (6.1 / 6.2): TIOBE excludes markup, so
    *     they're placed by Stack Overflow usage instead of a TIOBE position.
-   *   · TIOBE's 51–100 tier (bash…batch) has no intra-rank, so those numbers
+   *   · TIOBE's 51-100 tier (bash…batch) has no intra-rank, so those numbers
    *     (51+) are ordered by rough real-world usage.
    *   · Languages outside TIOBE's top 100 (WebAssembly, Nim) use 101+.
    * Concepts omit this and keep their curated array order in `data/index.ts`.
@@ -104,7 +104,7 @@ export interface LanguageDef {
 
 /**
  * The lightweight slice of a LanguageDef the sidebar and router need for EVERY
- * language — everything except the heavy `annotations` and `examples`, which load
+ * language: everything except the heavy `annotations` and `examples`, which load
  * on demand (see data/catalog.generated.ts + data/index.ts's loadLanguage()).
  */
 export type LanguageMeta = Pick<

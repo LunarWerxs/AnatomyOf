@@ -1,12 +1,12 @@
 /**
  * Dead-link check for every outbound URL in the data files: each language's
  * `officialUrl` plus every annotation's `learnMore`. Network-dependent, so it
- * is NOT part of `bun run check` — run it occasionally:
+ * is NOT part of `bun run check`, run it occasionally:
  *
  *   bun run check:links
  *
  * Note: some hosts reject HEAD or block non-browser user agents, so a 403 or a
- * timeout can be a false positive — eyeball the list rather than trusting it
+ * timeout can be a false positive, eyeball the list rather than trusting it
  * blindly.
  */
 import { loaders } from '../src/data/catalog.generated'
@@ -50,7 +50,7 @@ async function probe(url: string): Promise<number | string> {
 }
 
 // Hosts that 403 automated requests but serve fine in a real browser. Their
-// 403s are reported as "skipped", not failures — verify them manually.
+// 403s are reported as "skipped", not failures, verify them manually.
 const BOT_BLOCKED_HOSTS = ['mathworks.com', 'clojure.org']
 const skipped: Array<{ url: string; status: string }> = []
 
@@ -83,7 +83,7 @@ await Promise.all(Array.from({ length: CONCURRENCY }, () => worker()))
 
 if (skipped.length > 0) {
   console.log(
-    `\n⚠ ${skipped.length} link(s) skipped (blocked or rate-limited — verify in a browser):`,
+    `\n⚠ ${skipped.length} link(s) skipped (blocked or rate-limited: verify in a browser):`,
   )
   for (const s of skipped.sort((a, b) => a.url.localeCompare(b.url))) {
     console.log(`  [${s.status}] ${s.url}`)

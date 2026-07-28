@@ -143,7 +143,7 @@
   overflow: hidden;
 }
 
-/* Code content crossfade. Opacity only — NO vertical translate: the code
+/* Code content crossfade. Opacity only, NO vertical translate: the code
    lines must not slide while fading, or the connector lines (which anchor to
    line positions) chase the moving text and appear to stutter/snap. */
 .code-swap-enter-active {
@@ -218,7 +218,7 @@
   }
 }
 /* Centering is handled by inset-0 + margin:auto, so the entrance animates
-   only scale/opacity from the element's own center — no translate, so it
+   only scale/opacity from the element's own center: no translate, so it
    never appears off-center and snaps back. */
 @keyframes dialog-content-in {
   from {

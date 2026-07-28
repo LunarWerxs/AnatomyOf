@@ -27,7 +27,7 @@ export const java: LanguageDef = {
       title: 'Import statements',
       body: 'Brings in classes from other packages.',
       details:
-        '`import java.util.List;` lets the rest of the file refer to `List` instead of writing the fully qualified `java.util.List` every time. A wildcard form like `import java.util.*;` imports every public type in that package, though most style guides discourage it because it obscures where a name comes from and can create ambiguity if two packages export a type with the same name.\n\nEverything in `java.lang` — `String`, `Object`, `System`, and friends — is imported automatically and never needs its own `import` line. Classes in the same package are likewise visible without an import.',
+        '`import java.util.List;` lets the rest of the file refer to `List` instead of writing the fully qualified `java.util.List` every time. A wildcard form like `import java.util.*;` imports every public type in that package, though most style guides discourage it because it obscures where a name comes from and can create ambiguity if two packages export a type with the same name.\n\nEverything in `java.lang` (`String`, `Object`, `System`, and friends) is imported automatically and never needs its own `import` line. Classes in the same package are likewise visible without an import.',
       learnMore: 'https://docs.oracle.com/javase/tutorial/java/package/usepkgs.html',
       color: 'blue',
       side: 'left',
@@ -47,7 +47,7 @@ export const java: LanguageDef = {
       title: 'Class definition',
       body: 'The blueprint for objects; must match the filename (`public class ...`).',
       details:
-        'Java is thoroughly object-oriented: essentially all code, including `main`, must live inside a class. A `public` top-level class named `JavaAnatomy` must be declared in a file named exactly `JavaAnatomy.java` — the compiler enforces this one-public-class-per-file rule, unlike languages that let any file define any number of top-level constructs.\n\nA class defines the fields and methods that describe a kind of object; `new` creates individual instances from that blueprint. A file may also contain additional non-public (package-private) classes alongside its single public one.',
+        'Java is thoroughly object-oriented: essentially all code, including `main`, must live inside a class. A `public` top-level class named `JavaAnatomy` must be declared in a file named exactly `JavaAnatomy.java`. The compiler enforces this one-public-class-per-file rule, unlike languages that let any file define any number of top-level constructs.\n\nA class defines the fields and methods that describe a kind of object; `new` creates individual instances from that blueprint. A file may also contain additional non-public (package-private) classes alongside its single public one.',
       learnMore: 'https://docs.oracle.com/javase/tutorial/java/javaOO/classes.html',
       color: 'sky',
       side: 'right',
@@ -57,7 +57,7 @@ export const java: LanguageDef = {
       title: 'Field (class variable)',
       body: 'Stores data for the class or its objects.',
       details:
-        "A field declared directly in the class body, like `private String name;`, holds state that belongs to each object created from the class — every instance gets its own copy unless the field is also `static`. Access modifiers (`private`, `public`, `protected`, or none/package-private) control which other code can read or write the field directly.\n\nAdding `static` makes a field belong to the class itself rather than any one instance, so all objects share a single copy — commonly paired with `final` for a compile-time constant such as `private static final int MAX_COUNT = 100;`. Java is statically typed, so every field's type is fixed at declaration and checked by the compiler.",
+        "A field declared directly in the class body, like `private String name;`, holds state that belongs to each object created from the class. Every instance gets its own copy unless the field is also `static`. Access modifiers (`private`, `public`, `protected`, or none/package-private) control which other code can read or write the field directly.\n\nAdding `static` makes a field belong to the class itself rather than any one instance, so all objects share a single copy, commonly paired with `final` for a compile-time constant such as `private static final int MAX_COUNT = 100;`. Java is statically typed, so every field's type is fixed at declaration and checked by the compiler.",
       learnMore: 'https://docs.oracle.com/javase/tutorial/java/javaOO/variables.html',
       color: 'green',
       side: 'right',
@@ -77,7 +77,7 @@ export const java: LanguageDef = {
       title: 'Method definition',
       body: 'A reusable block of code that performs an action.',
       details:
-        'A method declares an access modifier, a return type, a name, and a parenthesized parameter list, e.g. `public void printGreeting()`. `void` means the method returns nothing; any other return type obliges every code path through the method to return a value of that type.\n\nMethods are invoked on an instance (`demo.printGreeting()`) unless declared `static`, in which case they belong to the class itself and are called through the class name. Java supports overloading — multiple methods with the same name but different parameter lists — resolved at compile time by the argument types used at the call site.',
+        'A method declares an access modifier, a return type, a name, and a parenthesized parameter list, e.g. `public void printGreeting()`. `void` means the method returns nothing; any other return type obliges every code path through the method to return a value of that type.\n\nMethods are invoked on an instance (`demo.printGreeting()`) unless declared `static`, in which case they belong to the class itself and are called through the class name. Java supports overloading (multiple methods with the same name but different parameter lists) resolved at compile time by the argument types used at the call site.',
       learnMore: 'https://docs.oracle.com/javase/tutorial/java/javaOO/methods.html',
       color: 'pink',
       side: 'right',
@@ -87,7 +87,7 @@ export const java: LanguageDef = {
       title: 'Main method',
       body: 'The entry point for a Java application (`public static void main(String[] args)`).',
       details:
-        'The JVM starts a program by looking for exactly this signature: `public static void main(String[] args)`. Every keyword is load-bearing — `public` so the JVM launcher can reach it from outside the class, `static` so it can be invoked without first constructing an instance, `void` because it returns nothing to the operating system beyond its exit code, and `String[] args` to receive command-line arguments.\n\nBefore any of this runs, the source file is compiled by `javac` into platform-independent bytecode (a `.class` file), which the JVM then interprets or JIT-compiles at runtime — the basis of Java\'s "write once, run anywhere" promise. A program can technically define `main` in more than one class, but only the class named on the command line (or in the JAR manifest) is used as the entry point.',
+        'The JVM starts a program by looking for exactly this signature: `public static void main(String[] args)`. Every keyword is load-bearing. `public` so the JVM launcher can reach it from outside the class, `static` so it can be invoked without first constructing an instance, `void` because it returns nothing to the operating system beyond its exit code, and `String[] args` to receive command-line arguments.\n\nBefore any of this runs, the source file is compiled by `javac` into platform-independent bytecode (a `.class` file), which the JVM then interprets or JIT-compiles at runtime: the basis of Java\'s "write once, run anywhere" promise. A program can technically define `main` in more than one class, but only the class named on the command line (or in the JAR manifest) is used as the entry point.',
       learnMore: 'https://docs.oracle.com/javase/specs/jls/se21/html/jls-12.html#jls-12.1.4',
       color: 'red',
       side: 'right',
@@ -97,7 +97,7 @@ export const java: LanguageDef = {
       title: 'Variable declaration (local)',
       body: 'Declares variables within a method or block.',
       details:
-        "A local variable such as `List<Integer> numbers = new ArrayList<>();` must state its type — `List<Integer>` — because Java resolves types at compile time rather than inferring them dynamically at run time. The `<Integer>` part is a generic type parameter that tells the compiler this list may only ever hold `Integer` values, catching type mismatches before the program runs.\n\nSince Java 10, the `var` keyword lets the compiler infer an obvious local variable's type from its initializer (`var numbers = new ArrayList<Integer>();`), saving typing without giving up static typing — the inferred type is still fixed and checked, `var` is purely a source-level shorthand.",
+        "A local variable such as `List<Integer> numbers = new ArrayList<>();` must state its type (`List<Integer>`) because Java resolves types at compile time rather than inferring them dynamically at run time. The `<Integer>` part is a generic type parameter that tells the compiler this list may only ever hold `Integer` values, catching type mismatches before the program runs.\n\nSince Java 10, the `var` keyword lets the compiler infer an obvious local variable's type from its initializer (`var numbers = new ArrayList<Integer>();`), saving typing without giving up static typing. The inferred type is still fixed and checked, `var` is purely a source-level shorthand.",
       learnMore: 'https://docs.oracle.com/javase/tutorial/java/generics/types.html',
       color: 'teal',
       side: 'left',
@@ -107,7 +107,7 @@ export const java: LanguageDef = {
       title: 'Object instantiation',
       body: 'Creates a new instance of a class with `new`.',
       details:
-        '`new JavaAnatomy("Java Learner")` allocates memory for a fresh object on the heap, then runs the matching constructor to initialize it, and finally evaluates to a reference to that new object. `new` is the normal explicit construction syntax for classes and arrays, while factories, literals, reflection, deserialization, and boxing can also produce object references without showing `new` at the call site.\n\nBecause objects live on the heap and are accessed through references rather than copied by value, assigning one variable to another (`JavaAnatomy a = demo;`) copies the reference, not the object — both variables then point at the same instance. Unused objects are reclaimed automatically by the JVM\'s garbage collector; Java has no manual `free` or `delete`.',
+        '`new JavaAnatomy("Java Learner")` allocates memory for a fresh object on the heap, then runs the matching constructor to initialize it, and finally evaluates to a reference to that new object. `new` is the normal explicit construction syntax for classes and arrays, while factories, literals, reflection, deserialization, and boxing can also produce object references without showing `new` at the call site.\n\nBecause objects live on the heap and are accessed through references rather than copied by value, assigning one variable to another (`JavaAnatomy a = demo;`) copies the reference, not the object, both variables then point at the same instance. Unused objects are reclaimed automatically by the JVM\'s garbage collector; Java has no manual `free` or `delete`.',
       learnMore: 'https://docs.oracle.com/javase/tutorial/java/javaOO/objectcreation.html',
       color: 'indigo',
       side: 'left',

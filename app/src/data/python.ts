@@ -17,7 +17,7 @@ export const python: LanguageDef = {
       title: 'Shebang',
       body: 'Specifies the interpreter path (optional, for Unix-like systems).',
       details:
-        'The shebang (`#!`) must be the very first bytes of the file. On Unix-like systems the kernel reads it to find which interpreter runs the script — `/usr/bin/env python3` asks `env` to locate `python3` on the current `PATH`, which is more portable than hard-coding a path like `/usr/bin/python3`.\n\nWindows ignores the shebang (though the `py.exe` launcher can read it), and it is entirely optional when you invoke the script explicitly with `python script.py`. It only matters when the file is executed directly, e.g. `./script.py` after `chmod +x`.',
+        'The shebang (`#!`) must be the very first bytes of the file. On Unix-like systems the kernel reads it to find which interpreter runs the script. `/usr/bin/env python3` asks `env` to locate `python3` on the current `PATH`, which is more portable than hard-coding a path like `/usr/bin/python3`.\n\nWindows ignores the shebang (though the `py.exe` launcher can read it), and it is entirely optional when you invoke the script explicitly with `python script.py`. It only matters when the file is executed directly, e.g. `./script.py` after `chmod +x`.',
       learnMore: 'https://en.wikipedia.org/wiki/Shebang_(Unix)',
       color: 'slate',
       side: 'left',
@@ -37,7 +37,7 @@ export const python: LanguageDef = {
       title: 'Import statements',
       body: 'Imports external modules or functions.',
       details:
-        '`import os` binds the whole module to a name, while `from datetime import datetime` pulls a single attribute into the current namespace. Imported modules are cached in `sys.modules`, so importing the same module twice is cheap.\n\nStyle (PEP 8): imports live at the top of the file, grouped as standard library, third-party, then local imports — one blank line between groups.',
+        '`import os` binds the whole module to a name, while `from datetime import datetime` pulls a single attribute into the current namespace. Imported modules are cached in `sys.modules`, so importing the same module twice is cheap.\n\nStyle (PEP 8): imports live at the top of the file, grouped as standard library, third-party, then local imports: one blank line between groups.',
       learnMore: 'https://docs.python.org/3/reference/import.html',
       color: 'blue',
       side: 'right',
@@ -47,7 +47,7 @@ export const python: LanguageDef = {
       title: 'Variable definition',
       body: 'Assigns a value to a name.',
       details:
-        'Assignment (`=`) binds a name to an object — names carry no declared type. A module-level name written in `ALL_CAPS` signals a constant by convention only; Python does not enforce immutability, it is a contract between programmers.\n\nType hints such as `GLOBAL_CONSTANT: int = 42` make intent explicit and let static checkers like mypy or pyright verify usage without changing runtime behavior.',
+        'Assignment (`=`) binds a name to an object. Names carry no declared type. A module-level name written in `ALL_CAPS` signals a constant by convention only; Python does not enforce immutability, it is a contract between programmers.\n\nType hints such as `GLOBAL_CONSTANT: int = 42` make intent explicit and let static checkers like mypy or pyright verify usage without changing runtime behavior.',
       learnMore: 'https://docs.python.org/3/reference/simple_stmts.html#assignment-statements',
       color: 'green',
       side: 'right',
@@ -67,7 +67,7 @@ export const python: LanguageDef = {
       title: 'Function/method definition',
       body: 'Defines a reusable block of code using `def`.',
       details:
-        '`def` binds a function object to a name. The body is indented — whitespace is the block syntax in Python. Functions accept positional and keyword arguments, defaults, and `*args`/`**kwargs`, and return `None` unless a `return` statement says otherwise.\n\nThe same syntax inside a class body defines a method; the instance arrives as the first parameter, conventionally named `self`. f-strings like `f"Hello, {self.name}!"` interpolate expressions directly into string literals.',
+        '`def` binds a function object to a name. The body is indented. Whitespace is the block syntax in Python. Functions accept positional and keyword arguments, defaults, and `*args`/`**kwargs`, and return `None` unless a `return` statement says otherwise.\n\nThe same syntax inside a class body defines a method; the instance arrives as the first parameter, conventionally named `self`. f-strings like `f"Hello, {self.name}!"` interpolate expressions directly into string literals.',
       learnMore: 'https://docs.python.org/3/reference/compound_stmts.html#function-definitions',
       color: 'teal',
       side: 'right',
@@ -77,7 +77,7 @@ export const python: LanguageDef = {
       title: 'Control flow (conditional)',
       body: 'Executes code based on a condition (`if`, `elif`, `else`).',
       details:
-        '`if`/`elif`/`else` route execution based on truthiness — empty containers, `0`, `None`, and `""` all count as false. Conditions need no surrounding parentheses, and comparisons chain naturally (`0 < x < 10`).\n\nSince Python 3.10, structural pattern matching (`match`/`case`) covers the multi-branch cases a switch statement would handle in other languages.',
+        '`if`/`elif`/`else` route execution based on truthiness: empty containers, `0`, `None`, and `""` all count as false. Conditions need no surrounding parentheses, and comparisons chain naturally (`0 < x < 10`).\n\nSince Python 3.10, structural pattern matching (`match`/`case`) covers the multi-branch cases a switch statement would handle in other languages.',
       learnMore: 'https://docs.python.org/3/reference/compound_stmts.html#the-if-statement',
       color: 'red',
       side: 'left',
@@ -87,7 +87,7 @@ export const python: LanguageDef = {
       title: 'Control flow (loop)',
       body: 'Repeats code (`for`, `while`).',
       details:
-        "`for` iterates over any iterable — lists, strings, dicts, generators, or `range(...)` — rather than counting indices; `while` repeats as long as a condition holds. `break` exits early, `continue` skips to the next pass, and a loop's optional `else` clause runs only when it finishes without `break`.\n\n`range(3)` yields 0, 1, 2 — the stop value is exclusive. Use `enumerate(items)` when you need the index alongside each element.",
+        "`for` iterates over any iterable (lists, strings, dicts, generators, or `range(...)`) rather than counting indices; `while` repeats as long as a condition holds. `break` exits early, `continue` skips to the next pass, and a loop's optional `else` clause runs only when it finishes without `break`.\n\n`range(3)` yields 0, 1, 2. The stop value is exclusive. Use `enumerate(items)` when you need the index alongside each element.",
       learnMore: 'https://docs.python.org/3/reference/compound_stmts.html#the-for-statement',
       color: 'rose',
       side: 'left',

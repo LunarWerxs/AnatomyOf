@@ -37,7 +37,7 @@ export const dart: LanguageDef = {
       title: 'Top-level variable/constant',
       body: 'Defined outside any class or function using `var`, `final`, or `const`.',
       details:
-        'A name declared with `var` can be reassigned, `final` can be set only once and then never reassigned, and `const` must be a compile-time constant — its value is fixed before the program even runs. `const double pi = 3.14159` is baked into the compiled output, while a `final` value can still be computed at runtime.\n\nTop-level declarations like this live outside any class or function and are visible throughout the library (file) that defines them, unless the name is prefixed with an underscore, which makes it private to that library.',
+        'A name declared with `var` can be reassigned, `final` can be set only once and then never reassigned, and `const` must be a compile-time constant. Its value is fixed before the program even runs. `const double pi = 3.14159` is baked into the compiled output, while a `final` value can still be computed at runtime.\n\nTop-level declarations like this live outside any class or function and are visible throughout the library (file) that defines them, unless the name is prefixed with an underscore, which makes it private to that library.',
       learnMore: 'https://dart.dev/language/variables',
       color: 'sky',
       side: 'right',
@@ -57,7 +57,7 @@ export const dart: LanguageDef = {
       title: 'Field (instance variable)',
       body: 'Data stored within an object.',
       details:
-        "A field declared inside a class body holds one value per instance of that class — each `Circle` gets its own `radius`. Marking a field `final` means it can be set once, typically during construction, and never changed afterward, which is a common pattern for objects meant to be immutable.\n\nDart's sound null safety means a field's type determines whether it can hold `null`: `double radius` must always have a value, while `double? radius` is explicitly allowed to be absent, and the compiler enforces the distinction at compile time rather than leaving it to a runtime crash.",
+        "A field declared inside a class body holds one value per instance of that class. Each `Circle` gets its own `radius`. Marking a field `final` means it can be set once, typically during construction, and never changed afterward, which is a common pattern for objects meant to be immutable.\n\nDart's sound null safety means a field's type determines whether it can hold `null`: `double radius` must always have a value, while `double? radius` is explicitly allowed to be absent, and the compiler enforces the distinction at compile time rather than leaving it to a runtime crash.",
       learnMore: 'https://dart.dev/language/null-safety',
       color: 'teal',
       side: 'right',
@@ -67,7 +67,7 @@ export const dart: LanguageDef = {
       title: 'Constructor',
       body: 'A special method used to create an object.',
       details:
-        "A constructor shares its class's name and runs when an object is created with `Circle(5.0)`. The parameter `this.radius` is an initializing formal — shorthand that assigns the argument directly to the field of the same name without a separate assignment statement in the constructor body.\n\nDart also supports named constructors like `Circle.fromDiameter(...)` for alternate ways to build an instance, and `const` constructors, which allow instances to be created as compile-time constants when every field is itself final and constant.",
+        "A constructor shares its class's name and runs when an object is created with `Circle(5.0)`. The parameter `this.radius` is an initializing formal, shorthand that assigns the argument directly to the field of the same name without a separate assignment statement in the constructor body.\n\nDart also supports named constructors like `Circle.fromDiameter(...)` for alternate ways to build an instance, and `const` constructors, which allow instances to be created as compile-time constants when every field is itself final and constant.",
       learnMore: 'https://dart.dev/language/constructors',
       color: 'purple',
       side: 'right',
@@ -77,7 +77,7 @@ export const dart: LanguageDef = {
       title: 'Method/function definition',
       body: 'A reusable block of code, defined with a return type and name.',
       details:
-        "A function or method is introduced by its return type (or `void` if it returns nothing), a name, and a parameter list in parentheses. `double get area => ...` is a getter — a method called like a property, without parentheses at the call site — and the arrow syntax (`=>`) is shorthand for a body that is a single expression, equivalent to `{ return ...; }`.\n\nA method defined inside a class body implicitly receives access to the instance's other fields and methods; `printDetails()` can read `radius` and call `area` without qualifying them, because both belong to the same object.",
+        "A function or method is introduced by its return type (or `void` if it returns nothing), a name, and a parameter list in parentheses. `double get area => ...` is a getter (a method called like a property, without parentheses at the call site) and the arrow syntax (`=>`) is shorthand for a body that is a single expression, equivalent to `{ return ...; }`.\n\nA method defined inside a class body implicitly receives access to the instance's other fields and methods; `printDetails()` can read `radius` and call `area` without qualifying them, because both belong to the same object.",
       learnMore: 'https://dart.dev/language/functions',
       color: 'orange',
       side: 'left',
@@ -87,7 +87,7 @@ export const dart: LanguageDef = {
       title: 'String interpolation',
       body: 'Embeds expressions inside a string using `$`.',
       details:
-        'A dollar sign followed by a variable name, like `$radius`, substitutes that value directly into a string without concatenation. When the expression is more than a bare identifier — a method call, a property access, or an arithmetic expression — it must be wrapped in braces, as in `${area.toStringAsFixed(2)}`.\n\nInterpolation works inside both single- and double-quoted strings, and Dart also supports raw strings (prefixed `r`) where `$` and backslash escapes are treated literally, which is useful for regular expressions or file paths.',
+        'A dollar sign followed by a variable name, like `$radius`, substitutes that value directly into a string without concatenation. When the expression is more than a bare identifier (a method call, a property access, or an arithmetic expression) it must be wrapped in braces, as in `${area.toStringAsFixed(2)}`.\n\nInterpolation works inside both single- and double-quoted strings, and Dart also supports raw strings (prefixed `r`) where `$` and backslash escapes are treated literally, which is useful for regular expressions or file paths.',
       learnMore: 'https://dart.dev/language/built-in-types#strings',
       color: 'pink',
       side: 'right',
@@ -117,7 +117,7 @@ export const dart: LanguageDef = {
       title: 'Method/function call',
       body: 'Executes a function or method.',
       details:
-        "Dot notation invokes a method on an instance, as in `myCircle.printDetails()`, while a bare name like `calculateCircumference(5.0)` calls a top-level function directly. Arguments are matched positionally by default, but Dart also supports named arguments in braces, like `Circle(radius: 5.0)`, which callers can supply in any order.\n\nBecause everything is an object, even operators like `+` and `*` are method calls in disguise — `2 * pi * r` desugars to calls on `num`'s multiplication operator — which is part of why Dart lets user-defined classes overload operators too.",
+        "Dot notation invokes a method on an instance, as in `myCircle.printDetails()`, while a bare name like `calculateCircumference(5.0)` calls a top-level function directly. Arguments are matched positionally by default, but Dart also supports named arguments in braces, like `Circle(radius: 5.0)`, which callers can supply in any order.\n\nBecause everything is an object, even operators like `+` and `*` are method calls in disguise (`2 * pi * r` desugars to calls on `num`'s multiplication operator) which is part of why Dart lets user-defined classes overload operators too.",
       learnMore: 'https://dart.dev/language/functions#named-parameters',
       color: 'indigo',
       side: 'right',
@@ -127,7 +127,7 @@ export const dart: LanguageDef = {
       title: 'Control flow (loop & conditional)',
       body: 'Executes code based on logic (`for`, `if`, `else`).',
       details:
-        "A C-style `for (var i = 0; i < 3; i++)` loop counts through a range, while `if`/`else` branches on a boolean condition — Dart's sound type system requires the condition to actually be a `bool`, unlike languages that treat `0` or `null` as falsy. `i % 2 == 0` uses the modulo operator to test whether `i` is even.\n\nDart also offers `for-in` to iterate any `Iterable` (such as a `List`), a `while` loop for a condition checked before each pass, and a `do-while` loop for one checked after, alongside `break` and `continue` for early exit or skipping an iteration.",
+        "A C-style `for (var i = 0; i < 3; i++)` loop counts through a range, while `if`/`else` branches on a boolean condition. Dart's sound type system requires the condition to actually be a `bool`, unlike languages that treat `0` or `null` as falsy. `i % 2 == 0` uses the modulo operator to test whether `i` is even.\n\nDart also offers `for-in` to iterate any `Iterable` (such as a `List`), a `while` loop for a condition checked before each pass, and a `do-while` loop for one checked after, alongside `break` and `continue` for early exit or skipping an iteration.",
       learnMore: 'https://dart.dev/language/loops',
       color: 'rose',
       side: 'left',

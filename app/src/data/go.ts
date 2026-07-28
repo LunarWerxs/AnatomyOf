@@ -17,7 +17,7 @@ export const go: LanguageDef = {
       title: 'Package declaration',
       body: 'Defines the package name (e.g., `main` for executables).',
       details:
-        "Every Go source file starts with a `package` clause. Files sharing a package name in the same directory form a single compilation unit that can freely reference each other's identifiers without imports. The special package name `main` marks an executable rather than a reusable library.\n\nA `main` package must additionally provide a `func main()` — the combination of `package main` and `func main()` is what makes `go build` produce a runnable binary instead of just compiling importable code.",
+        "Every Go source file starts with a `package` clause. Files sharing a package name in the same directory form a single compilation unit that can freely reference each other's identifiers without imports. The special package name `main` marks an executable rather than a reusable library.\n\nA `main` package must additionally provide a `func main()`: the combination of `package main` and `func main()` is what makes `go build` produce a runnable binary instead of just compiling importable code.",
       learnMore: 'https://go.dev/ref/spec#Package_clause',
       color: 'blue',
       side: 'left',
@@ -27,7 +27,7 @@ export const go: LanguageDef = {
       title: 'Comment',
       body: 'Single-line (`//`) or block (`/* ... */`), ignored by the compiler.',
       details:
-        "`//` comments run to the end of the line; `/* ... */` block comments can span multiple lines but do not nest. Both are stripped before compilation and have no effect on the compiled binary.\n\nA comment placed directly above a top-level declaration with no blank line in between becomes that identifier's \"doc comment\" — `go doc` and pkg.go.dev render it as the item's documentation, so convention asks the comment to start with the identifier's own name, e.g. `// Area returns ...`.",
+        "`//` comments run to the end of the line; `/* ... */` block comments can span multiple lines but do not nest. Both are stripped before compilation and have no effect on the compiled binary.\n\nA comment placed directly above a top-level declaration with no blank line in between becomes that identifier's \"doc comment\": `go doc` and pkg.go.dev render it as the item's documentation, so convention asks the comment to start with the identifier's own name, e.g. `// Area returns ...`.",
       learnMore: 'https://go.dev/doc/comment',
       color: 'slate',
       side: 'right',
@@ -37,7 +37,7 @@ export const go: LanguageDef = {
       title: 'Import statement',
       body: 'Brings in external packages.',
       details:
-        'A parenthesized `import ( ... )` block lists one package path per line; a single import can also be written as `import "fmt"` without parentheses. Every imported package must be used somewhere in the file, or the compiler refuses to build — Go treats unused imports as an error, not a warning.\n\nImported identifiers are referenced through the package name, such as `fmt.Printf` or `math.Pi`. Tools like `goimports` automatically add missing imports and remove unused ones, and group standard-library imports separately from third-party ones by convention.',
+        'A parenthesized `import ( ... )` block lists one package path per line; a single import can also be written as `import "fmt"` without parentheses. Every imported package must be used somewhere in the file, or the compiler refuses to build. Go treats unused imports as an error, not a warning.\n\nImported identifiers are referenced through the package name, such as `fmt.Printf` or `math.Pi`. Tools like `goimports` automatically add missing imports and remove unused ones, and group standard-library imports separately from third-party ones by convention.',
       learnMore: 'https://go.dev/ref/spec#Import_declarations',
       color: 'sky',
       side: 'left',
@@ -57,7 +57,7 @@ export const go: LanguageDef = {
       title: 'Field (struct member)',
       body: 'Data stored within a struct.',
       details:
-        "Each line inside a `struct` body declares a field: a name followed by its type, such as `Radius float64`. Fields are accessed with dot notation (`c.Radius`) and can be read or reassigned directly unless the struct is accessed through an interface that hides them.\n\nA field name starting with an uppercase letter, like `Radius`, is exported and visible to other packages; a lowercase name such as `radius` would be unexported and package-private. This capitalization rule is Go's only visibility mechanism — there is no `public`/`private` keyword.",
+        "Each line inside a `struct` body declares a field: a name followed by its type, such as `Radius float64`. Fields are accessed with dot notation (`c.Radius`) and can be read or reassigned directly unless the struct is accessed through an interface that hides them.\n\nA field name starting with an uppercase letter, like `Radius`, is exported and visible to other packages; a lowercase name such as `radius` would be unexported and package-private. This capitalization rule is Go's only visibility mechanism. There is no `public`/`private` keyword.",
       learnMore: 'https://go.dev/ref/spec#Exported_identifiers',
       color: 'teal',
       side: 'right',
@@ -107,7 +107,7 @@ export const go: LanguageDef = {
       title: 'Method/function call',
       body: 'Executing a function or method.',
       details:
-        'A call expression like `c.Area()` looks up the `Area` method on the value `c` and executes it, here assigning its single return value to `area` via `:=`. Calling a regular function follows the same syntax without a receiver, e.g. `add(1, 2)`.\n\nGo evaluates arguments left to right before the call happens, and — because the language has no method overloading — each method or function name resolves to exactly one signature per type. `fmt.Printf(...)` in the same example is itself a function call, taking a format string and the values to substitute into it.',
+        'A call expression like `c.Area()` looks up the `Area` method on the value `c` and executes it, here assigning its single return value to `area` via `:=`. Calling a regular function follows the same syntax without a receiver, e.g. `add(1, 2)`.\n\nGo evaluates arguments left to right before the call happens, and (because the language has no method overloading) each method or function name resolves to exactly one signature per type. `fmt.Printf(...)` in the same example is itself a function call, taking a format string and the values to substitute into it.',
       learnMore: 'https://go.dev/ref/spec#Calls',
       color: 'pink',
       side: 'right',
@@ -125,9 +125,9 @@ export const go: LanguageDef = {
     {
       id: 'loop',
       title: 'Control flow (loop)',
-      body: "Repeats code — `for` is Go's only loop keyword.",
+      body: "Repeats code: `for` is Go's only loop keyword.",
       details:
-        '`for i := 0; i < 3; i++ { ... }` is the classic three-clause form: init, condition, post-statement. Go has no separate `while` or `do...while` keyword — dropping the init and post clauses (`for condition { ... }`) gives while-loop behavior, and omitting everything (`for { ... }`) produces an infinite loop.\n\n`for ... range` iterates over arrays, slices, strings, maps, and channels, yielding an index/key and value pair each pass. `break` exits the loop immediately and `continue` skips to the next iteration; both can target an outer loop when combined with a label.',
+        '`for i := 0; i < 3; i++ { ... }` is the classic three-clause form: init, condition, post-statement. Go has no separate `while` or `do...while` keyword, dropping the init and post clauses (`for condition { ... }`) gives while-loop behavior, and omitting everything (`for { ... }`) produces an infinite loop.\n\n`for ... range` iterates over arrays, slices, strings, maps, and channels, yielding an index/key and value pair each pass. `break` exits the loop immediately and `continue` skips to the next iteration; both can target an outer loop when combined with a label.',
       learnMore: 'https://go.dev/ref/spec#For_statements',
       color: 'indigo',
       side: 'right',
@@ -137,7 +137,7 @@ export const go: LanguageDef = {
       title: 'Function definition',
       body: 'Defines a reusable block of code with `func`.',
       details:
-        'A top-level function like `func add(a, b int) int { return a + b }` declares its parameters and their types, followed by its return type. Consecutive parameters that share a type can drop the repeated annotation, so `a, b int` means both `a` and `b` are `int`.\n\nA capitalized function name such as `Add` would be exported and callable from other packages that import this one; the lowercase `add` here is unexported and only reachable from within its own package. Functions are values in Go — they can be assigned to variables, passed as arguments, and returned from other functions.',
+        'A top-level function like `func add(a, b int) int { return a + b }` declares its parameters and their types, followed by its return type. Consecutive parameters that share a type can drop the repeated annotation, so `a, b int` means both `a` and `b` are `int`.\n\nA capitalized function name such as `Add` would be exported and callable from other packages that import this one; the lowercase `add` here is unexported and only reachable from within its own package. Functions are values in Go. They can be assigned to variables, passed as arguments, and returned from other functions.',
       learnMore: 'https://go.dev/ref/spec#Function_declarations',
       color: 'blue',
       side: 'left',

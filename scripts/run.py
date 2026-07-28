@@ -54,7 +54,7 @@ def wait_for_server(timeout: float = 60.0) -> bool:
             try:
                 urllib.request.urlopen(URL, timeout=1).read(1)
             except Exception:
-                pass  # server up but still warming — good enough to open
+                pass  # server up but still warming, good enough to open
             return True
         time.sleep(0.4)
     return False

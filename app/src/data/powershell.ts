@@ -17,7 +17,7 @@ export const powershell: LanguageDef = {
       title: 'Shebang',
       body: 'Specifies the interpreter path (for non-Windows systems).',
       details:
-        'On Linux and macOS, `#!/usr/bin/pwsh` tells the kernel which interpreter should run the script when it is invoked directly, e.g. `./script.ps1` after `chmod +x`. PowerShell itself treats the line as an ordinary comment, so it has no effect on Windows.\n\nIt is entirely optional when the script is run explicitly with `pwsh ./script.ps1`, and Windows PowerShell/`powershell.exe` never looks for it at all — the shebang only matters for cross-platform `pwsh`-based execution.',
+        'On Linux and macOS, `#!/usr/bin/pwsh` tells the kernel which interpreter should run the script when it is invoked directly, e.g. `./script.ps1` after `chmod +x`. PowerShell itself treats the line as an ordinary comment, so it has no effect on Windows.\n\nIt is entirely optional when the script is run explicitly with `pwsh ./script.ps1`, and Windows PowerShell/`powershell.exe` never looks for it at all: the shebang only matters for cross-platform `pwsh`-based execution.',
       learnMore: 'https://en.wikipedia.org/wiki/Shebang_(Unix)',
       color: 'slate',
       side: 'left',
@@ -38,7 +38,7 @@ export const powershell: LanguageDef = {
       title: 'Variable declaration ($)',
       body: 'Starts with `$`, dynamically typed.',
       details:
-        'Every variable name is prefixed with `$` and requires no declared type — `$target = "World"` and `$target = 3.14` are both valid, and the underlying .NET type is inferred at assignment. Optional type constraints like `[int]$count = 0` add a static check without changing the dynamic-by-default model.\n\nVariables are scoped to the block or script that creates them by default, but scope modifiers such as `$script:name`, `$global:name`, and `$local:name` let a script explicitly reach outside or restrict access to the current scope.',
+        'Every variable name is prefixed with `$` and requires no declared type. `$target = "World"` and `$target = 3.14` are both valid, and the underlying .NET type is inferred at assignment. Optional type constraints like `[int]$count = 0` add a static check without changing the dynamic-by-default model.\n\nVariables are scoped to the block or script that creates them by default, but scope modifiers such as `$script:name`, `$global:name`, and `$local:name` let a script explicitly reach outside or restrict access to the current scope.',
       learnMore:
         'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_variables',
       color: 'green',
@@ -71,7 +71,7 @@ export const powershell: LanguageDef = {
       title: 'Cmdlet call',
       body: 'Executing a built-in or custom command.',
       details:
-        'Cmdlets are commands named in the same `Verb-Noun` form, such as `Get-Date` or `Write-Host`, implemented as .NET classes rather than standalone executables. Arguments are passed as named parameters, e.g. `-Format $Format`, which makes call sites self-documenting compared to positional flags.\n\nA custom function defined with `function` is invoked exactly the same way as a built-in cmdlet — `Get-FormattedDate -Format "..."` — because PowerShell does not distinguish the two at the call site.',
+        'Cmdlets are commands named in the same `Verb-Noun` form, such as `Get-Date` or `Write-Host`, implemented as .NET classes rather than standalone executables. Arguments are passed as named parameters, e.g. `-Format $Format`, which makes call sites self-documenting compared to positional flags.\n\nA custom function defined with `function` is invoked exactly the same way as a built-in cmdlet (`Get-FormattedDate -Format "..."`) because PowerShell does not distinguish the two at the call site.',
       learnMore:
         'https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/cmdlet-overview',
       color: 'amber',
@@ -82,7 +82,7 @@ export const powershell: LanguageDef = {
       title: 'String interpolation',
       body: 'Embeds expressions/variables in double-quoted strings using $().',
       details:
-        'Inside double-quoted strings, `$name` expands a simple variable directly, while `$(expression)` — the subexpression operator — evaluates an arbitrary expression, including a cmdlet call, and inserts its result. `"Current Date: $(Get-Date -Format $Format)"` runs `Get-Date` and splices its output into the string.\n\nSingle-quoted strings never interpolate: `\'$name\'` is inserted literally, which is why interpolation and variable expansion are one of the main reasons to prefer double quotes for user-facing text.',
+        'Inside double-quoted strings, `$name` expands a simple variable directly, while `$(expression)` (the subexpression operator) evaluates an arbitrary expression, including a cmdlet call, and inserts its result. `"Current Date: $(Get-Date -Format $Format)"` runs `Get-Date` and splices its output into the string.\n\nSingle-quoted strings never interpolate: `\'$name\'` is inserted literally, which is why interpolation and variable expansion are one of the main reasons to prefer double quotes for user-facing text.',
       learnMore:
         'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_quoting_rules',
       color: 'teal',
@@ -104,7 +104,7 @@ export const powershell: LanguageDef = {
       title: 'Control flow (Conditional)',
       body: 'Executes code based on a condition (if, elseif, else, switch).',
       details:
-        '`if`/`elseif`/`else` branch on a boolean expression, using comparison operators spelled as letter codes — `-eq`, `-ne`, `-lt`, `-gt` — rather than symbols like `==`, because `=` is reserved for assignment and `<`/`>` are reserved for redirection. Conditions are always parenthesized: `if ($i -eq 2) { ... }`.\n\nFor more than a couple of branches, `switch` compares a value against several patterns at once and supports wildcard, regex, and script-block conditions, often replacing a long `elseif` chain.',
+        '`if`/`elseif`/`else` branch on a boolean expression, using comparison operators spelled as letter codes (`-eq`, `-ne`, `-lt`, `-gt`) rather than symbols like `==`, because `=` is reserved for assignment and `<`/`>` are reserved for redirection. Conditions are always parenthesized: `if ($i -eq 2) { ... }`.\n\nFor more than a couple of branches, `switch` compares a value against several patterns at once and supports wildcard, regex, and script-block conditions, often replacing a long `elseif` chain.',
       learnMore:
         'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_if',
       color: 'indigo',
@@ -115,7 +115,7 @@ export const powershell: LanguageDef = {
       title: 'Function call',
       body: 'Executing a defined function.',
       details:
-        'Calling a PowerShell function looks like calling any cmdlet: the function name followed by its parameters, e.g. `Get-FormattedDate -Format "dddd, MMMM dd, yyyy"` — no parentheses or commas separate the arguments, unlike a typical C-family method call.\n\nA function\'s output is whatever it writes to the pipeline, whether via an explicit `return` or simply by letting a value fall through unassigned; that output can be captured in a variable, piped into another command, or displayed directly.',
+        'Calling a PowerShell function looks like calling any cmdlet: the function name followed by its parameters, e.g. `Get-FormattedDate -Format "dddd, MMMM dd, yyyy"`: no parentheses or commas separate the arguments, unlike a typical C-family method call.\n\nA function\'s output is whatever it writes to the pipeline, whether via an explicit `return` or simply by letting a value fall through unassigned; that output can be captured in a variable, piped into another command, or displayed directly.',
       learnMore:
         'https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_return',
       color: 'pink',

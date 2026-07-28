@@ -17,7 +17,7 @@ export const c: LanguageDef = {
       title: 'Comment',
       body: 'Block (`/* ... */`) or single-line (`//`), ignored by the compiler.',
       details:
-        'A `/* ... */` block comment can span multiple lines but does not nest, so an errant `*/` earlier in the file silently ends the comment early. `//` single-line comments run to the end of the line; they were a compiler extension in older C but became standard with C99.\n\nComments are stripped by the compiler before compilation proper begins and have zero effect on the compiled binary. Because C gives no runtime introspection like a docstring, comments are the only place to record intent — header files in particular lean on them to document the API a `.c` file exposes.',
+        'A `/* ... */` block comment can span multiple lines but does not nest, so an errant `*/` earlier in the file silently ends the comment early. `//` single-line comments run to the end of the line; they were a compiler extension in older C but became standard with C99.\n\nComments are stripped by the compiler before compilation proper begins and have zero effect on the compiled binary. Because C gives no runtime introspection like a docstring, comments are the only place to record intent: header files in particular lean on them to document the API a `.c` file exposes.',
       learnMore: 'https://en.cppreference.com/w/c/comment',
       color: 'slate',
       side: 'left',
@@ -27,7 +27,7 @@ export const c: LanguageDef = {
       title: 'Preprocessor directive',
       body: 'Processed before compilation; starts with `#`.',
       details:
-        'Every line beginning with `#` is handled by the preprocessor, a text-substitution pass that runs before the compiler ever sees C syntax. `#include <stdio.h>` copy-pastes the named header\'s declarations into the file — angle brackets search the system include path, while quotes (`"myheader.h"`) search the local directory first. `#define MAX_COUNT 10` declares a macro: every later occurrence of `MAX_COUNT` is textually replaced with `10` before compilation.\n\nBecause macros are pure text substitution, they have no type and no scope — `#define SQUARE(x) x*x` will misbehave on `SQUARE(1+2)` unless parenthesized as `((x)*(x))`. Other common directives include `#ifndef`/`#define`/`#endif` include guards, which prevent a header from being pasted into the same file twice.',
+        'Every line beginning with `#` is handled by the preprocessor, a text-substitution pass that runs before the compiler ever sees C syntax. `#include <stdio.h>` copy-pastes the named header\'s declarations into the file: angle brackets search the system include path, while quotes (`"myheader.h"`) search the local directory first. `#define MAX_COUNT 10` declares a macro: every later occurrence of `MAX_COUNT` is textually replaced with `10` before compilation.\n\nBecause macros are pure text substitution, they have no type and no scope. `#define SQUARE(x) x*x` will misbehave on `SQUARE(1+2)` unless parenthesized as `((x)*(x))`. Other common directives include `#ifndef`/`#define`/`#endif` include guards, which prevent a header from being pasted into the same file twice.',
       learnMore: 'https://en.cppreference.com/w/c/preprocessor',
       color: 'blue',
       side: 'right',
@@ -37,7 +37,7 @@ export const c: LanguageDef = {
       title: 'Variable declaration',
       body: 'Declares a variable with an explicit type.',
       details:
-        'C is statically typed: `int global_var = 0;` fixes both the name and the type (`int`) at compile time, and that type never changes for the life of the variable. A declaration outside any function, like `global_var` here, has file scope and lives for the whole run of the program; one declared inside a function, like `int i;`, is local and only exists while that function is on the stack.\n\nUnlike some languages, C does not require an initializer — `int i;` leaves `i` holding indeterminate garbage until something assigns it a value, which is a common source of bugs. Global variables default to zero-initialized if no initializer is given, but locals do not.',
+        'C is statically typed: `int global_var = 0;` fixes both the name and the type (`int`) at compile time, and that type never changes for the life of the variable. A declaration outside any function, like `global_var` here, has file scope and lives for the whole run of the program; one declared inside a function, like `int i;`, is local and only exists while that function is on the stack.\n\nUnlike some languages, C does not require an initializer. `int i;` leaves `i` holding indeterminate garbage until something assigns it a value, which is a common source of bugs. Global variables default to zero-initialized if no initializer is given, but locals do not.',
       learnMore: 'https://en.cppreference.com/w/c/language/declarations',
       color: 'green',
       side: 'right',
@@ -47,7 +47,7 @@ export const c: LanguageDef = {
       title: 'Function definition',
       body: "A prototype declares a function's signature; the definition supplies its body.",
       details:
-        "`void print_message(char *msg);` is a prototype — it tells the compiler a function's name, parameter types, and return type so calls earlier in the file can be checked before the real body appears (often further down, or in another `.c` file after being declared in a shared header). The matching definition, `void print_message(char *msg) { ... }`, supplies the actual implementation.\n\nA `void` return type means the function gives nothing back to its caller. Parameters are passed by value in C — `char *msg` passes a copy of the pointer, not the string itself, which is how a function can read or modify the caller's data without copying the whole buffer.",
+        "`void print_message(char *msg);` is a prototype. It tells the compiler a function's name, parameter types, and return type so calls earlier in the file can be checked before the real body appears (often further down, or in another `.c` file after being declared in a shared header). The matching definition, `void print_message(char *msg) { ... }`, supplies the actual implementation.\n\nA `void` return type means the function gives nothing back to its caller. Parameters are passed by value in C: `char *msg` passes a copy of the pointer, not the string itself, which is how a function can read or modify the caller's data without copying the whole buffer.",
       learnMore: 'https://en.cppreference.com/w/c/language/functions',
       color: 'sky',
       side: 'left',
@@ -57,7 +57,7 @@ export const c: LanguageDef = {
       title: 'String literal',
       body: 'A sequence of characters enclosed in double quotes.',
       details:
-        'C has no dedicated string type; `"Hello, C World!"` is really an array of `char` terminated by an invisible null byte (`\\0`), and a `char *` variable just points at its first character. The compiler places string literals in read-only memory, so writing through a pointer to one is undefined behavior even though the pointer itself is not declared `const`.\n\nEscape sequences like `\\n` (newline) and `\\"` (a literal quote) are interpreted inside the quotes. Because the terminator is implicit, functions that operate on strings — `strlen`, `strcpy`, `printf`\'s `%s` — all scan forward until they hit that null byte, so a missing terminator reads past the end of the buffer.',
+        'C has no dedicated string type; `"Hello, C World!"` is really an array of `char` terminated by an invisible null byte (`\\0`), and a `char *` variable just points at its first character. The compiler places string literals in read-only memory, so writing through a pointer to one is undefined behavior even though the pointer itself is not declared `const`.\n\nEscape sequences like `\\n` (newline) and `\\"` (a literal quote) are interpreted inside the quotes. Because the terminator is implicit, functions that operate on strings (`strlen`, `strcpy`, `printf`\'s `%s`) all scan forward until they hit that null byte, so a missing terminator reads past the end of the buffer.',
       learnMore: 'https://en.cppreference.com/w/c/language/string_literal',
       color: 'orange',
       side: 'right',
@@ -67,7 +67,7 @@ export const c: LanguageDef = {
       title: 'Function call',
       body: 'Executes a function by using its name followed by `()`.',
       details:
-        '`printf("Starting program...\\n");` calls the standard library function `printf`, passing it a format string; `print_message(greeting)` calls a function defined in this same file, passing a pointer along. In both cases the arguments are evaluated, copied onto the call, and control jumps into the function body until it returns.\n\n`printf` is variadic — it accepts a variable number of arguments after the format string, matching each `%s`, `%d`, or `%.2f` conversion in order. The compiler does not verify at compile time that the arguments match the format specifiers unless it has special-cased `printf` (as GCC and Clang do via `-Wformat`), so a mismatch is a runtime bug, not a compile error.',
+        '`printf("Starting program...\\n");` calls the standard library function `printf`, passing it a format string; `print_message(greeting)` calls a function defined in this same file, passing a pointer along. In both cases the arguments are evaluated, copied onto the call, and control jumps into the function body until it returns.\n\n`printf` is variadic. It accepts a variable number of arguments after the format string, matching each `%s`, `%d`, or `%.2f` conversion in order. The compiler does not verify at compile time that the arguments match the format specifiers unless it has special-cased `printf` (as GCC and Clang do via `-Wformat`), so a mismatch is a runtime bug, not a compile error.',
       learnMore: 'https://en.cppreference.com/w/c/io/fprintf',
       color: 'purple',
       side: 'right',
@@ -87,7 +87,7 @@ export const c: LanguageDef = {
       title: 'Control flow (conditional)',
       body: 'Executes code based on a condition (`if`, `else`, `switch`).',
       details:
-        "`if (i % 2 == 0) { ... }` runs its block only when the parenthesized expression evaluates to nonzero — C has no dedicated boolean type before C99's `_Bool`/`stdbool.h`, so any nonzero integer counts as true and `0` counts as false. `else` and `else if` chain additional branches, and `switch` dispatches on an integer or enum value across several `case` labels.\n\nA classic pitfall is `switch` fallthrough: execution continues into the next `case` unless a `break` stops it, which is sometimes intentional but often a bug. `%` here is the modulo operator, so `i % 2 == 0` is the idiomatic C test for an even number.",
+        "`if (i % 2 == 0) { ... }` runs its block only when the parenthesized expression evaluates to nonzero. C has no dedicated boolean type before C99's `_Bool`/`stdbool.h`, so any nonzero integer counts as true and `0` counts as false. `else` and `else if` chain additional branches, and `switch` dispatches on an integer or enum value across several `case` labels.\n\nA classic pitfall is `switch` fallthrough: execution continues into the next `case` unless a `break` stops it, which is sometimes intentional but often a bug. `%` here is the modulo operator, so `i % 2 == 0` is the idiomatic C test for an even number.",
       learnMore: 'https://en.cppreference.com/w/c/language/if',
       color: 'red',
       side: 'left',
@@ -97,7 +97,7 @@ export const c: LanguageDef = {
       title: 'Return statement',
       body: 'Exits the function, optionally returning a value.',
       details:
-        "`return 0;` inside `main` both ends the function and hands `0` back to the operating system as the process's exit status, where `0` conventionally means success and any nonzero value signals an error. A function declared with a non-`void` return type must return a value of that type on every path; a `void` function may use a bare `return;` to exit early or simply fall off the closing brace.\n\nReaching the end of `main` without an explicit `return` is one special case C allows to implicitly return `0`, but relying on that is considered poor style — every other function must return explicitly if its type demands a value.",
+        "`return 0;` inside `main` both ends the function and hands `0` back to the operating system as the process's exit status, where `0` conventionally means success and any nonzero value signals an error. A function declared with a non-`void` return type must return a value of that type on every path; a `void` function may use a bare `return;` to exit early or simply fall off the closing brace.\n\nReaching the end of `main` without an explicit `return` is one special case C allows to implicitly return `0`, but relying on that is considered poor style. Every other function must return explicitly if its type demands a value.",
       learnMore: 'https://en.cppreference.com/w/c/language/return',
       color: 'teal',
       side: 'right',
@@ -133,7 +133,7 @@ export const c: LanguageDef = {
       { code: '// Function prototype', refs: ['comment'] },
       { code: 'void print_message(char *msg);', refs: ['function'] },
       { code: '' },
-      { code: '// Main function – entry point', refs: ['comment'] },
+      { code: '// Main function - entry point', refs: ['comment'] },
       { code: 'int main(void) {', refs: ['function'] },
       {
         code: '    // Local variable declaration\n    int i;',

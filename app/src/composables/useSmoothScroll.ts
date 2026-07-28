@@ -7,7 +7,7 @@ import { onBeforeUnmount, onMounted, type Ref } from 'vue'
  * Wheel/trackpad scrolling glides with inertia instead of stepping, which softens
  * the sticky annotation cards' hard pin-and-release into a smooth float. Touch
  * scrolling is left native (mobile keeps its own momentum), and anyone who asks for
- * reduced motion gets the browser's default scroll — Lenis is simply never started.
+ * reduced motion gets the browser's default scroll. Lenis is simply never started.
  *
  * `wrapper` is the overflow container; `content` is its inner element that actually
  * holds the scrollable content (kept persistent so Lenis has a stable target even

@@ -17,7 +17,7 @@ export const typescript: LanguageDef = {
       title: 'Comment',
       body: 'Single-line (`//`) or block (`/* ... */`), ignored by the compiler.',
       details:
-        'A block comment starts with `/*` and ends at the first `*/`, and may span any number of lines in between; a single-line `//` comment is also available and runs to the end of the line. Both are stripped during compilation and have zero effect on the emitted JavaScript or on runtime behavior.\n\nBlock comments cannot be nested — the first `*/` closes the comment even if another `/*` appears inside it. A `/** ... */` doc comment placed directly above a declaration is picked up by editors as JSDoc, surfacing parameter hints and descriptions in autocomplete even though TypeScript itself ignores the tags for type-checking.',
+        'A block comment starts with `/*` and ends at the first `*/`, and may span any number of lines in between; a single-line `//` comment is also available and runs to the end of the line. Both are stripped during compilation and have zero effect on the emitted JavaScript or on runtime behavior.\n\nBlock comments cannot be nested, the first `*/` closes the comment even if another `/*` appears inside it. A `/** ... */` doc comment placed directly above a declaration is picked up by editors as JSDoc, surfacing parameter hints and descriptions in autocomplete even though TypeScript itself ignores the tags for type-checking.',
       learnMore: 'https://jsdoc.app/',
       color: 'slate',
       side: 'left',
@@ -27,7 +27,7 @@ export const typescript: LanguageDef = {
       title: 'Interface definition',
       body: 'Defines the shape of an object, for static type checking.',
       details:
-        'An `interface` names a set of properties (and their types) that a value must have to satisfy it — it exists purely at compile time and is erased entirely from the emitted JavaScript. TypeScript uses structural typing: any object with a compatible shape satisfies `Person`, whether or not it was ever declared to `implement` it, unlike the nominal typing of languages such as Java.\n\nInterfaces can extend other interfaces (`interface Employee extends Person`), be reopened later in the same scope to add more members (declaration merging), and are generally preferred over `type` aliases for object shapes that a class might `implement` or that library consumers might extend.',
+        'An `interface` names a set of properties (and their types) that a value must have to satisfy it. It exists purely at compile time and is erased entirely from the emitted JavaScript. TypeScript uses structural typing: any object with a compatible shape satisfies `Person`, whether or not it was ever declared to `implement` it, unlike the nominal typing of languages such as Java.\n\nInterfaces can extend other interfaces (`interface Employee extends Person`), be reopened later in the same scope to add more members (declaration merging), and are generally preferred over `type` aliases for object shapes that a class might `implement` or that library consumers might extend.',
       learnMore: 'https://www.typescriptlang.org/docs/handbook/2/objects.html',
       color: 'green',
       side: 'left',
@@ -37,7 +37,7 @@ export const typescript: LanguageDef = {
       title: 'Type annotation',
       body: 'Explicitly specifies the type of a variable, parameter, or return value (`: Type`).',
       details:
-        "A type annotation follows a colon after a name — `name: string`, `age: number` — and tells the compiler exactly what type is allowed there. The compiler checks every assignment and usage against the annotation and reports an error before the code ever runs, catching mismatches that would otherwise surface only as bugs in production JavaScript.\n\nAnnotations are purely a compile-time construct: `tsc` strips every `: Type` when it emits JavaScript, so there is no runtime cost and no way to inspect a variable's declared type at runtime. This is what makes TypeScript a strict superset rather than a different language — valid JavaScript is (almost always) valid TypeScript with the types simply left off.",
+        "A type annotation follows a colon after a name (`name: string`, `age: number`) and tells the compiler exactly what type is allowed there. The compiler checks every assignment and usage against the annotation and reports an error before the code ever runs, catching mismatches that would otherwise surface only as bugs in production JavaScript.\n\nAnnotations are purely a compile-time construct: `tsc` strips every `: Type` when it emits JavaScript, so there is no runtime cost and no way to inspect a variable's declared type at runtime. This is what makes TypeScript a strict superset rather than a different language. Valid JavaScript is (almost always) valid TypeScript with the types simply left off.",
       learnMore: 'https://www.typescriptlang.org/docs/handbook/2/basic-types.html',
       color: 'blue',
       side: 'right',
@@ -47,7 +47,7 @@ export const typescript: LanguageDef = {
       title: 'Class definition',
       body: 'Blueprint for objects, can implement interfaces (`class ... implements ...`).',
       details:
-        '`class Employee implements Person` declares a class whose instances must satisfy the `Person` interface — the compiler checks that every property `Person` requires is actually declared and initialized somewhere in `Employee`. A class can implement several interfaces at once, separated by commas, and can also `extend` exactly one base class to inherit its members.\n\nUnlike an interface, a class produces real runtime code: fields become properties on `this`, and methods are shared through the prototype chain exactly as in plain JavaScript. `implements` is checked only at compile time and leaves no trace in the emitted output — it never appears in the compiled JavaScript.',
+        '`class Employee implements Person` declares a class whose instances must satisfy the `Person` interface, the compiler checks that every property `Person` requires is actually declared and initialized somewhere in `Employee`. A class can implement several interfaces at once, separated by commas, and can also `extend` exactly one base class to inherit its members.\n\nUnlike an interface, a class produces real runtime code: fields become properties on `this`, and methods are shared through the prototype chain exactly as in plain JavaScript. `implements` is checked only at compile time and leaves no trace in the emitted output: it never appears in the compiled JavaScript.',
       learnMore: 'https://www.typescriptlang.org/docs/handbook/2/classes.html',
       color: 'purple',
       side: 'left',
@@ -67,7 +67,7 @@ export const typescript: LanguageDef = {
       title: 'Method definition',
       body: 'A function defined within a class.',
       details:
-        'A method is a function declared directly in a class body, such as `greet(): string { ... }`. Its return type is annotated after the parameter list, and the compiler verifies every `return` statement inside actually produces a value of that type — a mismatched or missing return is caught before the code runs.\n\nInside a method, `this` refers to the instance the method was called on, same as in plain JavaScript, and TypeScript adds no special syntax for that binding. Methods can carry their own visibility modifiers (`public`, `private`, `protected`) to control whether they are callable from outside the class.',
+        'A method is a function declared directly in a class body, such as `greet(): string { ... }`. Its return type is annotated after the parameter list, and the compiler verifies every `return` statement inside actually produces a value of that type. A mismatched or missing return is caught before the code runs.\n\nInside a method, `this` refers to the instance the method was called on, same as in plain JavaScript, and TypeScript adds no special syntax for that binding. Methods can carry their own visibility modifiers (`public`, `private`, `protected`) to control whether they are callable from outside the class.',
       learnMore: 'https://www.typescriptlang.org/docs/handbook/2/classes.html#methods',
       color: 'orange',
       side: 'left',
@@ -77,7 +77,7 @@ export const typescript: LanguageDef = {
       title: 'Template literal',
       body: 'String interpolation using backticks and interpolation placeholders.',
       details:
-        'A template literal is delimited by backticks instead of quotes, and any embedded interpolation placeholder is evaluated and converted to a string, then spliced into the result. This is identical to the JavaScript feature TypeScript compiles down to — template literals add no type-checking behavior of their own beyond checking that the interpolated expressions are well-typed.\n\nTemplate literals can also span multiple lines without escape sequences, unlike ordinary quoted strings. TypeScript separately offers "template literal types" (a type-level feature using the same backtick syntax) for building string literal types out of unions, but that is a distinct, compile-time-only concept from the runtime string interpolation shown here.',
+        'A template literal is delimited by backticks instead of quotes, and any embedded interpolation placeholder is evaluated and converted to a string, then spliced into the result. This is identical to the JavaScript feature TypeScript compiles down to, template literals add no type-checking behavior of their own beyond checking that the interpolated expressions are well-typed.\n\nTemplate literals can also span multiple lines without escape sequences, unlike ordinary quoted strings. TypeScript separately offers "template literal types" (a type-level feature using the same backtick syntax) for building string literal types out of unions, but that is a distinct, compile-time-only concept from the runtime string interpolation shown here.',
       learnMore:
         'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals',
       color: 'sky',
@@ -88,7 +88,7 @@ export const typescript: LanguageDef = {
       title: 'Function definition',
       body: 'A standalone function with type annotations.',
       details:
-        "`function logPerson(person: Person): void { ... }` annotates both the parameter's type and the function's return type. `void` signals the function returns no usable value; calling it for its return value is a type error, though the function may still execute a `return;` with no expression.\n\nBecause `person` is typed as `Person`, the compiler accepts any object with a compatible shape at the call site — an `Employee` instance qualifies automatically thanks to structural typing, with no explicit conversion or upcast needed. Optional parameters (`age?: number`) and default values (`age: number = 0`) can further refine a function's accepted arguments.",
+        "`function logPerson(person: Person): void { ... }` annotates both the parameter's type and the function's return type. `void` signals the function returns no usable value; calling it for its return value is a type error, though the function may still execute a `return;` with no expression.\n\nBecause `person` is typed as `Person`, the compiler accepts any object with a compatible shape at the call site: an `Employee` instance qualifies automatically thanks to structural typing, with no explicit conversion or upcast needed. Optional parameters (`age?: number`) and default values (`age: number = 0`) can further refine a function's accepted arguments.",
       learnMore: 'https://www.typescriptlang.org/docs/handbook/2/functions.html',
       color: 'red',
       side: 'left',
@@ -98,7 +98,7 @@ export const typescript: LanguageDef = {
       title: 'Variable declaration',
       body: 'Declares variables (`const`/`let`); type can be explicit or inferred.',
       details:
-        '`const` and `let` behave exactly as they do in JavaScript — block-scoped, with `const` preventing reassignment of the binding — but TypeScript layers static typing on top. `const employees: Employee[] = [...]` explicitly annotates the array element type, so pushing anything other than an `Employee` into it is a compile error.\n\nAn explicit annotation is not always necessary: TypeScript can often determine the type from the initializer alone, in which case adding one is redundant. Explicit annotations still earn their keep on empty arrays, function parameters, and public API boundaries, where there is no initializer for the compiler to infer from, or where being explicit documents intent.',
+        '`const` and `let` behave exactly as they do in JavaScript (block-scoped, with `const` preventing reassignment of the binding) but TypeScript layers static typing on top. `const employees: Employee[] = [...]` explicitly annotates the array element type, so pushing anything other than an `Employee` into it is a compile error.\n\nAn explicit annotation is not always necessary: TypeScript can often determine the type from the initializer alone, in which case adding one is redundant. Explicit annotations still earn their keep on empty arrays, function parameters, and public API boundaries, where there is no initializer for the compiler to infer from, or where being explicit documents intent.',
       learnMore:
         'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const',
       color: 'amber',
@@ -109,7 +109,7 @@ export const typescript: LanguageDef = {
       title: 'Control flow (loop)',
       body: 'Executes code repeatedly (`for...of`, `for`, `while`).',
       details:
-        "`for (const employee of employees)` iterates the values of an array (or any iterable), and because `employees` is typed `Employee[]`, the compiler already knows `employee` is an `Employee` inside the loop body — no manual cast is needed to call `employee.greet()`. `for`, `while`, and `do...while` are also available and behave exactly as in JavaScript.\n\n`break` exits the nearest loop and `continue` skips to the next iteration, identically to JavaScript. Iterating with `for...in` instead enumerates an object's keys as `string`s and is rarely used with typed arrays, since `for...of` already gives typed access to the elements themselves.",
+        "`for (const employee of employees)` iterates the values of an array (or any iterable), and because `employees` is typed `Employee[]`, the compiler already knows `employee` is an `Employee` inside the loop body. No manual cast is needed to call `employee.greet()`. `for`, `while`, and `do...while` are also available and behave exactly as in JavaScript.\n\n`break` exits the nearest loop and `continue` skips to the next iteration, identically to JavaScript. Iterating with `for...in` instead enumerates an object's keys as `string`s and is rarely used with typed arrays, since `for...of` already gives typed access to the elements themselves.",
       learnMore:
         'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of',
       color: 'rose',
@@ -130,7 +130,7 @@ export const typescript: LanguageDef = {
       title: 'Generics',
       body: 'Parameterize a type, function, or class over another type (`<T>`).',
       details:
-        'A generic like `function firstOf<T>(items: T[]): T` introduces a type parameter `T` that is filled in per call site — `firstOf(employees)` infers `T` as `Employee` without it being written explicitly. This lets a single function, interface, or class stay fully type-safe while working over many different element types, instead of duplicating the logic per type or falling back to `any`.\n\nGenerics can be constrained (`<T extends Person>`) to require the type argument satisfy some shape, and given defaults (`<T = string>`) for when no argument is supplied. Like all TypeScript types, generic parameters are erased at compile time — there is no runtime representation of `T`, so patterns like `new T()` or `typeof T` inside a generic function are not allowed.',
+        'A generic like `function firstOf<T>(items: T[]): T` introduces a type parameter `T` that is filled in per call site, `firstOf(employees)` infers `T` as `Employee` without it being written explicitly. This lets a single function, interface, or class stay fully type-safe while working over many different element types, instead of duplicating the logic per type or falling back to `any`.\n\nGenerics can be constrained (`<T extends Person>`) to require the type argument satisfy some shape, and given defaults (`<T = string>`) for when no argument is supplied. Like all TypeScript types, generic parameters are erased at compile time. There is no runtime representation of `T`, so patterns like `new T()` or `typeof T` inside a generic function are not allowed.',
       learnMore: 'https://www.typescriptlang.org/docs/handbook/2/generics.html',
       color: 'pink',
       side: 'right',

@@ -57,7 +57,7 @@ export const lua: LanguageDef = {
       title: 'Field (table element)',
       body: 'A key-value pair within a table.',
       details:
-        '`debug = true` and `max_users = 100` are fields: each associates a key (here, a string used as an identifier) with a value inside the enclosing table literal. Fields can be read or written afterward with dot syntax (`config.debug`) when the key is a valid identifier, or bracket syntax (`config["debug"]`) for arbitrary keys.\n\nA field can hold any Lua value, including another table, which is how `paths = {"/usr/bin", "/usr/local/bin"}` nests a list inside `config` — accessed later as `config.paths`. Assigning `nil` to a field removes it from the table entirely.',
+        '`debug = true` and `max_users = 100` are fields: each associates a key (here, a string used as an identifier) with a value inside the enclosing table literal. Fields can be read or written afterward with dot syntax (`config.debug`) when the key is a valid identifier, or bracket syntax (`config["debug"]`) for arbitrary keys.\n\nA field can hold any Lua value, including another table, which is how `paths = {"/usr/bin", "/usr/local/bin"}` nests a list inside `config`, accessed later as `config.paths`. Assigning `nil` to a field removes it from the table entirely.',
       learnMore: 'https://www.lua.org/manual/5.4/manual.html#3.4.9',
       color: 'teal',
       side: 'right',
@@ -97,7 +97,7 @@ export const lua: LanguageDef = {
       title: 'Control flow (conditional)',
       body: 'Executes code based on a condition (`if`, `elseif`, `else`).',
       details:
-        '`if config.debug then ... else ... end` branches on truthiness. Lua\'s notion of falsy is narrow: only `false` and `nil` are falsy, so `0` and `""` — unlike in many other languages — both count as true. Every `if` must be closed with a matching `end`.\n\n`elseif` chains additional conditions without nesting a nested `if` inside each `else`. Because `if` is a statement rather than an expression, Lua code that needs a conditional expression typically reaches for `condition and a or b`, which works as a ternary as long as `a` is never `false` or `nil`.',
+        '`if config.debug then ... else ... end` branches on truthiness. Lua\'s notion of falsy is narrow: only `false` and `nil` are falsy, so `0` and `""` (unlike in many other languages) both count as true. Every `if` must be closed with a matching `end`.\n\n`elseif` chains additional conditions without nesting a nested `if` inside each `else`. Because `if` is a statement rather than an expression, Lua code that needs a conditional expression typically reaches for `condition and a or b`, which works as a ternary as long as `a` is never `false` or `nil`.',
       learnMore: 'https://www.lua.org/manual/5.4/manual.html#3.3.4',
       color: 'orange',
       side: 'left',
@@ -107,7 +107,7 @@ export const lua: LanguageDef = {
       title: 'Function call',
       body: 'Executing a function, such as `print(...)` or a user-defined one.',
       details:
-        '`print(message)` and `greetUser("Alice")` both call a function by following its name with parentheses containing the arguments. `print` is part of the small set of global functions the standard library installs, writing its arguments to standard output separated by tabs — the everyday debugging tool in Lua, much like `console.log` elsewhere.\n\nA call can be used as a statement on its own (`greetUser("Alice")`) or as an expression whose result feeds something else, and since functions can return multiple values, a call like `return true` at the end of a function simply hands that value back to whoever called it.',
+        '`print(message)` and `greetUser("Alice")` both call a function by following its name with parentheses containing the arguments. `print` is part of the small set of global functions the standard library installs, writing its arguments to standard output separated by tabs: the everyday debugging tool in Lua, much like `console.log` elsewhere.\n\nA call can be used as a statement on its own (`greetUser("Alice")`) or as an expression whose result feeds something else, and since functions can return multiple values, a call like `return true` at the end of a function simply hands that value back to whoever called it.',
       learnMore: 'https://www.lua.org/manual/5.4/manual.html#3.4.10',
       color: 'rose',
       side: 'right',

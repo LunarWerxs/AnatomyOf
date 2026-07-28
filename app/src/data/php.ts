@@ -17,7 +17,7 @@ export const php: LanguageDef = {
       title: 'Opening tag',
       body: '`<?php` switches the parser from HTML text into PHP code mode.',
       details:
-        'Everything outside `<?php ... ?>` is sent to the output verbatim as plain text, which is what lets a `.php` file mix HTML markup and PHP logic in the same document — a template can drop in and out of PHP mode as many times as it needs. `<?php` (with the trailing space or newline) is the canonical form; the short echo tag `<?=` is also common for printing a single expression inline in a template.\n\nA shorthand `<?` tag exists but is disabled by default (`short_open_tag`) on most installations, so `<?php` is the only form that is guaranteed to work everywhere. Because the tag itself is what triggers execution, a stray `<?php` earlier in a file that was meant to stay HTML is a classic source of accidental code execution.',
+        'Everything outside `<?php ... ?>` is sent to the output verbatim as plain text, which is what lets a `.php` file mix HTML markup and PHP logic in the same document. A template can drop in and out of PHP mode as many times as it needs. `<?php` (with the trailing space or newline) is the canonical form; the short echo tag `<?=` is also common for printing a single expression inline in a template.\n\nA shorthand `<?` tag exists but is disabled by default (`short_open_tag`) on most installations, so `<?php` is the only form that is guaranteed to work everywhere. Because the tag itself is what triggers execution, a stray `<?php` earlier in a file that was meant to stay HTML is a classic source of accidental code execution.',
       learnMore: 'https://www.php.net/manual/en/language.basic-syntax.phptags.php',
       color: 'blue',
       side: 'left',
@@ -27,7 +27,7 @@ export const php: LanguageDef = {
       title: 'Comment',
       body: 'Single-line (`//`, `#`) or block (`/* ... */`), ignored by the interpreter.',
       details:
-        "`//` and `#` both start a comment that runs to the end of the line; `//` is the more idiomatic choice in most style guides, while `#` is more often seen in shell-style config or inline directives. A `/* ... */` block comments out everything between the delimiters, including multiple lines, but cannot be nested.\n\nDocumentation comments written as `/** ... */` (two asterisks) follow the same PHPDoc convention as Javadoc — tags like `@param` and `@return` describe a function's signature for humans and for IDE tooling, even though PHP itself never checks them at runtime.",
+        "`//` and `#` both start a comment that runs to the end of the line; `//` is the more idiomatic choice in most style guides, while `#` is more often seen in shell-style config or inline directives. A `/* ... */` block comments out everything between the delimiters, including multiple lines, but cannot be nested.\n\nDocumentation comments written as `/** ... */` (two asterisks) follow the same PHPDoc convention as Javadoc: tags like `@param` and `@return` describe a function's signature for humans and for IDE tooling, even though PHP itself never checks them at runtime.",
       learnMore: 'https://www.php.net/manual/en/language.basic-syntax.comments.php',
       color: 'slate',
       side: 'right',
@@ -47,7 +47,7 @@ export const php: LanguageDef = {
       title: 'Use statement',
       body: '`use` imports a class, function, or namespace so it can be referenced by a short name.',
       details:
-        '`use DateTime;` (or `use App\\Services\\Mailer;`) lets the rest of the file refer to `DateTime` instead of its fully qualified name. Without the import, code outside the global namespace would have to write `\\DateTime` — a leading backslash forcing PHP to look in the root namespace instead of the current one.\n\n`use ... as Alias` renames an imported symbol when two libraries export something with the same short name, and a single file can carry as many `use` statements as it needs, conventionally grouped just below the `namespace` line.',
+        '`use DateTime;` (or `use App\\Services\\Mailer;`) lets the rest of the file refer to `DateTime` instead of its fully qualified name. Without the import, code outside the global namespace would have to write `\\DateTime`, a leading backslash forcing PHP to look in the root namespace instead of the current one.\n\n`use ... as Alias` renames an imported symbol when two libraries export something with the same short name, and a single file can carry as many `use` statements as it needs, conventionally grouped just below the `namespace` line.',
       learnMore: 'https://www.php.net/manual/en/language.namespaces.importing.php',
       color: 'teal',
       side: 'right',
@@ -57,7 +57,7 @@ export const php: LanguageDef = {
       title: 'Class definition',
       body: 'The blueprint for objects, defined with `class ... { }`.',
       details:
-        'A `class` block defines a new type made up of properties (data) and methods (behavior). PHP is thoroughly object-oriented from PHP 5 onward, though unlike Java it does not require one class per file or a filename match — a single file can define several classes, functions, and top-level statements together.\n\nClasses support single inheritance (`class Admin extends User`) and can implement any number of interfaces (`implements Countable, ArrayAccess`). Traits (`use SomeTrait;` inside the class body) offer a form of horizontal code reuse for when inheritance alone will not fit.',
+        'A `class` block defines a new type made up of properties (data) and methods (behavior). PHP is thoroughly object-oriented from PHP 5 onward, though unlike Java it does not require one class per file or a filename match. A single file can define several classes, functions, and top-level statements together.\n\nClasses support single inheritance (`class Admin extends User`) and can implement any number of interfaces (`implements Countable, ArrayAccess`). Traits (`use SomeTrait;` inside the class body) offer a form of horizontal code reuse for when inheritance alone will not fit.',
       learnMore: 'https://www.php.net/manual/en/language.oop5.basic.php',
       color: 'green',
       side: 'left',
@@ -67,7 +67,7 @@ export const php: LanguageDef = {
       title: 'Property (class variable)',
       body: 'Data stored within an object, declared with a visibility modifier.',
       details:
-        'A property declared in the class body, like `private DateTime $createdAt;`, holds state that belongs to each object created from the class. `public`, `protected`, and `private` control whether outside code, subclasses, or only the class itself can read and write the property directly.\n\nAs of PHP 7.4+, properties can carry an optional type declaration (`string $name`), which the engine enforces at assignment time — a mismatched type throws a `TypeError` rather than silently coercing. Marking a property `readonly` (PHP 8.1+) additionally forbids changing it after it is first set.',
+        'A property declared in the class body, like `private DateTime $createdAt;`, holds state that belongs to each object created from the class. `public`, `protected`, and `private` control whether outside code, subclasses, or only the class itself can read and write the property directly.\n\nAs of PHP 7.4+, properties can carry an optional type declaration (`string $name`), which the engine enforces at assignment time, a mismatched type throws a `TypeError` rather than silently coercing. Marking a property `readonly` (PHP 8.1+) additionally forbids changing it after it is first set.',
       learnMore: 'https://www.php.net/manual/en/language.oop5.properties.php',
       color: 'purple',
       side: 'right',
@@ -77,7 +77,7 @@ export const php: LanguageDef = {
       title: 'Constructor method',
       body: '`__construct` runs automatically when a new object is created with `new`.',
       details:
-        '`__construct` is a "magic method" — its double-underscore name is reserved by the engine and called for you rather than invoked directly. `new User("Alice")` allocates the object, then immediately calls `__construct("Alice")` on it, which is the conventional place to assign incoming arguments to properties, typically via `$this`.\n\nPHP 8 also supports constructor property promotion, letting `public function __construct(private string $name) {}` declare and assign a property in one line without a separate property declaration or an explicit `$this->name = $name;` body statement.',
+        '`__construct` is a "magic method". Its double-underscore name is reserved by the engine and called for you rather than invoked directly. `new User("Alice")` allocates the object, then immediately calls `__construct("Alice")` on it, which is the conventional place to assign incoming arguments to properties, typically via `$this`.\n\nPHP 8 also supports constructor property promotion, letting `public function __construct(private string $name) {}` declare and assign a property in one line without a separate property declaration or an explicit `$this->name = $name;` body statement.',
       learnMore: 'https://www.php.net/manual/en/language.oop5.decon.php',
       color: 'orange',
       side: 'left',
@@ -97,7 +97,7 @@ export const php: LanguageDef = {
       title: 'Variable',
       body: 'Starts with `$`, dynamically typed, no declaration keyword needed.',
       details:
-        "Every PHP variable name is prefixed with a sigil, `$`, which is what lets the engine tell a bare word like a function name apart from a variable reference at a glance. Variables need no declaration; assigning to `$alice` the first time creates it, and its type is whatever value it currently holds rather than something fixed up front.\n\nVariables are function-scoped by default — a variable created inside a function is invisible outside it, and a global variable is likewise invisible inside a function unless explicitly imported with `global $name;` or captured by a closure's `use (...)` clause.",
+        "Every PHP variable name is prefixed with a sigil, `$`, which is what lets the engine tell a bare word like a function name apart from a variable reference at a glance. Variables need no declaration; assigning to `$alice` the first time creates it, and its type is whatever value it currently holds rather than something fixed up front.\n\nVariables are function-scoped by default: a variable created inside a function is invisible outside it, and a global variable is likewise invisible inside a function unless explicitly imported with `global $name;` or captured by a closure's `use (...)` clause.",
       learnMore: 'https://www.php.net/manual/en/language.variables.basics.php',
       color: 'amber',
       side: 'left',
@@ -107,7 +107,7 @@ export const php: LanguageDef = {
       title: 'Object instantiation',
       body: 'Creates a new instance of a class with `new`.',
       details:
-        '`new User("Alice")` allocates a new object, runs its constructor with the given arguments, and evaluates to a reference to that object. Every object lives on the heap and is accessed through a reference — assigning `$bob = $alice` copies the reference, so both variables point at the same underlying object, while `clone $alice` produces an independent copy.\n\nBuilt-in classes are instantiated the same way as user-defined ones, as in `new DateTime()` for the current date and time. PHP\'s garbage collector reclaims an object automatically once nothing references it any longer; there is no manual `free`.',
+        '`new User("Alice")` allocates a new object, runs its constructor with the given arguments, and evaluates to a reference to that object. Every object lives on the heap and is accessed through a reference: assigning `$bob = $alice` copies the reference, so both variables point at the same underlying object, while `clone $alice` produces an independent copy.\n\nBuilt-in classes are instantiated the same way as user-defined ones, as in `new DateTime()` for the current date and time. PHP\'s garbage collector reclaims an object automatically once nothing references it any longer; there is no manual `free`.',
       learnMore: 'https://www.php.net/manual/en/language.oop5.basic.php#language.oop5.basic.new',
       color: 'red',
       side: 'right',

@@ -17,7 +17,7 @@ export const kotlin: LanguageDef = {
       title: 'Package declaration',
       body: 'Defines the namespace for the file.',
       details:
-        "A `package` statement, when present, is conventionally the first line of the file. Unlike Java, Kotlin does not require the package to match the directory structure on disk, though most build tooling and style guides still expect it to for consistency.\n\nBecause Kotlin compiles to JVM bytecode, packages interoperate directly with Java's package system — a Kotlin file in `com.example.kotlin` and a Java class in the same package can reference each other without any import at all.",
+        "A `package` statement, when present, is conventionally the first line of the file. Unlike Java, Kotlin does not require the package to match the directory structure on disk, though most build tooling and style guides still expect it to for consistency.\n\nBecause Kotlin compiles to JVM bytecode, packages interoperate directly with Java's package system: a Kotlin file in `com.example.kotlin` and a Java class in the same package can reference each other without any import at all.",
       learnMore: 'https://kotlinlang.org/docs/packages.html',
       color: 'slate',
       side: 'left',
@@ -27,7 +27,7 @@ export const kotlin: LanguageDef = {
       title: 'Import statement',
       body: 'Brings a class or function into scope.',
       details:
-        '`import java.time.LocalDate` pulls in a class the same way Java does — Kotlin runs on the JVM and can import any Java standard library class or third-party JAR directly, with no wrapper or translation layer required.\n\nKotlin also lets you import top-level functions and properties, not just classes, since a `.kt` file can declare functions outside of any class. A wildcard import (`import java.util.*`) and import aliases (`import Foo as Bar`) are both supported.',
+        '`import java.time.LocalDate` pulls in a class the same way Java does. Kotlin runs on the JVM and can import any Java standard library class or third-party JAR directly, with no wrapper or translation layer required.\n\nKotlin also lets you import top-level functions and properties, not just classes, since a `.kt` file can declare functions outside of any class. A wildcard import (`import java.util.*`) and import aliases (`import Foo as Bar`) are both supported.',
       learnMore: 'https://kotlinlang.org/docs/packages.html#imports',
       color: 'blue',
       side: 'left',
@@ -47,7 +47,7 @@ export const kotlin: LanguageDef = {
       title: 'Interface',
       body: 'Defines a contract; can include default method implementations.',
       details:
-        'A Kotlin `interface` can declare abstract members as well as methods with a default body, like `greet` here — any implementing class inherits that behavior unless it overrides it. This differs from plain Java interfaces prior to Java 8, though modern Java also supports default methods now.\n\nAn interface can be implemented inline with an anonymous object, as in `object : Greeter {}`, which creates a one-off instance without declaring a named class. Kotlin has no `new` keyword — instantiating any type, named class or anonymous object, looks the same: the type name followed by parentheses or, for anonymous objects, the `object : Type { ... }` syntax.',
+        'A Kotlin `interface` can declare abstract members as well as methods with a default body, like `greet` here. Any implementing class inherits that behavior unless it overrides it. This differs from plain Java interfaces prior to Java 8, though modern Java also supports default methods now.\n\nAn interface can be implemented inline with an anonymous object, as in `object : Greeter {}`, which creates a one-off instance without declaring a named class. Kotlin has no `new` keyword: instantiating any type, named class or anonymous object, looks the same: the type name followed by parentheses or, for anonymous objects, the `object : Type { ... }` syntax.',
       learnMore: 'https://kotlinlang.org/docs/interfaces.html',
       color: 'orange',
       side: 'right',
@@ -57,7 +57,7 @@ export const kotlin: LanguageDef = {
       title: 'Property',
       body: 'A class-level variable; `val` is read-only, `var` is mutable.',
       details:
-        'Properties declared with `val` are read-only after initialization — assigning to them again is a compile error — while `var` properties can be reassigned. Kotlin favors `val` by default since immutable data is easier to reason about and safer to share across threads.\n\nUnlike Java fields, Kotlin properties are not just storage: they implicitly generate a getter (and a setter for `var`), which you can customize with `get()`/`set()` blocks when a property needs computed or validated access, all without changing how callers use the property.',
+        'Properties declared with `val` are read-only after initialization (assigning to them again is a compile error) while `var` properties can be reassigned. Kotlin favors `val` by default since immutable data is easier to reason about and safer to share across threads.\n\nUnlike Java fields, Kotlin properties are not just storage: they implicitly generate a getter (and a setter for `var`), which you can customize with `get()`/`set()` blocks when a property needs computed or validated access, all without changing how callers use the property.',
       learnMore: 'https://kotlinlang.org/docs/properties.html',
       color: 'purple',
       side: 'right',
@@ -67,7 +67,7 @@ export const kotlin: LanguageDef = {
       title: 'String template',
       body: 'Embeds variables or expressions directly inside a string.',
       details:
-        'Kotlin string templates start with `$` inside a double-quoted string. The short form, `$name`, substitutes a simple variable directly. For anything more than a bare identifier — a property access, a function call, an expression — the braces form `${expression}` is required, evaluating the enclosed code and inserting its string representation.\n\nTemplates avoid the clutter of manual string concatenation (`"Hello, " + user.name + "!"`) and are evaluated at compile time into efficient `StringBuilder` calls under the hood, so there is no runtime parsing cost beyond ordinary string building.',
+        'Kotlin string templates start with `$` inside a double-quoted string. The short form, `$name`, substitutes a simple variable directly. For anything more than a bare identifier (a property access, a function call, an expression) the braces form `${expression}` is required, evaluating the enclosed code and inserting its string representation.\n\nTemplates avoid the clutter of manual string concatenation (`"Hello, " + user.name + "!"`) and are evaluated at compile time into efficient `StringBuilder` calls under the hood, so there is no runtime parsing cost beyond ordinary string building.',
       learnMore: 'https://kotlinlang.org/docs/strings.html#string-templates',
       color: 'pink',
       side: 'right',
@@ -77,7 +77,7 @@ export const kotlin: LanguageDef = {
       title: 'Top-level function',
       body: 'A function defined outside of any class using `fun`.',
       details:
-        'Kotlin does not require every function to live inside a class. `fun getCurrentYear(): Int = LocalDate.now().year` is declared directly at file scope and can be called from anywhere the file is imported, unlike Java where even a single static utility method must be wrapped in some class.\n\nWhen a function\'s entire body is a single expression, the block braces and explicit `return` can be dropped in favor of `= expression` — an "expression body." The return type (`Int` here) can often be omitted too, since Kotlin infers it from the expression, though writing it explicitly is common for public APIs.',
+        'Kotlin does not require every function to live inside a class. `fun getCurrentYear(): Int = LocalDate.now().year` is declared directly at file scope and can be called from anywhere the file is imported, unlike Java where even a single static utility method must be wrapped in some class.\n\nWhen a function\'s entire body is a single expression, the block braces and explicit `return` can be dropped in favor of `= expression`: an "expression body." The return type (`Int` here) can often be omitted too, since Kotlin infers it from the expression, though writing it explicitly is common for public APIs.',
       learnMore: 'https://kotlinlang.org/docs/functions.html',
       color: 'teal',
       side: 'left',
@@ -87,7 +87,7 @@ export const kotlin: LanguageDef = {
       title: 'Variable declaration',
       body: '`val` (immutable) or `var` (mutable); the type is usually inferred.',
       details:
-        'Inside a function body, `val alice = User("Alice", 101)` declares a local binding whose type — `User` — is inferred from the right-hand side, so it rarely needs to be written out. As with properties, `val` locals can only be assigned once, while `var` locals can be reassigned freely.\n\nDefaulting to `val` is idiomatic Kotlin: the compiler will flag a `var` that is never reassigned, nudging code toward immutability wherever it is not actually needed. Explicit types are still allowed and sometimes necessary, e.g. `val count: Long = 0`.',
+        'Inside a function body, `val alice = User("Alice", 101)` declares a local binding whose type (`User`) is inferred from the right-hand side, so it rarely needs to be written out. As with properties, `val` locals can only be assigned once, while `var` locals can be reassigned freely.\n\nDefaulting to `val` is idiomatic Kotlin: the compiler will flag a `var` that is never reassigned, nudging code toward immutability wherever it is not actually needed. Explicit types are still allowed and sometimes necessary, e.g. `val count: Long = 0`.',
       learnMore: 'https://kotlinlang.org/docs/basic-syntax.html#variables',
       color: 'sky',
       side: 'left',
@@ -95,9 +95,9 @@ export const kotlin: LanguageDef = {
     {
       id: 'object-instantiation',
       title: 'Object instantiation',
-      body: 'Creating an instance — Kotlin has no `new` keyword.',
+      body: 'Creating an instance. Kotlin has no `new` keyword.',
       details:
-        'Where Java writes `new User("Alice", 101)`, Kotlin drops the `new` keyword entirely: `User("Alice", 101)` alone constructs the instance, because a class\'s primary constructor is invoked exactly like a function call on the class name.\n\nThe same rule applies to anonymous objects (`object : Greeter {}`) and to Java classes imported into Kotlin — construction always reads as "type name, then parentheses," with no separate keyword to mark the operation.',
+        'Where Java writes `new User("Alice", 101)`, Kotlin drops the `new` keyword entirely: `User("Alice", 101)` alone constructs the instance, because a class\'s primary constructor is invoked exactly like a function call on the class name.\n\nThe same rule applies to anonymous objects (`object : Greeter {}`) and to Java classes imported into Kotlin. Construction always reads as "type name, then parentheses," with no separate keyword to mark the operation.',
       learnMore: 'https://kotlinlang.org/docs/classes.html#creating-instances-of-classes',
       color: 'indigo',
       side: 'right',
@@ -107,7 +107,7 @@ export const kotlin: LanguageDef = {
       title: 'Main function',
       body: 'The entry point for a Kotlin application (`fun main()`).',
       details:
-        'The JVM starts a Kotlin program by looking for a top-level `fun main()`, optionally taking `args: Array<String>` for command-line arguments. Unlike Java, `main` needs no enclosing class, no `public`/`static` modifiers, and no return type — the compiler generates the equivalent JVM entry point behind the scenes.\n\nBecause Kotlin targets the JVM (and also JS and Native via Kotlin Multiplatform), the same source can compile to a `.jar` runnable with `java -jar`, or to other targets entirely, with `main` serving as the entry point in each case.',
+        'The JVM starts a Kotlin program by looking for a top-level `fun main()`, optionally taking `args: Array<String>` for command-line arguments. Unlike Java, `main` needs no enclosing class, no `public`/`static` modifiers, and no return type, the compiler generates the equivalent JVM entry point behind the scenes.\n\nBecause Kotlin targets the JVM (and also JS and Native via Kotlin Multiplatform), the same source can compile to a `.jar` runnable with `java -jar`, or to other targets entirely, with `main` serving as the entry point in each case.',
       learnMore: 'https://kotlinlang.org/docs/basic-syntax.html#program-entry-point',
       color: 'amber',
       side: 'right',
@@ -117,7 +117,7 @@ export const kotlin: LanguageDef = {
       title: 'Null safety',
       body: 'The type system distinguishes nullable (`Type?`) from non-null types.',
       details:
-        'A regular type like `String` can never hold `null` — the compiler rejects the assignment at compile time. To permit `null`, the type must be marked nullable with a trailing `?`, as in `name: String?`, which forces every use of `name` to handle the `null` case explicitly before treating it as a plain `String`.\n\nThe safe-call operator (`user?.name`) evaluates to `null` instead of throwing if `user` is `null`, and the Elvis operator (`user?.name ?: "Unknown"`) supplies a fallback value in that case. This design eliminates most `NullPointerException`s — one of Kotlin\'s most-cited advantages over Java — by catching missing-value bugs at compile time rather than at runtime.',
+        'A regular type like `String` can never hold `null`, the compiler rejects the assignment at compile time. To permit `null`, the type must be marked nullable with a trailing `?`, as in `name: String?`, which forces every use of `name` to handle the `null` case explicitly before treating it as a plain `String`.\n\nThe safe-call operator (`user?.name`) evaluates to `null` instead of throwing if `user` is `null`, and the Elvis operator (`user?.name ?: "Unknown"`) supplies a fallback value in that case. This design eliminates most `NullPointerException`s (one of Kotlin\'s most-cited advantages over Java) by catching missing-value bugs at compile time rather than at runtime.',
       learnMore: 'https://kotlinlang.org/docs/null-safety.html',
       color: 'rose',
       side: 'left',
@@ -127,7 +127,7 @@ export const kotlin: LanguageDef = {
       title: 'Control flow',
       body: 'Loops (`for`, `while`) and `if`/`when` used as expressions.',
       details:
-        '`for (i in 1..3)` iterates over a range rather than counting indices manually. More distinctively, Kotlin\'s `if` can be used as an expression that produces a value, as in `val status = if (getCurrentYear() > 2025) "Future" else "Present"` — there is no separate ternary operator because `if`/`else` already covers that role.\n\n`when` extends the same idea to multi-branch matching, replacing the `switch` statement with something closer to Python\'s `match`: `when (x) { 1 -> "one"; else -> "other" }` can also be used as an expression and supports arbitrary conditions per branch, not just constant equality.',
+        '`for (i in 1..3)` iterates over a range rather than counting indices manually. More distinctively, Kotlin\'s `if` can be used as an expression that produces a value, as in `val status = if (getCurrentYear() > 2025) "Future" else "Present"`. There is no separate ternary operator because `if`/`else` already covers that role.\n\n`when` extends the same idea to multi-branch matching, replacing the `switch` statement with something closer to Python\'s `match`: `when (x) { 1 -> "one"; else -> "other" }` can also be used as an expression and supports arbitrary conditions per branch, not just constant equality.',
       learnMore: 'https://kotlinlang.org/docs/control-flow.html',
       color: 'red',
       side: 'right',

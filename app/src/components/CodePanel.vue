@@ -72,7 +72,7 @@ function rangeSpan(annotation: ResolvedAnnotation): number {
   return annotation.ranges.reduce((sum, [start, end]) => sum + (end - start + 1), 0)
 }
 
-/** Innermost (smallest) annotation covering each line — used for hover + gutter markers. */
+/** Innermost (smallest) annotation covering each line, used for hover + gutter markers. */
 const lineAnnotation = computed(() => {
   const map = new Map<number, ResolvedAnnotation>()
   for (const annotation of props.annotations) {

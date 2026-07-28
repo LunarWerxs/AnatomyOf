@@ -1,18 +1,18 @@
 /**
  * Offline data lint for the language definitions in src/data. Two guards:
  *
- *   1. Foreign comment syntax — flags an example line that uses a comment
+ *   1. Foreign comment syntax. Flags an example line that uses a comment
  *      delimiter belonging to a DIFFERENT language. This is the class of bug
  *      where the R example was pasted with Julia's block-comment delimiters
  *      (hash-equals ... equals-hash), which R has no equivalent for, and which
  *      contradicted R's own "no native block comment" annotation. The table
- *      below is deliberately conservative — only high-confidence,
- *      language-specific delimiters, each with an allow list — so it stays
+ *      below is deliberately conservative: only high-confidence,
+ *      language-specific delimiters, each with an allow list, so it stays
  *      false-positive-free. Delimiters shared across many languages (line and
  *      C-style block comments, or a lone hash) are NOT reliable signals and are
  *      intentionally omitted.
  *
- *   2. Definition integrity — annotation ids must be unique, every `refs` entry
+ *   2. Definition integrity. Annotation ids must be unique, every `refs` entry
  *      must name an annotation in the same entry, every annotation must be used,
  *      and language examples must provide both non-empty variants.
  *
@@ -79,7 +79,7 @@ for (const lang of languages) {
     annotationIds.add(a.id)
   }
 
-  // concept mockups render a live UI, not code examples — nothing more to lint
+  // concept mockups render a live UI, not code examples, nothing more to lint
   if (!lang.examples) continue
 
   for (const variant of ['minimal', 'verbose'] as const) {
@@ -118,7 +118,7 @@ for (const lang of languages) {
             findings.push({
               entry: lang.name,
               where: `${variant} segment ${i}`,
-              detail: `looks like ${rule.label}, foreign to ${lang.name} — "${line}"`,
+              detail: `looks like ${rule.label}, foreign to ${lang.name}: "${line}"`,
             })
           }
         }

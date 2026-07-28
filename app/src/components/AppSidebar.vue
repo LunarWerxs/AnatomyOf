@@ -203,7 +203,7 @@ function toggleTheme() {
       href="https://lunarwerx.com/"
       target="_blank"
       rel="noopener noreferrer"
-      title="LunarWerx Studios — Digital Dreams & AI Solutions"
+      title="LunarWerx Studios, Digital Dreams & AI Solutions"
       class="group flex items-center gap-2 border-t px-4 py-2.5 transition-colors duration-300 hover:bg-zinc-50 dark:hover:bg-zinc-900"
       :class="
         scrollAtBottom ? 'border-transparent' : 'border-zinc-200 dark:border-zinc-800'

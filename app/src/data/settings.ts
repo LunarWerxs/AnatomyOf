@@ -14,7 +14,7 @@ export const settings: LanguageDef = {
   officialUrl: 'https://developer.apple.com/design/human-interface-guidelines/settings',
   shikiLang: 'html',
   mockup: 'settings',
-  note: 'Well-designed settings pages share a common anatomy — grouped sections, labelled controls, and a clear save action — that helps users find and change options with confidence.',
+  note: 'Well-designed settings pages share a common anatomy (grouped sections, labelled controls, and a clear save action) that helps users find and change options with confidence.',
   annotations: [
     {
       id: 'header',
@@ -41,7 +41,7 @@ export const settings: LanguageDef = {
       title: 'Settings group',
       body: 'A titled section that clusters related options together.',
       details:
-        'Grouping related settings under a heading (e.g. "Profile", "Notifications") reduces cognitive load — users scan headings, not individual rows. Each group is usually a `<section>` with its own heading.\n\nGood grouping mirrors the user’s mental model, not the database schema. Keep groups focused; if one grows huge, it probably wants to become its own category.',
+        'Grouping related settings under a heading (e.g. "Profile", "Notifications") reduces cognitive load: users scan headings, not individual rows. Each group is usually a `<section>` with its own heading.\n\nGood grouping mirrors the user’s mental model, not the database schema. Keep groups focused; if one grows huge, it probably wants to become its own category.',
       learnMore: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section',
       color: 'teal',
       side: 'right',
@@ -51,7 +51,7 @@ export const settings: LanguageDef = {
       title: 'Setting row',
       body: 'A single option: a label paired with its control.',
       details:
-        'The atomic unit of a settings page is a row: a descriptive label on one side and the control that changes it on the other. Associating the `<label>` with its control (via `for`/`id`) makes the whole label clickable and readable by screen readers.\n\nConsistent alignment across rows — labels left, controls right — lets users scan down the column and find what they need fast.',
+        'The atomic unit of a settings page is a row: a descriptive label on one side and the control that changes it on the other. Associating the `<label>` with its control (via `for`/`id`) makes the whole label clickable and readable by screen readers.\n\nConsistent alignment across rows (labels left, controls right) lets users scan down the column and find what they need fast.',
       learnMore: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label',
       color: 'purple',
       side: 'left',
@@ -61,7 +61,7 @@ export const settings: LanguageDef = {
       title: 'Toggle / switch',
       body: 'An on/off control for a single binary setting.',
       details:
-        'A toggle switch represents an immediate binary choice — on or off — and by convention applies the change instantly, without a separate save. Its state should be obvious at a glance from color and knob position.\n\nUse toggles for independent on/off settings; use checkboxes when options are part of a list being submitted together, and radio buttons for mutually exclusive choices.',
+        'A toggle switch represents an immediate binary choice (on or off) and by convention applies the change instantly, without a separate save. Its state should be obvious at a glance from color and knob position.\n\nUse toggles for independent on/off settings; use checkboxes when options are part of a list being submitted together, and radio buttons for mutually exclusive choices.',
       learnMore: 'https://m3.material.io/components/switch/guidelines',
       color: 'green',
       side: 'right',
@@ -71,7 +71,7 @@ export const settings: LanguageDef = {
       title: 'Dropdown / select',
       body: 'A control for choosing one option from a fixed list.',
       details:
-        'A select (dropdown) is right when there is one choice among several known, mutually exclusive options — a language, a timezone, a plan. It stays compact by hiding the options until opened.\n\nIf there are only two or three choices, inline radio buttons are often clearer since they show all options at once. Always provide a sensible default.',
+        'A select (dropdown) is right when there is one choice among several known, mutually exclusive options: a language, a timezone, a plan. It stays compact by hiding the options until opened.\n\nIf there are only two or three choices, inline radio buttons are often clearer since they show all options at once. Always provide a sensible default.',
       learnMore: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select',
       color: 'indigo',
       side: 'right',
@@ -92,7 +92,7 @@ export const settings: LanguageDef = {
       title: 'Danger zone',
       body: 'A visually separated area for destructive, irreversible actions.',
       details:
-        'Destructive actions — delete account, revoke access, reset data — are corralled into a visually distinct "danger zone", usually with red accents and separation from everyday settings, so they are not triggered by accident.\n\nPair them with a confirmation step (a dialog or a typed confirmation) because they are hard or impossible to undo. Distance and color together signal "think before you click".',
+        'Destructive actions (delete account, revoke access, reset data) are corralled into a visually distinct "danger zone", usually with red accents and separation from everyday settings, so they are not triggered by accident.\n\nPair them with a confirmation step (a dialog or a typed confirmation) because they are hard or impossible to undo. Distance and color together signal "think before you click".',
       learnMore: 'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog',
       color: 'red',
       side: 'left',

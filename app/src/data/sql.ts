@@ -27,7 +27,7 @@ export const sql: LanguageDef = {
       title: 'CREATE TABLE',
       body: "Data Definition Language (DDL) statement that defines a table's shape.",
       details:
-        '`CREATE TABLE` is DDL (Data Definition Language): it describes structure rather than manipulating rows. Each column is given a name and a data type (`INTEGER`, `VARCHAR(n)`, `DECIMAL(p,s)`, `DATE`, `TIMESTAMP`, etc.), and the engine enforces that type on every value stored in it.\n\nDDL statements are typically auto-committed and, in most engines, cannot be rolled back as easily as ordinary data changes — which is part of why schema changes usually go through migration tooling rather than being run ad hoc.',
+        '`CREATE TABLE` is DDL (Data Definition Language): it describes structure rather than manipulating rows. Each column is given a name and a data type (`INTEGER`, `VARCHAR(n)`, `DECIMAL(p,s)`, `DATE`, `TIMESTAMP`, etc.), and the engine enforces that type on every value stored in it.\n\nDDL statements are typically auto-committed and, in most engines, cannot be rolled back as easily as ordinary data changes: which is part of why schema changes usually go through migration tooling rather than being run ad hoc.',
       learnMore: 'https://en.wikipedia.org/wiki/Data_definition_language',
       color: 'blue',
       side: 'right',
@@ -67,7 +67,7 @@ export const sql: LanguageDef = {
       title: 'SELECT / ORDER BY / LIMIT',
       body: 'Chooses which columns to return, how to sort them, and how many rows to keep.',
       details:
-        "`SELECT` names the columns (or expressions, like `COUNT(o.order_id) AS order_count`) a query returns; `SELECT *` returns every column but is generally avoided in application code since it breaks silently when the schema changes. `ORDER BY` sorts the result set, and `LIMIT` (or `FETCH FIRST` / `TOP`, depending on dialect) caps how many rows come back.\n\nThese clauses run near the end of a query's logical evaluation order, after filtering and grouping — the engine computes the full result set conceptually, then sorts and trims it, however the query optimizer actually chooses to execute it under the hood.",
+        "`SELECT` names the columns (or expressions, like `COUNT(o.order_id) AS order_count`) a query returns; `SELECT *` returns every column but is generally avoided in application code since it breaks silently when the schema changes. `ORDER BY` sorts the result set, and `LIMIT` (or `FETCH FIRST` / `TOP`, depending on dialect) caps how many rows come back.\n\nThese clauses run near the end of a query's logical evaluation order, after filtering and grouping: the engine computes the full result set conceptually, then sorts and trims it, however the query optimizer actually chooses to execute it under the hood.",
       learnMore: 'https://www.postgresql.org/docs/current/sql-select.html',
       color: 'teal',
       side: 'right',
@@ -77,7 +77,7 @@ export const sql: LanguageDef = {
       title: 'JOIN',
       body: 'Combines rows from two tables based on a related column.',
       details:
-        '`INNER JOIN ... ON` matches rows from two tables where the join condition holds, discarding rows with no match on either side. `LEFT JOIN` keeps every row from the left table regardless of a match, filling unmatched columns with `NULL` — useful for "show me all customers, even ones with no orders" queries.\n\nTable aliases (`FROM customers AS c`) keep multi-table queries readable and are required once the same table is joined to itself. A missing or wrong `ON` condition silently produces a cross join\'s worth of extra rows, which is a common source of duplicated totals.',
+        '`INNER JOIN ... ON` matches rows from two tables where the join condition holds, discarding rows with no match on either side. `LEFT JOIN` keeps every row from the left table regardless of a match, filling unmatched columns with `NULL`: useful for "show me all customers, even ones with no orders" queries.\n\nTable aliases (`FROM customers AS c`) keep multi-table queries readable and are required once the same table is joined to itself. A missing or wrong `ON` condition silently produces a cross join\'s worth of extra rows, which is a common source of duplicated totals.',
       learnMore: 'https://en.wikipedia.org/wiki/Join_(SQL)',
       color: 'purple',
       side: 'left',
@@ -87,7 +87,7 @@ export const sql: LanguageDef = {
       title: 'WHERE',
       body: 'Filters rows before grouping, using comparison and logical operators.',
       details:
-        '`WHERE` filters individual rows before any grouping happens, using operators like `=`, `<>`, `>`, `IN`, `LIKE`, and `BETWEEN`, combined with `AND`/`OR`. It cannot reference aggregate functions like `SUM(...)` directly — that restriction is what `HAVING` exists for.\n\nBecause `WHERE` runs early in logical evaluation, filtering here (rather than after a `JOIN` produces a huge intermediate result) is usually what lets the query planner use an index instead of scanning every row.',
+        '`WHERE` filters individual rows before any grouping happens, using operators like `=`, `<>`, `>`, `IN`, `LIKE`, and `BETWEEN`, combined with `AND`/`OR`. It cannot reference aggregate functions like `SUM(...)` directly, that restriction is what `HAVING` exists for.\n\nBecause `WHERE` runs early in logical evaluation, filtering here (rather than after a `JOIN` produces a huge intermediate result) is usually what lets the query planner use an index instead of scanning every row.',
       learnMore: 'https://www.postgresql.org/docs/current/sql-select.html',
       color: 'orange',
       side: 'right',

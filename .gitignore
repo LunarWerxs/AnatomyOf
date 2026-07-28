@@ -4,7 +4,7 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Secrets / local env — never commit these
+# Secrets / local env: never commit these
 .env
 .env.*
 !.env.example
