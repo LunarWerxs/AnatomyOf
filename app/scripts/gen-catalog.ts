@@ -51,6 +51,9 @@ function metaLiteral(def: LanguageDef): string {
     category: def.category ?? 'language',
     accentHex: def.accentHex,
     extensions: def.extensions,
+    // Carried in the lightweight meta purely so the grammar chunk can start
+    // downloading alongside the language's data chunk instead of after it.
+    shikiLang: def.shikiLang,
   }
   if (def.popularity !== undefined) meta.popularity = def.popularity
   return JSON.stringify(meta)

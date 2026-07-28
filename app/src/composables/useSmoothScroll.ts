@@ -1,5 +1,5 @@
-import Lenis from 'lenis'
 import { onBeforeUnmount, onMounted, type Ref } from 'vue'
+import { importChunk } from '../lib/chunk'
 
 /**
  * Eased momentum scrolling (Lenis) for the app's custom scroll container.
@@ -9,6 +9,9 @@ import { onBeforeUnmount, onMounted, type Ref } from 'vue'
  * scrolling is left native (mobile keeps its own momentum), and anyone who asks for
  * reduced motion gets the browser's default scroll. Lenis is simply never started.
  *
+ * Lenis itself is imported lazily: it's a post-paint nicety that reduced-motion
+ * visitors never download at all, so it has no business in the entry bundle.
+ *
  * `wrapper` is the overflow container; `content` is its inner element that actually
  * holds the scrollable content (kept persistent so Lenis has a stable target even
  * while a language's view is still loading).
@@ -17,12 +20,21 @@ export function useSmoothScroll(
   wrapper: Ref<HTMLElement | null>,
   content: Ref<HTMLElement | null>,
 ) {
-  let lenis: Lenis | null = null
+  let lenis: { raf: (time: number) => void; destroy: () => void } | null = null
   let rafId = 0
+  let disposed = false
 
-  onMounted(() => {
+  onMounted(async () => {
     const wrapperEl = wrapper.value
     if (!wrapperEl || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    let Lenis: typeof import('lenis').default
+    try {
+      ;({ default: Lenis } = await importChunk(() => import('lenis')))
+    } catch {
+      return // Smooth scroll is optional; native scrolling still works.
+    }
+    if (disposed) return
 
     lenis = new Lenis({
       wrapper: wrapperEl,
@@ -39,6 +51,7 @@ export function useSmoothScroll(
   })
 
   onBeforeUnmount(() => {
+    disposed = true
     if (rafId) cancelAnimationFrame(rafId)
     lenis?.destroy()
     lenis = null

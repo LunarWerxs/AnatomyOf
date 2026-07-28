@@ -9,7 +9,11 @@
  *
  * After running, rebuild the raster share card + apple-touch icon with ImageMagick:
  *   magick -density 96 public/og-image.svg public/og-image.png
- *   magick public/favicon.svg -background '#0f172a' -flatten -resize 180x180 public/apple-touch-icon.png
+ *   magick public/favicon.svg -background '#0f172a' -flatten -resize 180x180 -strip -depth 8 \
+ *     -dither none -colors 64 PNG8:public/apple-touch-icon.png
+ *
+ * The icon flags are not optional. Left off, ImageMagick writes 16-bit RGBA and
+ * the flat two-color mark lands at ~85 kB instead of ~7 kB.
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 

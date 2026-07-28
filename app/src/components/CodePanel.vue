@@ -48,15 +48,35 @@ function nudge() {
 /** Snapshot of key + tokens so old content can animate out while new loads. */
 const current = shallowRef<{ key: string; lines: ThemedToken[][] } | null>(null)
 
+/**
+ * Unhighlighted stand-in: one plain token per line, in the theme's default text
+ * color. Shown when Shiki can't be loaded (a dropped chunk request, an offline
+ * tab) so the example is still readable instead of the panel rendering empty.
+ */
+function plainLines(code: string): ThemedToken[][] {
+  let offset = 0
+  return code.split('\n').map((line) => {
+    const token = [{ content: line, offset, color: chrome.value.fg }]
+    offset += line.length + 1
+    return token
+  })
+}
+
 async function tokenize() {
   const key = props.panelKey
-  const highlighter = await getHighlighter()
-  const { tokens } = highlighter.codeToTokens(props.code, {
-    lang: props.shikiLang as BundledLanguage,
-    theme: CODE_THEMES[codeTheme.value],
-  })
+  let lines: ThemedToken[][]
+  try {
+    const highlighter = await getHighlighter(props.shikiLang, CODE_THEMES[codeTheme.value])
+    lines = highlighter.codeToTokens(props.code, {
+      lang: props.shikiLang as BundledLanguage,
+      theme: CODE_THEMES[codeTheme.value],
+    }).tokens
+  } catch (error) {
+    console.error('[anatomy] highlighting failed, showing plain code', error)
+    lines = plainLines(props.code)
+  }
   // Same key on a theme toggle => recolor in place (no crossfade); new key => crossfade.
-  if (key === props.panelKey) current.value = { key, lines: tokens }
+  if (key === props.panelKey) current.value = { key, lines }
 }
 
 watch(() => props.panelKey, tokenize, { immediate: true })

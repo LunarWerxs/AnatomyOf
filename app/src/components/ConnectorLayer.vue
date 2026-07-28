@@ -27,13 +27,30 @@ const ready = ref(false)
 
 const XL_QUERY = '(min-width: 1280px)'
 
+// The same handful of cards/lines are measured on every tracked frame, and
+// re-running querySelector for each of them was the bulk of this component's
+// scroll cost. Elements are looked up once and reused until they leave the DOM
+// (a language/variant swap replaces them, and isConnected catches that).
+let elementCache = new Map<string, Element>()
+
+function find(selector: string): Element | null {
+  const cached = elementCache.get(selector)
+  if (cached?.isConnected) return cached
+
+  const found = props.container?.querySelector(selector) ?? null
+  // Misses aren't cached: the element may simply not have rendered yet.
+  if (found) elementCache.set(selector, found)
+  else elementCache.delete(selector)
+  return found
+}
+
 function compute() {
   const container = props.container
   if (!container || !window.matchMedia(XL_QUERY).matches) {
     paths.value = []
     return
   }
-  const codePanel = container.querySelector('[data-code-panel]')
+  const codePanel = find('[data-code-panel]')
   if (!codePanel) {
     paths.value = []
     return
@@ -45,7 +62,7 @@ function compute() {
   const region = props.anchorMode === 'region'
 
   props.annotations.forEach((annotation, index) => {
-    const card = container.querySelector(`[data-annotation-card="${annotation.id}"]`)
+    const card = find(`[data-annotation-card="${annotation.id}"]`)
     if (!card) return
     const cardRect = card.getBoundingClientRect()
     const fromLeft = annotation.column === 'left'
@@ -58,7 +75,7 @@ function compute() {
     const targets: Array<{ id: string; endX: number; endY: number }> = []
 
     if (region) {
-      const el = container.querySelector(`[data-region="${annotation.id}"]`)
+      const el = find(`[data-region="${annotation.id}"]`)
       if (el) {
         const r = el.getBoundingClientRect()
         targets.push({
@@ -70,8 +87,8 @@ function compute() {
     } else {
       const panelEndX = (fromLeft ? codeRect.left : codeRect.right) - cRect.left
       for (const [first, last] of annotation.ranges) {
-        const firstEl = container.querySelector(`[data-code-line="${first}"]`)
-        const lastEl = container.querySelector(`[data-code-line="${last}"]`) ?? firstEl
+        const firstEl = find(`[data-code-line="${first}"]`)
+        const lastEl = find(`[data-code-line="${last}"]`) ?? firstEl
         if (!firstEl || !lastEl) continue
         targets.push({
           id: `${annotation.id}:${first}`,
@@ -118,16 +135,14 @@ function track(durationMs: number) {
   // even if the rAF loop is paused (e.g. a backgrounded tab). The loop only
   // adds smooth intermediate frames during the animation window.
   compute()
-  if (rafId === null) loop()
+  // Schedule, never call loop() directly: doing so ran a second compute() in
+  // the same tick for every event.
+  if (rafId === null && performance.now() < trackUntil) rafId = requestAnimationFrame(loop)
 }
 
 function loop() {
   compute()
-  if (performance.now() < trackUntil) {
-    rafId = requestAnimationFrame(loop)
-  } else {
-    rafId = null
-  }
+  rafId = performance.now() < trackUntil ? requestAnimationFrame(loop) : null
 }
 
 // A data swap invalidates every position; blank out and re-track from scratch.
@@ -136,6 +151,7 @@ watch(
   () => {
     ready.value = false
     paths.value = []
+    elementCache = new Map()
     // Covers the code-panel height transition (500ms) + card fly-in (450ms + stagger).
     track(900)
   },
@@ -155,6 +171,7 @@ watch(
   () => props.container,
   (container) => {
     resizeObserver?.disconnect()
+    elementCache = new Map()
     if (container) {
       resizeObserver = new ResizeObserver(() => track(120))
       resizeObserver.observe(container)
@@ -171,8 +188,18 @@ function onWindowResize() {
 
 // The card columns are sticky, so scrolling changes their position relative to
 // the (scrolling) code panel, recompute the lines to keep them anchored.
+// Smooth scrolling fires far more events than there are frames to paint, so
+// this coalesces to at most one measuring pass per frame.
+let scrollRaf: number | null = null
+
 function onScroll() {
-  track(0)
+  // Deliberately independent of the tracking loop's rafId: piggy-backing on it
+  // would wedge scroll updates for as long as that frame stays unserviced.
+  if (scrollRaf !== null) return
+  scrollRaf = requestAnimationFrame(() => {
+    scrollRaf = null
+    compute()
+  })
 }
 
 onMounted(() => {
@@ -184,6 +211,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', onScroll, { capture: true })
   resizeObserver?.disconnect()
   if (rafId !== null) cancelAnimationFrame(rafId)
+  if (scrollRaf !== null) cancelAnimationFrame(scrollRaf)
 })
 
 // A path's id is either `annId` (region) or `annId:line` (code).

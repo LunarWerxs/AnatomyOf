@@ -109,7 +109,7 @@ export interface LanguageDef {
  */
 export type LanguageMeta = Pick<
   LanguageDef,
-  'id' | 'name' | 'category' | 'popularity' | 'accentHex' | 'extensions'
+  'id' | 'name' | 'category' | 'popularity' | 'accentHex' | 'extensions' | 'shikiLang'
 >
 
 /** An annotation with its computed 1-indexed inclusive line ranges. */

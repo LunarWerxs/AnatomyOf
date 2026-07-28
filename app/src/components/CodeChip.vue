@@ -17,7 +17,7 @@ watch(
   async () => {
     const snapshot = props.text
     try {
-      const highlighter = await getHighlighter()
+      const highlighter = await getHighlighter(props.lang, CODE_THEME)
       const result = highlighter.codeToTokens(props.text, {
         lang: props.lang as BundledLanguage,
         theme: CODE_THEME,

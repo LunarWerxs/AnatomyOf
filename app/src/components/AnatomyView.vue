@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { ExternalLink } from 'lucide-vue-next'
 import { ToggleGroupItem, ToggleGroupRoot } from 'reka-ui'
-import { computed, onBeforeUnmount, ref, useTemplateRef, watch } from 'vue'
+import { computed, defineAsyncComponent, onBeforeUnmount, ref, useTemplateRef, watch } from 'vue'
 import { buildAnatomy, buildMockupAnatomy } from '../lib/anatomy'
 import type { ExampleVariant, LanguageDef } from '../lib/types'
 import AnnotationCard from './AnnotationCard.vue'
 import AnnotationDialog from './AnnotationDialog.vue'
 import CodePanel from './CodePanel.vue'
 import ConnectorLayer from './ConnectorLayer.vue'
-import MockupPanel from './MockupPanel.vue'
+
+// Only the five concept pages render a mockup, but the panel bundles all five
+// of them, so it loads on demand instead of riding along on every language page.
+const MockupPanel = defineAsyncComponent(() => import('./MockupPanel.vue'))
 
 const props = defineProps<{ language: LanguageDef; variant: ExampleVariant }>()
 

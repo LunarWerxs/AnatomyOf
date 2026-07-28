@@ -2,6 +2,8 @@
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { defaultLanguage, languages, loadLanguage } from '../data'
+import { importChunk } from '../lib/chunk'
+import { warmHighlighter } from '../lib/highlighter'
 import type { ExampleVariant, LanguageDef } from '../lib/types'
 import AnatomyView from './AnatomyView.vue'
 
@@ -21,12 +23,19 @@ const variant = computed<ExampleVariant>(() =>
 // The FULL definition loads on demand per language. Keep the previously-loaded one
 // visible until the next resolves so switching languages doesn't flash empty, and
 // guard against out-of-order resolution when the route changes mid-load.
+// A dropped chunk request is retried rather than left as a permanently blank page.
 const language = ref<LanguageDef | null>(null)
 watch(
   () => meta.value.id,
   async (id) => {
-    const def = await loadLanguage(id)
-    if (meta.value.id === id) language.value = def
+    // Concept pages render a mockup, not code, so they don't pay for Shiki here.
+    if (meta.value.category !== 'concept') warmHighlighter(meta.value.shikiLang)
+    try {
+      const def = await importChunk(() => loadLanguage(id))
+      if (meta.value.id === id) language.value = def
+    } catch (error) {
+      console.error(`[anatomy] failed to load language "${id}"`, error)
+    }
   },
   { immediate: true },
 )
