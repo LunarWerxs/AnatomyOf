@@ -66,7 +66,8 @@ export interface LanguageDef {
    *     they're placed by Stack Overflow usage instead of a TIOBE position.
    *   · TIOBE's 51-100 tier (bash…batch) has no intra-rank, so those numbers
    *     (51+) are ordered by rough real-world usage.
-   *   · Languages outside TIOBE's top 100 (WebAssembly, Nim) use 101+.
+   *   · Languages outside TIOBE's top 100 (WebAssembly, Nim), and component
+   *     file formats TIOBE does not track at all (Svelte), use 101+.
    * Concepts omit this and keep their curated array order in `data/index.ts`.
    */
   popularity?: number

@@ -31,11 +31,11 @@ that aren't code.
 
 ## ✨ Highlights
 
-- 🔬 **46 languages + 5 concept pages**: from Python and Rust to Ada, Prolog, COBOL, and WebAssembly
+- 🔬 **47 languages + 5 concept pages**: from Python and Rust to Ada, Prolog, COBOL, Svelte, and WebAssembly
 - 🎨 **Color-coded callouts** wired to the exact lines they describe
 - 🖱️ **Hover to trace, click to dive**: a full deep-dive modal per concept, with a *Learn more* link
 - 🌗 **Light & dark themes**, and **fully mobile-responsive** (tap to pin a callout, tap again to open it)
-- 🧭 **Sidebar ranked by real-world popularity** (TIOBE Index) with instant search
+- 🧭 **Sidebar ranked by real-world popularity** (TIOBE Index), toggleable to A-Z, with instant search
 - ⚡ **Syntax highlighting by [Shiki](https://shiki.style)**. The same engine VS Code uses
 - 🔗 **Deep-linkable URLs** for every language and variant
 - 🥚 A few easter eggs hiding behind the code window's traffic-light buttons

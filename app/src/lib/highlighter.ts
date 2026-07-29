@@ -66,6 +66,7 @@ const LANG_LOADERS: Record<string, () => Promise<LangModule>> = {
   scala: () => import('@shikijs/langs/scala'),
   solidity: () => import('@shikijs/langs/solidity'),
   sql: () => import('@shikijs/langs/sql'),
+  svelte: () => import('@shikijs/langs/svelte'),
   swift: () => import('@shikijs/langs/swift'),
   typescript: () => import('@shikijs/langs/typescript'),
   vb: () => import('@shikijs/langs/vb'),

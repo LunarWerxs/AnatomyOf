@@ -48,8 +48,9 @@ const SYNTAX_RULES: SyntaxRule[] = [
   },
   {
     label: 'HTML/XML comment (<!-- ... -->)',
-    // php templates legitimately drop back into HTML and use HTML comments
-    allow: ['html', 'php'],
+    // php templates legitimately drop back into HTML and use HTML comments, and a
+    // .svelte component's markup section is HTML, comments included
+    allow: ['html', 'php', 'svelte'],
     test: (t) => t.includes('<!--') || t.includes('-->'),
   },
   {

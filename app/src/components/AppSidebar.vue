@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useColorMode } from '@vueuse/core'
-import { Moon, Search, Sparkles, Sun, X } from 'lucide-vue-next'
+import { useColorMode, useStorage } from '@vueuse/core'
+import { ArrowDownAZ, ArrowDownWideNarrow, Moon, Search, Sparkles, Sun, X } from 'lucide-vue-next'
 import { TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
 import { computed, nextTick, ref } from 'vue'
 import { comingSoon } from '../data/comingSoon'
@@ -23,11 +23,26 @@ function matches(name: string, ext: string | string[]): boolean {
   return hay.includes(q.value)
 }
 
-const languageItems = computed(() =>
-  props.languages
+/**
+ * Sidebar order for the Languages group. 'popularity' is the default and simply
+ * keeps the order the list arrives in (data/index.ts ranks it); 'name' sorts A-Z.
+ * Only languages are re-sorted: concepts keep their curated order.
+ */
+type SortMode = 'popularity' | 'name'
+const sortMode = useStorage<SortMode>('anatomy-lang-sort', 'popularity')
+
+function toggleSort() {
+  sortMode.value = sortMode.value === 'popularity' ? 'name' : 'popularity'
+}
+
+const languageItems = computed(() => {
+  const items = props.languages
     .filter((lang) => (lang.category ?? 'language') === 'language')
-    .filter((lang) => matches(lang.name, lang.extensions)),
-)
+    .filter((lang) => matches(lang.name, lang.extensions))
+  return sortMode.value === 'name'
+    ? [...items].sort((a, b) => a.name.localeCompare(b.name, 'en'))
+    : items
+})
 const conceptItems = computed(() =>
   props.languages
     .filter((lang) => lang.category === 'concept')
@@ -102,26 +117,47 @@ function toggleTheme() {
     </div>
 
     <div class="slim-scrollbar flex-1 overflow-y-auto px-2 pb-3" @scroll="onScroll">
-      <!-- Search scrolls away with the list -->
-      <div class="relative px-1 pb-2 pt-1">
-        <Search
-          class="pointer-events-none absolute left-3.5 top-1/2 size-3.5 -translate-y-1/2 text-zinc-400"
-        />
-        <input
-          v-model="query"
-          type="text"
-          placeholder="Search…"
-          aria-label="Search file types"
-          class="w-full rounded-md border border-zinc-200 bg-zinc-50 py-1.5 pl-8 pr-7 text-[13px] text-zinc-800 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-500"
-        />
+      <!-- Search + sort scroll away with the list -->
+      <div class="flex items-stretch gap-1.5 px-1 pb-2 pt-1">
+        <div class="relative min-w-0 flex-1">
+          <Search
+            class="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-zinc-400"
+          />
+          <input
+            v-model="query"
+            type="text"
+            placeholder="Search…"
+            aria-label="Search file types"
+            class="w-full rounded-md border border-zinc-200 bg-zinc-50 py-1.5 pl-8 pr-7 text-[13px] text-zinc-800 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-500"
+          />
+          <button
+            v-if="query"
+            type="button"
+            aria-label="Clear search"
+            class="absolute right-1.5 top-1/2 -translate-y-1/2 cursor-pointer rounded p-0.5 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
+            @click="query = ''"
+          >
+            <X class="size-3.5" />
+          </button>
+        </div>
+        <!-- Order of the Languages group; the icon shows the order in effect -->
         <button
-          v-if="query"
           type="button"
-          aria-label="Clear search"
-          class="absolute right-2.5 top-1/2 -translate-y-1/2 cursor-pointer rounded p-0.5 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
-          @click="query = ''"
+          class="flex shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-200 bg-zinc-50 px-2 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+          :aria-label="
+            sortMode === 'popularity'
+              ? 'Languages sorted by popularity. Sort A to Z instead'
+              : 'Languages sorted A to Z. Sort by popularity instead'
+          "
+          :title="
+            sortMode === 'popularity'
+              ? 'Sorted by popularity. Click for A-Z'
+              : 'Sorted A-Z. Click for popularity'
+          "
+          @click="toggleSort"
         >
-          <X class="size-3.5" />
+          <ArrowDownWideNarrow v-if="sortMode === 'popularity'" class="size-3.5" />
+          <ArrowDownAZ v-else class="size-3.5" />
         </button>
       </div>
 
