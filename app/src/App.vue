@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Github, Menu } from 'lucide-vue-next'
+import { ArrowLeft, Github, Menu } from 'lucide-vue-next'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppSidebar from './components/AppSidebar.vue'
@@ -75,6 +75,16 @@ watch(
       <div
         class="flex shrink-0 items-center gap-3 border-b border-zinc-200 bg-zinc-50 px-4 py-2.5 md:hidden dark:border-zinc-800 dark:bg-zinc-950"
       >
+        <!-- The sidebar carries the same link, but it is a drawer here, so a
+             phone would have no visible way back to the studio without this. -->
+        <a
+          href="https://lunarwerx.com/"
+          aria-label="Back to LunarWerx Studios"
+          title="Back to LunarWerx Studios"
+          class="shrink-0 cursor-pointer rounded-md p-1.5 text-zinc-600 transition-colors hover:bg-zinc-200 dark:text-zinc-300 dark:hover:bg-zinc-800"
+        >
+          <ArrowLeft class="size-5" />
+        </a>
         <button
           type="button"
           class="cursor-pointer rounded-md p-1.5 text-zinc-600 transition-colors hover:bg-zinc-200 dark:text-zinc-300 dark:hover:bg-zinc-800"

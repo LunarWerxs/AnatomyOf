@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { useColorMode, useStorage } from '@vueuse/core'
-import { ArrowDownAZ, ArrowDownWideNarrow, Moon, Search, Sparkles, Sun, X } from 'lucide-vue-next'
+import {
+  ArrowDownAZ,
+  ArrowDownWideNarrow,
+  ArrowLeft,
+  Moon,
+  Search,
+  Sparkles,
+  Sun,
+  X,
+} from 'lucide-vue-next'
 import { TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
 import { computed, nextTick, ref } from 'vue'
 import { comingSoon } from '../data/comingSoon'
@@ -97,7 +106,19 @@ function toggleTheme() {
   <aside
     class="flex h-full w-60 shrink-0 flex-col border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950"
   >
-    <div class="flex items-center gap-2.5 px-4 py-3.5">
+    <!-- Up to the studio. AnatomyOf serves from a lunarwerx.com subdomain, and
+         this row is the only route back to the parent site. It sits above the
+         product mark rather than beside it so the hierarchy reads in the order
+         it actually is: studio, then product. -->
+    <a
+      href="https://lunarwerx.com/"
+      class="flex items-center gap-1.5 px-4 pt-3 text-[11px] font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+    >
+      <ArrowLeft class="size-3.5 shrink-0" />
+      LunarWerx Studios
+    </a>
+
+    <div class="flex items-center gap-2.5 px-4 pb-3.5 pt-2">
       <BrandMark class="size-5 shrink-0 text-zinc-900 dark:text-zinc-100" />
       <div class="min-w-0">
         <div class="truncate text-sm font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">

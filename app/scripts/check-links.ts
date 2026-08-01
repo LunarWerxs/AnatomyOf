@@ -26,7 +26,7 @@ for (const lang of languages) {
 const list = [...urls].sort()
 console.log(`Checking ${list.length} unique URLs across ${languages.length} entries...`)
 
-const UA = 'Mozilla/5.0 (compatible; AnatomyLinkCheck/1.0; +https://anatomyof.github.io)'
+const UA = 'Mozilla/5.0 (compatible; AnatomyLinkCheck/1.0; +https://anatomyof.lunarwerx.com)'
 const CONCURRENCY = 10
 const dead: Array<{ url: string; status: string }> = []
 let cursor = 0

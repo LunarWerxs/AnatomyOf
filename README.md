@@ -1,13 +1,13 @@
 <div align="center">
 
-<a href="https://anatomyof.github.io">
+<a href="https://anatomyof.lunarwerx.com">
   <img src="app/public/og-image.png" alt="AnatomyOf: interactive, annotated tours of source files" width="720" />
 </a>
 
 <p><em>An interactive, annotated tour of what's inside a source file, one language at a time.</em></p>
 
 <p>
-  <a href="https://anatomyof.github.io"><img src="https://img.shields.io/badge/live_demo-anatomyof.github.io-38bdf8?style=for-the-badge&logo=github&logoColor=white" alt="Live demo" /></a>
+  <a href="https://anatomyof.lunarwerx.com"><img src="https://img.shields.io/badge/live_demo-anatomyof.lunarwerx.com-38bdf8?style=for-the-badge&logo=github&logoColor=white" alt="Live demo" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/LunarWerxs/anatomyof?style=for-the-badge&color=22c55e" alt="MIT License" /></a>
   <img src="https://img.shields.io/badge/Vue_3-42b883?style=for-the-badge&logo=vuedotjs&logoColor=white" alt="Vue 3" />
   <img src="https://img.shields.io/badge/Vite-646cff?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
@@ -18,12 +18,12 @@
 
 ---
 
-**[AnatomyOf](https://anatomyof.github.io)** opens an example source file in a code
+**[AnatomyOf](https://anatomyof.lunarwerx.com)** opens an example source file in a code
 window with color-coded callouts explaining every structural part: shebang, imports, class
 definitions, control flow, and more. **Hover** a callout to trace it into the code; **click**
 it for an in-depth writeup. Every language ships a **minimal** and a **verbose** example,
 light & dark themes, and shareable URLs like
-[`/#/python/verbose`](https://anatomyof.github.io/#/python/verbose).
+[`/#/python/verbose`](https://anatomyof.lunarwerx.com/#/python/verbose).
 
 Beyond real languages, **concept pages** dissect the structural anatomy of a website, a
 settings screen, a mobile app, a dashboard, and an email: the same idea, applied to things
@@ -42,7 +42,7 @@ that aren't code.
 
 ## 🚀 Live
 
-### → **[anatomyof.github.io](https://anatomyof.github.io)**
+### → **[anatomyof.lunarwerx.com](https://anatomyof.lunarwerx.com)**
 
 ## 🛠️ Built with
 
@@ -103,7 +103,7 @@ count (with coarse country) that expires after 90 days. Browsers signaling
 
 <div align="center">
   <br />
-  <a href="https://anatomyof.github.io"><img src="app/public/apple-touch-icon.png" alt="AnatomyOf" width="48" /></a>
+  <a href="https://anatomyof.lunarwerx.com"><img src="app/public/apple-touch-icon.png" alt="AnatomyOf" width="48" /></a>
   <br /><br />
   <sub>Built by <a href="https://lunarwerx.com"><b>LunarWerx</b></a> · Deployed on GitHub Pages</sub>
 </div>
