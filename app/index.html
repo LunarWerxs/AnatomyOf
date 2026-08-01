@@ -32,7 +32,50 @@
       content="Interactive, annotated tours of source files, one language at a time."
     />
     <meta name="twitter:image" content="https://anatomyof.lunarwerx.com/og-image.png" />
-  </head>
+      <!-- ARGUS Analytics Pixel (Connections, analytics.connections.icu).
+         The key is a PUBLIC ingest key and is meant to ship in client JS.
+         Honours DNT and Sec-GPC by itself, and is grant-by-default outside the
+         EU/EEA/UK/CH (the pixel is stamped per-visitor at the edge). localhost
+         is skipped so a local preview cannot inflate the numbers. -->
+    <script>
+        (function (w, d, k) {
+            function warn(msg, err) {
+                try {
+                    if (w.console && typeof w.console.warn === 'function') {
+                        if (err) { w.console.warn(msg, err); } else { w.console.warn(msg); }
+                    }
+                } catch (e0) { }
+            }
+            try {
+                var key = (typeof k === 'string') ? k.replace(/^\s+|\s+$/g, '') : '';
+                if (!key || key === 'ak_YOUR_SITE_KEY') {
+                    warn('[ARGUS] missing or placeholder pixel key; pixel not installed');
+                    return;
+                }
+                if (d.getElementById('argus-pixel')) { return; }
+                var host = w.location.hostname;
+                if (host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || host.endsWith('.local')) { return; }
+                var P = w.ArgusPixel = w.ArgusPixel || {};
+                P.key = key;
+                var j = d.createElement('script');
+                j.async = true;
+                j.id = 'argus-pixel';
+                j.type = 'text/javascript';
+                // ?v= is the cache-bust lever: the pixel is served max-age=3600
+                // from ONE origin shared by every tracked site, so bump this when
+                // a pixel change has to reach existing readers now.
+                j.src = 'https://analytics.connections.icu/pixel.js?v=2';
+                j.onerror = function () { warn('[ARGUS] pixel.js failed to load (check CSP script-src / network / ad-blocker)'); };
+                var mount = d.head || d.getElementsByTagName('head')[0] || d.documentElement || d.body;
+                if (!mount) { warn('[ARGUS] no DOM mount point for pixel; skipping'); return; }
+                mount.appendChild(j);
+            } catch (e) {
+                warn('[ARGUS] pixel install failed', e);
+            }
+        })(window, document, 'ak_9725f134d2dca1f186302a672f33e7273f69');
+    </script>
+    <!-- End ARGUS Analytics Pixel -->
+</head>
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
