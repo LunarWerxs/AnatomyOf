@@ -122,6 +122,10 @@ diagram `ref` resolves to a real annotation, and that no annotation is orphaned.
 > source file; `graph` and `timeline` do, so they are the ones to reach for if the Visual
 > tab ever grows past the concept pages.
 
+**[docs/visual-variants.md](docs/visual-variants.md)** records the reasoning: which
+entries earn a diagram and which do not, what was tried and rejected, the remaining
+candidates with what each would cost, and the gotchas worth knowing before touching it.
+
 ## 🔒 Privacy
 
 On page load the site sends one anonymous visit ping to LunarWerx's own endpoint
