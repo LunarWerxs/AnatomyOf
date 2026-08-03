@@ -2,30 +2,39 @@
 import { ExternalLink } from 'lucide-vue-next'
 import { ToggleGroupItem, ToggleGroupRoot } from 'reka-ui'
 import { computed, defineAsyncComponent, onBeforeUnmount, ref, useTemplateRef, watch } from 'vue'
-import { buildAnatomy, buildMockupAnatomy } from '../lib/anatomy'
-import type { ExampleVariant, LanguageDef } from '../lib/types'
+import { buildAnatomy, buildMockupAnatomy, buildVisualAnatomy } from '../lib/anatomy'
+import type { LanguageDef, ViewVariant } from '../lib/types'
 import AnnotationCard from './AnnotationCard.vue'
 import AnnotationDialog from './AnnotationDialog.vue'
 import CodePanel from './CodePanel.vue'
 import ConnectorLayer from './ConnectorLayer.vue'
+import VisualPanel from './VisualPanel.vue'
 
 // Only the five concept pages render a mockup, but the panel bundles all five
 // of them, so it loads on demand instead of riding along on every language page.
 const MockupPanel = defineAsyncComponent(() => import('./MockupPanel.vue'))
 
-const props = defineProps<{ language: LanguageDef; variant: ExampleVariant }>()
+const props = defineProps<{ language: LanguageDef; variant: ViewVariant }>()
 
 const emit = defineEmits<{
-  setVariant: [variant: ExampleVariant]
+  setVariant: [variant: ViewVariant]
 }>()
 
 const isMockup = computed(() => !!props.language.mockup)
 const mockupKind = computed(() => props.language.mockup ?? 'website')
-const resolved = computed(() =>
-  props.language.mockup
-    ? buildMockupAnatomy(props.language)
-    : buildAnatomy(props.language, props.variant),
+/** The third toggle button exists only for entries that describe a diagram. */
+const hasVisual = computed(() => !!props.language.visual?.panels.length)
+const isVisual = computed(() => hasVisual.value && props.variant === 'visual')
+/** Code variants plus 'visual' where offered; drives the toggle and its indicator. */
+const options = computed<ViewVariant[]>(() =>
+  hasVisual.value ? ['minimal', 'verbose', 'visual'] : ['minimal', 'verbose'],
 )
+const resolved = computed(() => {
+  if (props.language.mockup) return buildMockupAnatomy(props.language)
+  if (isVisual.value) return buildVisualAnatomy(props.language)
+  // 'visual' can only reach here when the entry has no diagram, so fall back.
+  return buildAnatomy(props.language, props.variant === 'verbose' ? 'verbose' : 'minimal')
+})
 const panelKey = computed(() => `${props.language.id}:${props.variant}`)
 const fileName = computed(() => `example${props.language.extensions[0]}`)
 const titleNoun = computed(() => props.language.titleNoun ?? 'file')
@@ -142,18 +151,23 @@ function setVariant(value: unknown) {
       <ToggleGroupRoot
         :model-value="variant"
         type="single"
-        class="relative flex w-48 rounded-lg border border-zinc-200 bg-white p-0.5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900"
+        class="relative flex rounded-lg border border-zinc-200 bg-white p-0.5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900"
+        :class="options.length === 3 ? 'w-72' : 'w-48'"
         aria-label="Example size"
         @update:model-value="setVariant"
       >
-        <!-- sliding indicator that animates between the two options -->
+        <!-- Sliding indicator. Width and travel are derived from the option
+             count, so adding 'visual' does not need a second hard-coded case. -->
         <span
-          class="absolute inset-y-0.5 left-0.5 w-[calc(50%-0.125rem)] rounded-md bg-zinc-900 shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none dark:bg-zinc-100"
-          :style="{ transform: variant === 'verbose' ? 'translateX(100%)' : 'translateX(0)' }"
+          class="absolute inset-y-0.5 left-0.5 rounded-md bg-zinc-900 shadow-sm transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none dark:bg-zinc-100"
+          :style="{
+            width: `calc(${100 / options.length}% - 0.125rem)`,
+            transform: `translateX(${options.indexOf(variant) * 100}%)`,
+          }"
           aria-hidden="true"
         />
         <ToggleGroupItem
-          v-for="option in ['minimal', 'verbose'] as const"
+          v-for="option in options"
           :key="option"
           :value="option"
           class="relative z-10 flex-1 cursor-pointer rounded-md px-4 py-1.5 text-center text-xs font-semibold capitalize transition-colors duration-200 data-[state=off]:text-zinc-500 data-[state=on]:text-white dark:data-[state=off]:text-zinc-400 dark:data-[state=on]:text-zinc-900"
@@ -169,7 +183,7 @@ function setVariant(value: unknown) {
         :annotations="resolved.annotations"
         :active-id="hoveredId"
         :layout-key="layoutKey"
-        :anchor-mode="isMockup ? 'region' : 'code'"
+        :anchor-mode="isMockup || isVisual ? 'region' : 'code'"
       />
 
       <div
@@ -198,6 +212,16 @@ function setVariant(value: unknown) {
             v-if="isMockup"
             :panel-key="panelKey"
             :which="mockupKind"
+            :annotations="resolved.annotations"
+            :active-id="hoveredId"
+            @hover-region="onPartHover"
+            @open-region="onPartOpen"
+            @rendered="onCodeRendered"
+          />
+          <VisualPanel
+            v-else-if="isVisual && language.visual"
+            :panel-key="panelKey"
+            :visual="language.visual"
             :annotations="resolved.annotations"
             :active-id="hoveredId"
             @hover-region="onPartHover"

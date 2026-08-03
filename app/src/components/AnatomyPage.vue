@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { defaultLanguage, languages, loadLanguage } from '../data'
 import { importChunk } from '../lib/chunk'
 import { warmHighlighter } from '../lib/highlighter'
-import type { ExampleVariant, LanguageDef } from '../lib/types'
+import type { LanguageDef, ViewVariant } from '../lib/types'
 import AnatomyView from './AnatomyView.vue'
 
 const route = useRoute()
@@ -16,15 +16,20 @@ const router = useRouter()
 const meta = computed(
   () => languages.find((lang) => lang.id === route.params.langId) ?? defaultLanguage,
 )
-const variant = computed<ExampleVariant>(() =>
-  route.params.variant === 'verbose' ? 'verbose' : 'minimal',
-)
-
 // The FULL definition loads on demand per language. Keep the previously-loaded one
 // visible until the next resolves so switching languages doesn't flash empty, and
 // guard against out-of-order resolution when the route changes mid-load.
 // A dropped chunk request is retried rather than left as a permanently blank page.
 const language = ref<LanguageDef | null>(null)
+
+// 'visual' only counts once the loaded definition actually carries a diagram,
+// so /#/python/visual falls back instead of rendering an empty panel.
+const variant = computed<ViewVariant>(() => {
+  const requested = route.params.variant
+  if (requested === 'verbose') return 'verbose'
+  if (requested === 'visual' && language.value?.visual?.panels.length) return 'visual'
+  return 'minimal'
+})
 
 // Monotonic id for the in-flight load. Only the newest one may commit, so a slow
 // chunk that lands after the user has moved on is discarded instead of yanking the
@@ -64,13 +69,15 @@ watch(
 watchEffect(() => {
   const { langId, variant: v } = route.params
   const langOk = !langId || languages.some((lang) => lang.id === langId)
-  const variantOk = !v || v === 'minimal' || v === 'verbose'
-  if (!langOk || !variantOk) {
+  const variantOk = !v || v === 'minimal' || v === 'verbose' || v === 'visual'
+  // A /visual URL on an entry that has no diagram falls back once it has loaded.
+  const visualOk = v !== 'visual' || !language.value || !!language.value.visual?.panels.length
+  if (!langOk || !variantOk || !visualOk) {
     router.replace(`/${meta.value.id}/${variant.value}`)
   }
 })
 
-function setVariant(value: ExampleVariant) {
+function setVariant(value: ViewVariant) {
   router.push(`/${meta.value.id}/${value}`)
 }
 </script>

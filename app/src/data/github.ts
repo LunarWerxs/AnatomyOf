@@ -168,6 +168,93 @@ export const github: LanguageDef = {
       side: 'right',
     },
   ],
+  // Two templates, because the vocabulary splits cleanly in two: `topology`
+  // answers "where does this live" (fork vs clone is the question everyone
+  // actually has), and `graph` answers "in what order", which is the only way
+  // to show a branch diverging and a conflict happening on the same line.
+  visual: {
+    panels: [
+      {
+        template: 'topology',
+        caption: 'Where the copies live',
+        zones: [
+          {
+            id: 'server',
+            label: 'github.com',
+            nodes: [
+              {
+                id: 'upstream',
+                ref: 'repository',
+                title: 'octocat/hello-world',
+                sub: 'the original, you cannot push here',
+              },
+              {
+                id: 'fork',
+                ref: 'fork',
+                title: 'you/hello-world',
+                sub: 'your copy, you own it',
+              },
+            ],
+          },
+          {
+            id: 'local',
+            label: 'your laptop',
+            nodes: [
+              {
+                id: 'clone',
+                ref: 'clone',
+                title: '~/code/hello-world',
+                sub: 'every commit, offline',
+                rows: [{ label: '.git/' }, { label: 'README.md' }],
+              },
+            ],
+          },
+        ],
+        edges: [
+          { from: 'upstream', to: 'fork', ref: 'fork', label: 'gh repo fork', bow: -62 },
+          { from: 'fork', to: 'upstream', ref: 'pull-request', label: 'gh pr create', bow: 62 },
+          { from: 'upstream', to: 'clone', ref: 'sync', label: 'git fetch upstream', bow: -14 },
+          { from: 'fork', to: 'clone', ref: 'clone', label: 'git clone', bow: 20 },
+          { from: 'clone', to: 'fork', ref: 'push', label: 'git push', bow: -20 },
+        ],
+      },
+      {
+        template: 'graph',
+        caption: 'What happens, in order',
+        lanes: [
+          { id: 'main', label: 'main' },
+          { id: 'feature', label: 'fix/readme-typo' },
+        ],
+        nodes: [
+          { id: 'm1', ref: 'commit', lane: 'main', col: 0 },
+          { id: 'm2', ref: 'commit', lane: 'main', col: 1 },
+          {
+            id: 'theirs',
+            ref: 'conflict',
+            lane: 'main',
+            col: 3,
+            kind: 'conflict',
+            above: 'someone edited the same line',
+          },
+          { id: 'f1', ref: 'commit', lane: 'feature', col: 2, label: 'a3f9c21' },
+          { id: 'f2', ref: 'commit', lane: 'feature', col: 3, label: '7b1e4d0' },
+          {
+            id: 'merged',
+            ref: 'merge',
+            lane: 'main',
+            col: 4.4,
+            kind: 'merge',
+            above: '1 commit on main',
+          },
+        ],
+        links: [
+          { from: 'm2', to: 'f1', ref: 'branch', label: 'switch -c' },
+          { from: 'f1', to: 'f2', ref: 'commit' },
+          { from: 'f2', to: 'merged', ref: 'merge', label: 'squash merge', arrow: true },
+        ],
+      },
+    ],
+  },
   examples: {
     minimal: [
       { code: '# The everyday loop, in a repo you can already push to.', refs: ['repository'] },

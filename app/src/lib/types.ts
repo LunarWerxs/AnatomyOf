@@ -12,7 +12,14 @@ export type AccentColor =
   | 'purple'
   | 'pink'
 
+/** The two code-example sizes. Every real language ships both. */
 export type ExampleVariant = 'minimal' | 'verbose'
+
+/**
+ * What the toggle is showing. `visual` is offered only by entries that define
+ * a `visual` block, so the third button appears on those pages and nowhere else.
+ */
+export type ViewVariant = ExampleVariant | 'visual'
 
 export interface AnnotationDef {
   id: string
@@ -46,6 +53,142 @@ export interface ExampleSegment {
   code: string
   /** Ids of annotations this segment belongs to (a line may belong to several) */
   refs?: string[]
+}
+
+/* ── Visual templates ──────────────────────────────────────────────────────
+ *
+ * A `visual` block is DATA, never hand-drawn SVG: each panel names a template
+ * and supplies its content, and the matching component under components/visual/
+ * computes the geometry. That is what makes a template reusable, so adding a
+ * diagram to a new entry is a data edit rather than a drawing exercise.
+ *
+ * Every element carries a `ref` naming the annotation it belongs to, exactly
+ * like a code segment's `refs`, so hover, callout cards, and connector lines
+ * all work unchanged.
+ */
+
+/** A labelled line inside a topology node (a matrix leg, an ordered step). */
+export interface VisualNodeRow {
+  label: string
+  /** Annotation this row binds to; falls back to the node's own `ref`. */
+  ref?: string
+  /** Render a green tick, for rows that represent something that passed. */
+  ok?: boolean
+}
+
+/** A box in a topology diagram. */
+export interface VisualNode {
+  id: string
+  ref: string
+  title: string
+  sub?: string
+  rows?: VisualNodeRow[]
+  /** Render compact and rounded (an event chip) instead of a titled card. */
+  pill?: boolean
+}
+
+/** A dashed container grouping nodes that live in the same place. */
+export interface VisualZone {
+  id: string
+  label: string
+  nodes: VisualNode[]
+}
+
+export interface VisualEdge {
+  /** Node ids. */
+  from: string
+  to: string
+  ref: string
+  label?: string
+  /**
+   * Perpendicular offset for the route, so two edges between the same pair
+   * (a push and a clone, say) do not draw on top of each other. Within one
+   * zone it shifts the line sideways; between zones it shifts the anchors
+   * up or down.
+   */
+  bow?: number
+  /** Draw dashed, for a dependency that gates rather than moves something. */
+  dashed?: boolean
+}
+
+/** Boxes in dashed zones, joined by labelled arrows. Answers "what lives where". */
+export interface TopologyPanel {
+  template: 'topology'
+  caption?: string
+  zones: VisualZone[]
+  edges: VisualEdge[]
+}
+
+export interface GraphLane {
+  id: string
+  label: string
+}
+
+export interface GraphNode {
+  id: string
+  ref: string
+  /** Lane id this node sits in. */
+  lane: string
+  /** Horizontal slot, 0-based; spacing is uniform. */
+  col: number
+  label?: string
+  /** `merge` draws filled, `conflict` draws a warning ring. */
+  kind?: 'commit' | 'merge' | 'conflict'
+  /** Text above the node rather than below it. */
+  above?: string
+}
+
+export interface GraphLink {
+  from: string
+  to: string
+  ref: string
+  label?: string
+  /** Ends with an arrowhead (a merge back into a lane). */
+  arrow?: boolean
+}
+
+/** Lanes and nodes with branch/merge curves. Answers "in what order". */
+export interface GraphPanel {
+  template: 'graph'
+  caption?: string
+  lanes: GraphLane[]
+  nodes: GraphNode[]
+  links: GraphLink[]
+}
+
+export interface TimelineBar {
+  id: string
+  ref: string
+  label: string
+  /** Both in `unit`s along the axis. */
+  start: number
+  end: number
+  /** Trailing note printed after the bar. */
+  note?: string
+}
+
+export interface TimelineMarker {
+  at: number
+  ref: string
+  label: string
+}
+
+/** Bars on a clock. Answers "what overlapped, and what waited". */
+export interface TimelinePanel {
+  template: 'timeline'
+  caption?: string
+  /** Axis length and the label suffix, e.g. 90 and "s". */
+  max: number
+  unit?: string
+  bars: TimelineBar[]
+  markers?: TimelineMarker[]
+}
+
+export type VisualPanelDef = TopologyPanel | GraphPanel | TimelinePanel
+
+export interface VisualDef {
+  /** Rendered top to bottom. Several templates can share one page. */
+  panels: VisualPanelDef[]
 }
 
 export interface LanguageDef {
@@ -101,6 +244,12 @@ export interface LanguageDef {
    * `concept` entries like a website, settings page, or mobile app.
    */
   mockup?: 'website' | 'settings' | 'mobileapp' | 'dashboard' | 'email'
+  /**
+   * Diagrams built from the reusable templates above. Presence of this block
+   * is what adds the third "Visual" button to the toggle, so an entry opts in
+   * simply by describing its diagram.
+   */
+  visual?: VisualDef
 }
 
 /**

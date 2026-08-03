@@ -1,4 +1,5 @@
 import type { ExampleVariant, LanguageDef, ResolvedAnatomy, ResolvedAnnotation } from './types'
+import { visualRefs } from './visual'
 
 /** Merge sorted ranges that touch or overlap ([14,15]+[16,18] -> [14,18]). */
 function mergeRanges(ranges: Array<[number, number]>): Array<[number, number]> {
@@ -31,6 +32,31 @@ export function buildMockupAnatomy(def: LanguageDef): ResolvedAnatomy {
     ranges: [],
     column: a.side,
   }))
+  balanceColumns(annotations)
+  return { variant: 'minimal', code: '', lineCount: 0, annotations }
+}
+
+/**
+ * Resolve the `visual` variant. Like a mockup, annotations carry no line
+ * ranges: they point at diagram regions by id. Only the annotations the
+ * diagrams actually reference are shown, and in the order the diagrams
+ * introduce them, so the callout column reads top to bottom with the drawing.
+ */
+export function buildVisualAnatomy(def: LanguageDef): ResolvedAnatomy {
+  const order = visualRefs(def.visual?.panels ?? [])
+  const annotations: ResolvedAnnotation[] = def.annotations
+    .filter((a) => order.includes(a.id))
+    .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
+    .map((a) => ({ ...a, ranges: [], column: a.side }))
+
+  if (import.meta.env.DEV) {
+    for (const ref of order) {
+      if (!def.annotations.some((a) => a.id === ref)) {
+        console.warn(`[anatomy] ${def.id}/visual: diagram references unknown annotation "${ref}"`)
+      }
+    }
+  }
+
   balanceColumns(annotations)
   return { variant: 'minimal', code: '', lineCount: 0, annotations }
 }

@@ -160,6 +160,74 @@ export const ci: LanguageDef = {
       side: 'right',
     },
   ],
+  // `topology` maps one-to-one onto the YAML keys annotated in the code
+  // variants, so the Visual tab teaches the same lesson in a second language.
+  // `timeline` then shows the one thing the YAML cannot: that a matrix is three
+  // machines at once, and that `needs:` is what makes deploy wait.
+  visual: {
+    panels: [
+      {
+        template: 'topology',
+        caption: 'What the file sets up',
+        zones: [
+          {
+            id: 'events',
+            label: 'events',
+            nodes: [
+              { id: 'push', ref: 'trigger', title: 'push', pill: true },
+              { id: 'pr', ref: 'trigger', title: 'pull_request', pill: true },
+              { id: 'cron', ref: 'trigger', title: 'schedule', pill: true },
+              { id: 'manual', ref: 'trigger', title: 'workflow_dispatch', pill: true },
+            ],
+          },
+          {
+            id: 'workflow',
+            label: '.github/workflows/ci.yml',
+            nodes: [
+              {
+                id: 'test',
+                ref: 'job',
+                title: 'test',
+                sub: 'runs-on: ubuntu-latest',
+                rows: [
+                  { label: 'node 20', ref: 'matrix', ok: true },
+                  { label: 'node 22', ref: 'matrix', ok: true },
+                  { label: 'node 24', ref: 'matrix', ok: true },
+                ],
+              },
+              {
+                id: 'deploy',
+                ref: 'job',
+                title: 'deploy',
+                sub: 'environment: production',
+                rows: [
+                  { label: "if: ref == 'refs/heads/main'", ref: 'condition' },
+                  { label: 'secrets.DEPLOY_TOKEN', ref: 'secret' },
+                ],
+              },
+            ],
+          },
+        ],
+        edges: [
+          { from: 'pr', to: 'test', ref: 'trigger' },
+          { from: 'test', to: 'deploy', ref: 'needs', label: 'needs: test', bow: 0, dashed: true },
+        ],
+      },
+      {
+        template: 'timeline',
+        caption: 'One run, on the clock',
+        max: 90,
+        unit: 's',
+        bars: [
+          { id: 'n20', ref: 'matrix', label: 'test (node 20)', start: 0, end: 42 },
+          { id: 'n22', ref: 'matrix', label: 'test (node 22)', start: 0, end: 45 },
+          { id: 'n24', ref: 'matrix', label: 'test (node 24)', start: 0, end: 39 },
+          { id: 'dep', ref: 'job', label: 'deploy', start: 47, end: 78, note: 'gated on main' },
+        ],
+        markers: [{ at: 45, ref: 'needs', label: 'needs: test' }],
+      },
+    ],
+  },
   examples: {
     minimal: [
       { code: '# .github/workflows/ci.yml', refs: ['workflow-name'] },

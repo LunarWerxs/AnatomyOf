@@ -89,6 +89,33 @@ Everything is data-driven, one file per language in `app/src/data/`:
 > Brand assets (favicon, social card, in-app mark) are all generated from
 > `app/public/logo.svg` via `bun run scripts/gen-brand.ts`.
 
+## 🖼️ Adding a Visual variant
+
+Entries can carry a **third** toggle option next to *minimal* and *verbose*, showing
+diagrams instead of code. The button appears only for entries that define a `visual`
+block, so nothing needs to be greyed out anywhere else.
+
+Diagrams are **data, never hand-drawn SVG**. Each panel names one of the reusable
+templates in `app/src/lib/visual.ts`, which computes the geometry; the components under
+`app/src/components/visual/` only draw what it returns. Adding a diagram to a new entry
+is therefore a data edit, and a template gets reused by describing content rather than
+redrawing it.
+
+| Template   | Shape                                     | Answers                          |
+| ---------- | ----------------------------------------- | -------------------------------- |
+| `topology` | Boxes in dashed zones, labelled arrows    | *What lives where, and what moves it* |
+| `graph`    | Lanes with branch/merge curves            | *In what order*                  |
+| `timeline` | Bars on a clock                           | *What overlapped, and what waited* |
+
+Every element carries a `ref` naming the annotation it belongs to, exactly like a code
+segment's `refs`, so hover, callout cards, and connector lines work unchanged. One page
+may stack several panels, and an annotation referenced by two of them highlights in both
+at once. See `ci.ts` (topology + timeline) and `github.ts` (topology + graph).
+
+> `topology` suits things with a client/server split and does not generalize to a single
+> source file; `graph` and `timeline` do, so they are the ones to reach for if the Visual
+> tab ever grows past the concept pages.
+
 ## 🔒 Privacy
 
 On page load the site sends one anonymous visit ping to LunarWerx's own endpoint
