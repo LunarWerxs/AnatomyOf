@@ -123,6 +123,77 @@ export const sql: LanguageDef = {
       side: 'right',
     },
   ],
+  // The one thing about SQL a code panel physically cannot show: a query is not
+  // executed in the order it is written. Two columns and four crossing lines say
+  // it faster than any amount of prose, and the row counts on the right are why
+  // it matters (WHERE runs before GROUP BY, so it is filtering a million rows,
+  // not eight thousand groups).
+  visual: {
+    panels: [
+      {
+        template: 'topology',
+        caption: 'The order you write it is not the order it runs',
+        zones: [
+          {
+            id: 'written',
+            label: 'as you write it',
+            nodes: [
+              {
+                id: 'w-select',
+                ref: 'select-clause',
+                title: 'SELECT',
+                sub: 'customer_id, COUNT(*)',
+              },
+              { id: 'w-from', ref: 'join', title: 'FROM / JOIN', sub: 'orders JOIN customers' },
+              { id: 'w-where', ref: 'where-clause', title: 'WHERE', sub: "status = 'shipped'" },
+              {
+                id: 'w-group',
+                ref: 'group-having',
+                title: 'GROUP BY / HAVING',
+                sub: 'customer_id, COUNT(*) > 3',
+              },
+            ],
+          },
+          {
+            id: 'run',
+            label: 'as the database runs it',
+            nodes: [
+              {
+                id: 'r-from',
+                ref: 'join',
+                title: 'FROM / JOIN',
+                rows: [{ label: '1,000,000 rows' }],
+              },
+              {
+                id: 'r-where',
+                ref: 'where-clause',
+                title: 'WHERE',
+                rows: [{ label: '120,000 rows' }],
+              },
+              {
+                id: 'r-group',
+                ref: 'group-having',
+                title: 'GROUP BY / HAVING',
+                rows: [{ label: '8,400 groups' }],
+              },
+              {
+                id: 'r-select',
+                ref: 'select-clause',
+                title: 'SELECT',
+                rows: [{ label: '10 rows out' }],
+              },
+            ],
+          },
+        ],
+        edges: [
+          { from: 'w-from', to: 'r-from', ref: 'join' },
+          { from: 'w-where', to: 'r-where', ref: 'where-clause' },
+          { from: 'w-group', to: 'r-group', ref: 'group-having' },
+          { from: 'w-select', to: 'r-select', ref: 'select-clause' },
+        ],
+      },
+    ],
+  },
   examples: {
     minimal: [
       { code: '-- A minimal query. No ORMs were harmed in its writing.', refs: ['comment'] },

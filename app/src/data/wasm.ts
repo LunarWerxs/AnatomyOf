@@ -113,6 +113,54 @@ export const wasm: LanguageDef = {
       side: 'right',
     },
   ],
+  // A .wat file reads as one flat list, which hides the two things that actually
+  // define WebAssembly: the module is a sealed box that can only talk through
+  // declared doors, and every instruction is really a push or a pop.
+  visual: {
+    panels: [
+      {
+        template: 'topology',
+        caption: 'A sealed box with one declared door in each direction',
+        zones: [
+          {
+            id: 'host',
+            label: 'the JavaScript host',
+            nodes: [
+              {
+                id: 'js',
+                ref: 'import',
+                title: 'your page',
+                sub: 'WebAssembly.instantiate(bytes, imports)',
+                rows: [{ label: 'env.log = (n) => console.log(n)' }],
+              },
+            ],
+          },
+          {
+            id: 'mod',
+            label: 'the .wasm module',
+            nodes: [
+              { id: 'module', ref: 'module', title: '(module ...)', sub: 'one file, one module' },
+              {
+                id: 'fn',
+                ref: 'function',
+                title: '(func $add ...)',
+                sub: 'no registers, no variables to name',
+                rows: [
+                  { label: 'i32.const 2      push', ref: 'stack' },
+                  { label: 'i32.const 3      push', ref: 'stack' },
+                  { label: 'i32.add          pop pop push', ref: 'stack' },
+                ],
+              },
+            ],
+          },
+        ],
+        edges: [
+          { from: 'js', to: 'module', ref: 'import', label: 'imports', bow: -30 },
+          { from: 'fn', to: 'js', ref: 'export', label: 'exports', bow: 30 },
+        ],
+      },
+    ],
+  },
   examples: {
     minimal: [
       {
