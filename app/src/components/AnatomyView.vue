@@ -121,10 +121,15 @@ function onCardOpen(id: string) {
   else hoveredId.value = id
 }
 
+/**
+ * The toggle also emits on deselect (undefined) and on re-clicking the active
+ * option, so filter to a real change. Validate against `options` rather than a
+ * hard-coded list: that is the single source of truth for what this page
+ * offers, and it cannot drift when a new view is added.
+ */
 function setVariant(value: unknown) {
-  if ((value === 'minimal' || value === 'verbose') && value !== props.variant) {
-    emit('setVariant', value)
-  }
+  const next = options.value.find((option) => option === value)
+  if (next && next !== props.variant) emit('setVariant', next)
 }
 </script>
 
