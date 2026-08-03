@@ -71,6 +71,7 @@ const LANG_LOADERS: Record<string, () => Promise<LangModule>> = {
   typescript: () => import('@shikijs/langs/typescript'),
   vb: () => import('@shikijs/langs/vb'),
   wasm: () => import('@shikijs/langs/wasm'),
+  yaml: () => import('@shikijs/langs/yaml'),
   zig: () => import('@shikijs/langs/zig'),
 }
 

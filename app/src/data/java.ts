@@ -38,7 +38,7 @@ export const java: LanguageDef = {
       body: 'Documentation for classes, methods, and fields (`/** ... */`).',
       details:
         "A comment opened with `/**` (two asterisks, not one) is a Javadoc comment. Placed directly above a class, method, or field with no blank line in between, it becomes that member's official documentation, extracted by the `javadoc` tool into browsable HTML pages like the ones at docs.oracle.com.\n\nTags such as `@param`, `@return`, and `@throws` document a method's parameters, return value, and exceptions in a structured way that IDEs also read to power autocomplete tooltips. An ordinary `/* ... */` block comment (single leading asterisk) compiles identically but is invisible to `javadoc`.",
-      learnMore: 'https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html',
+      learnMore: 'https://docs.oracle.com/en/java/javase/26/javadoc/javadoc-tool.html',
       color: 'purple',
       side: 'right',
     },

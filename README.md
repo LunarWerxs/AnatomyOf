@@ -26,12 +26,12 @@ light & dark themes, and shareable URLs like
 [`/#/python/verbose`](https://anatomyof.lunarwerx.com/#/python/verbose).
 
 Beyond real languages, **concept pages** dissect the structural anatomy of a website, a
-settings screen, a mobile app, a dashboard, and an email: the same idea, applied to things
-that aren't code.
+settings screen, a mobile app, a dashboard, an email, a CI pipeline, and a GitHub
+contribution: the same idea, applied to things that aren't code.
 
 ## ✨ Highlights
 
-- 🔬 **47 languages + 5 concept pages**: from Python and Rust to Ada, Prolog, COBOL, Svelte, and WebAssembly
+- 🔬 **Dozens of languages, plus concept pages**: from Python and Rust to Ada, Prolog, COBOL, GML, and WebAssembly
 - 🎨 **Color-coded callouts** wired to the exact lines they describe
 - 🖱️ **Hover to trace, click to dive**: a full deep-dive modal per concept, with a *Learn more* link
 - 🌗 **Light & dark themes**, and **fully mobile-responsive** (tap to pin a callout, tap again to open it)
