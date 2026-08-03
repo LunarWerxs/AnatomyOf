@@ -121,7 +121,157 @@ export const javascript: LanguageDef = {
       color: 'teal',
       side: 'right',
     },
+    // The five below describe the runtime rather than the syntax, so they carry
+    // no line ranges and appear only on the Visual tab. Concurrency is the one
+    // part of JavaScript you cannot read off the page: the code says what
+    // happens, never when.
+    {
+      id: 'call-stack',
+      title: 'Call stack',
+      body: 'The one place JavaScript actually runs code, one frame at a time.',
+      details:
+        'JavaScript has a single call stack, and therefore does exactly one thing at a time. Calling a function pushes a frame; returning pops it. While any frame is on the stack, nothing else in the page can run, which is why a long synchronous loop freezes the UI completely rather than merely slowing it down.\n\nThis is the whole reason the rest of the machinery exists. Since the language cannot pause a function to go do something else, anything slow has to be handed off and picked up later, and "later" always means *after the stack is empty*.',
+      learnMore: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop#stack',
+      color: 'blue',
+      side: 'left',
+    },
+    {
+      id: 'async-api',
+      title: 'Async APIs',
+      body: 'Timers, network and I/O, which run outside the engine entirely.',
+      details:
+        '`setTimeout`, `fetch`, and file or socket I/O are not JavaScript. They are functions the host (a browser or Node) provides, implemented in the host\'s own code and often on other threads. Calling one registers the work, returns immediately, and takes the callback for safekeeping.\n\nSo `setTimeout(fn, 0)` does not run `fn` now and does not run it in zero milliseconds. It means "hand `fn` to the host, and let it queue it as soon as it can", which is a lower bound rather than a promise.',
+      learnMore: 'https://developer.mozilla.org/en-US/docs/Web/API/setTimeout',
+      color: 'orange',
+      side: 'right',
+    },
+    {
+      id: 'task-queue',
+      title: 'Task queue (macrotasks)',
+      body: 'Finished host work waiting for its turn on the stack.',
+      details:
+        'When a timer elapses or a response arrives, the host does not interrupt your code. It puts the callback in the task queue, where it waits. Each turn of the event loop takes **one** task from this queue, runs it to completion, and only then looks again.\n\nThat "one per turn" rule is why a flood of events cannot starve rendering, and why two `setTimeout` callbacks never interleave: each runs start to finish before the next begins.',
+      learnMore: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop#queue',
+      color: 'purple',
+      side: 'left',
+    },
+    {
+      id: 'microtask',
+      title: 'Microtask queue (promises)',
+      body: 'Promise callbacks, which jump the queue.',
+      details:
+        '`.then()` callbacks, `await` resumptions, and `queueMicrotask` go into a separate, higher-priority queue. After every task, and after the currently running script finishes, the engine drains the microtask queue **completely** before taking another task.\n\nThis is the mechanism behind the classic ordering puzzle: a promise resolved immediately still runs after all synchronous code, but before a `setTimeout(fn, 0)` registered earlier. It also means a microtask that queues another microtask can loop forever and hang the page, because the drain never reaches the end.',
+      learnMore: 'https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide',
+      color: 'green',
+      side: 'right',
+    },
+    {
+      id: 'event-loop',
+      title: 'The event loop',
+      body: 'The rule that decides what runs next, and when.',
+      details:
+        'The event loop is not a thread or a queue; it is a rule, applied forever: if the call stack is empty, drain every microtask, then take one task from the task queue and run it. Repeat.\n\nEverything people call "asynchronous JavaScript" falls out of that one sentence. Callbacks never interrupt running code, ordering between promises and timers is fixed rather than racy, and "non-blocking" means the stack empties quickly, not that anything ran in parallel.',
+      learnMore: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop',
+      color: 'red',
+      side: 'left',
+    },
   ],
+  // Syntax is on the other two tabs; this one is about the runtime. The topology
+  // shows that only the stack runs JavaScript, and the timeline settles the
+  // ordering question every interview asks.
+  visual: {
+    panels: [
+      {
+        template: 'topology',
+        caption: 'One thread, two queues, and a rule',
+        zones: [
+          {
+            id: 'engine',
+            label: 'the JavaScript engine',
+            nodes: [
+              {
+                id: 'stack',
+                ref: 'call-stack',
+                title: 'Call stack',
+                sub: 'one frame at a time',
+                rows: [{ label: 'render()' }, { label: 'main()' }],
+              },
+              {
+                id: 'micro',
+                ref: 'microtask',
+                title: 'Microtask queue',
+                sub: 'drained completely, every turn',
+              },
+            ],
+          },
+          {
+            id: 'host',
+            label: 'the host (browser or Node)',
+            nodes: [
+              {
+                id: 'api',
+                ref: 'async-api',
+                title: 'Timers, fetch, I/O',
+                sub: 'not JavaScript, and not on this thread',
+              },
+              {
+                id: 'macro',
+                ref: 'task-queue',
+                title: 'Task queue',
+                sub: 'one taken per turn',
+              },
+            ],
+          },
+        ],
+        edges: [
+          { from: 'stack', to: 'micro', ref: 'microtask', label: '.then(fn)', bow: -62 },
+          { from: 'micro', to: 'stack', ref: 'event-loop', label: 'drained first', bow: 62 },
+          { from: 'stack', to: 'api', ref: 'async-api', label: 'setTimeout / fetch', bow: -16 },
+          { from: 'api', to: 'macro', ref: 'task-queue', label: 'when it completes' },
+          {
+            from: 'macro',
+            to: 'stack',
+            ref: 'event-loop',
+            label: 'only once the stack is empty',
+            bow: 16,
+          },
+        ],
+      },
+      {
+        template: 'timeline',
+        caption: 'Why the output is 1, 2, promise, timeout',
+        max: 9,
+        unit: '',
+        bars: [
+          {
+            id: 'sync',
+            ref: 'call-stack',
+            label: 'synchronous code',
+            start: 0,
+            end: 3,
+            note: 'logs 1, then 2',
+          },
+          {
+            id: 'mt',
+            ref: 'microtask',
+            label: 'microtasks drained',
+            start: 3,
+            end: 5,
+            note: 'logs "promise"',
+          },
+          {
+            id: 'task',
+            ref: 'task-queue',
+            label: 'first task',
+            start: 5,
+            end: 8,
+            note: 'logs "timeout", registered first',
+          },
+        ],
+        markers: [{ at: 3, ref: 'event-loop', label: 'stack empty' }],
+      },
+    ],
+  },
   examples: {
     minimal: [
       { code: "import { formatPrice } from './format.js'", refs: ['imports'] },

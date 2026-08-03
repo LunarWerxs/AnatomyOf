@@ -112,6 +112,12 @@ segment's `refs`, so hover, callout cards, and connector lines work unchanged. O
 may stack several panels, and an annotation referenced by two of them highlights in both
 at once. See `ci.ts` (topology + timeline) and `github.ts` (topology + graph).
 
+An annotation may be referenced **only** by a diagram, in which case it appears on the
+Visual tab and nowhere else. That is how `javascript.ts` documents the event loop without
+inventing async code for its examples: the call stack and the two queues are runtime
+facts, not syntax. `scripts/check-examples.ts` enforces both directions, that every
+diagram `ref` resolves to a real annotation, and that no annotation is orphaned.
+
 > `topology` suits things with a client/server split and does not generalize to a single
 > source file; `graph` and `timeline` do, so they are the ones to reach for if the Visual
 > tab ever grows past the concept pages.

@@ -123,6 +123,54 @@ export const rust: LanguageDef = {
       side: 'left',
     },
   ],
+  // Borrow-checker errors are complaints about time: two things overlapped that
+  // were not allowed to. Code is a poor medium for showing overlap, so the rules
+  // become obvious the moment the same scope is drawn on an axis.
+  visual: {
+    panels: [
+      {
+        template: 'timeline',
+        caption: 'One owner, and who may look at the value when (by line)',
+        max: 12,
+        unit: '',
+        bars: [
+          {
+            id: 'own',
+            ref: 'ownership',
+            label: 's owns the String',
+            start: 0,
+            end: 11,
+            note: 'freed here, automatically',
+          },
+          {
+            id: 'shared',
+            ref: 'ownership',
+            label: '&s shared borrow',
+            start: 2,
+            end: 4,
+            note: 'any number at once',
+          },
+          {
+            id: 'unique',
+            ref: 'ownership',
+            label: '&mut s unique borrow',
+            start: 5,
+            end: 7,
+            note: 'exactly one, overlapping nothing',
+          },
+          {
+            id: 'moved',
+            ref: 'function',
+            label: 'consume(s) takes ownership',
+            start: 9,
+            end: 11,
+            note: 's is unusable after this',
+          },
+        ],
+        markers: [{ at: 11, ref: 'variable', label: 'scope ends' }],
+      },
+    ],
+  },
   examples: {
     minimal: [
       { code: 'use std::fmt;', refs: ['imports'] },

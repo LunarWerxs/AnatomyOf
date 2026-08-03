@@ -113,6 +113,65 @@ export const bash: LanguageDef = {
       side: 'right',
     },
   ],
+  // `a | b | c` is one line of code and three simultaneous programs. The code
+  // panel can show the syntax but not the plumbing, which is the part that
+  // explains why a pipeline streams rather than waits, and why `$?` is the exit
+  // status of the LAST command in it.
+  visual: {
+    panels: [
+      {
+        template: 'topology',
+        caption: 'One line, three programs, two pieces of plumbing',
+        zones: [
+          {
+            id: 'pipe',
+            label: 'the pipeline',
+            nodes: [
+              {
+                id: 'p1',
+                ref: 'command-exec',
+                title: 'grep "ERROR"',
+                sub: 'reads stdin, writes stdout',
+              },
+              {
+                id: 'p2',
+                ref: 'command-exec',
+                title: 'sort -u',
+                sub: 'reads stdin, writes stdout',
+              },
+              { id: 'p3', ref: 'command-exec', title: 'wc -l', sub: 'writes one number' },
+            ],
+          },
+          {
+            id: 'script',
+            label: 'your script',
+            nodes: [
+              {
+                id: 'cap',
+                ref: 'command-sub',
+                title: 'count=$( ... )',
+                sub: 'stdout captured as text',
+                rows: [{ label: 'echo "$count"', ref: 'variable' }],
+              },
+              {
+                id: 'status',
+                ref: 'exit-status',
+                title: '$?',
+                sub: '0 is success, anything else is not',
+                rows: [{ label: 'if [ "$count" -gt 0 ]', ref: 'conditional' }],
+              },
+            ],
+          },
+        ],
+        edges: [
+          { from: 'p1', to: 'p2', ref: 'command-exec', label: '|' },
+          { from: 'p2', to: 'p3', ref: 'command-exec', label: '|' },
+          { from: 'p3', to: 'cap', ref: 'command-sub', label: 'stdout', bow: -14 },
+          { from: 'p3', to: 'status', ref: 'exit-status', label: 'exit code', bow: 14 },
+        ],
+      },
+    ],
+  },
   examples: {
     minimal: [
       { code: '#!/usr/bin/env bash', refs: ['shebang'] },

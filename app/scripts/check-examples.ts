@@ -21,6 +21,7 @@
  *   bun run check:examples
  */
 import { loaders } from '../src/data/catalog.generated'
+import { visualRefs } from '../src/lib/visual'
 
 // The browser `languages` export is now lightweight metadata; load the FULL definitions
 // (annotations + examples) via the generated loaders so this data lint can inspect them.
@@ -80,6 +81,20 @@ for (const lang of languages) {
     annotationIds.add(a.id)
   }
 
+  // A `visual` block references annotations by id exactly as a code segment
+  // does, so its refs must resolve, and an annotation introduced only by a
+  // diagram counts as used.
+  const diagramRefs = visualRefs(lang.visual?.panels ?? [])
+  for (const ref of diagramRefs) {
+    if (!annotationIds.has(ref)) {
+      findings.push({
+        entry: lang.name,
+        where: 'visual',
+        detail: `diagram ref "${ref}" matches no annotation id`,
+      })
+    }
+  }
+
   // concept mockups render a live UI, not code examples, nothing more to lint
   if (!lang.examples) continue
 
@@ -93,7 +108,7 @@ for (const lang of languages) {
     }
   }
 
-  const referencedIds = new Set<string>()
+  const referencedIds = new Set<string>(diagramRefs)
 
   for (const [variant, segments] of Object.entries(lang.examples)) {
     segments.forEach((seg, i) => {
@@ -132,7 +147,7 @@ for (const lang of languages) {
       findings.push({
         entry: lang.name,
         where: `annotation "${id}"`,
-        detail: 'annotation is never referenced by either example variant',
+        detail: 'annotation is never referenced by either example variant or a diagram',
       })
     }
   }
