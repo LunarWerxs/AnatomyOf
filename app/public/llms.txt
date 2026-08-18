@@ -1,0 +1,39 @@
+# AnatomyOf
+
+> An interactive, annotated tour of what's inside a source file, one language at a time. Hover a callout to trace it into the code; click it for an in-depth writeup.
+
+AnatomyOf opens an example source file in a code window with color-coded callouts explaining every structural part: shebang, imports, class definitions, control flow, and more. Every language ships a minimal and a verbose example, light and dark themes, and shareable URLs like `/#/python/verbose`. Beyond real languages, concept pages dissect the structural anatomy of a website, a settings screen, a mobile app, a dashboard, an email, a CI pipeline, and a GitHub contribution: the same idea, applied to things that aren't code.
+
+## Key facts
+- Dozens of languages, plus concept pages: from Python and Rust to Ada, Prolog, COBOL, GML, and WebAssembly.
+- Color-coded callouts wired to the exact lines they describe.
+- Hover to trace, click to dive: a full deep-dive modal per concept, with a Learn more link.
+- Light and dark themes, and fully mobile-responsive (tap to pin a callout, tap again to open it).
+- Sidebar ranked by real-world popularity (TIOBE Index), toggleable to A-Z, with instant search.
+- Syntax highlighting by Shiki, the same engine VS Code uses.
+- Deep-linkable URLs for every language and variant.
+- Built with Bun, Vite, Vue 3, TypeScript, Tailwind CSS 4, Reka UI, Shiki, and Biome.
+- Free and open source under the MIT License.
+- Privacy: one anonymous visit ping per page load to LunarWerx's own endpoint, no cookies, no third-party trackers, no personal data; Do Not Track and Global Privacy Control are honored.
+
+## Common questions
+
+### Is AnatomyOf free?
+Yes. AnatomyOf is free and open source under the MIT License, with the full source published on GitHub. There is no account, no trial, and no paid tier: opening the site is the whole of getting started.
+
+### Which languages does it cover?
+Dozens, ranging from mainstream ones like Python and Rust to Ada, Prolog, COBOL, GML, and WebAssembly. Alongside the real languages, concept pages dissect the structural anatomy of a website, a settings screen, a mobile app, a dashboard, an email, a CI pipeline, and a GitHub contribution.
+
+### Does AnatomyOf track me?
+No. It sends one anonymous visit ping per page load to LunarWerx's own endpoint. There are no cookies, no third-party trackers, and no personal data of any kind. Do Not Track and Global Privacy Control are both honored.
+
+### Can I link someone straight to one language?
+Yes. Every language and variant has its own deep-linkable URL, in the shape `/#/python/verbose`, so a link opens exactly the file and the verbosity level you were looking at rather than the front page.
+
+### Does it work on a phone?
+Yes. The layout is fully mobile-responsive, and the callouts adapt to touch: tap a callout to pin it against the code, then tap it again to open its full deep-dive writeup.
+
+## Links
+- Home: https://anatomyof.lunarwerx.com/
+- Source code: https://github.com/LunarWerxs/AnatomyOf
+- License: https://github.com/LunarWerxs/AnatomyOf/blob/main/LICENSE

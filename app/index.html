@@ -75,9 +75,83 @@
         })(window, document, 'ak_9725f134d2dca1f186302a672f33e7273f69');
     </script>
     <!-- End ARGUS Analytics Pixel -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://anatomyof.lunarwerx.com/#app",
+            "name": "AnatomyOf",
+            "description": "An interactive, annotated tour of what's inside a source file, one language at a time. Hover a callout to trace it into the code; click it for an in-depth writeup. Every language ships a minimal and a verbose example, with color-coded, clickable callouts that explain imports, classes, and control flow, plus Shiki syntax highlighting, light/dark themes, and shareable deep-linked URLs. Beyond real languages, concept pages dissect the structural anatomy of a website, a settings screen, a mobile app, a dashboard, an email, a CI pipeline, and a GitHub contribution.",
+            "url": "https://anatomyof.lunarwerx.com/",
+            "applicationCategory": "DeveloperApplication",
+            "browserRequirements": "Requires JavaScript",
+            "image": "https://anatomyof.lunarwerx.com/og-image.png",
+            "featureList": [
+              "Dozens of languages plus concept pages, from Python and Rust to Ada, Prolog, COBOL, GML, and WebAssembly",
+              "Color-coded callouts wired to the exact lines they describe",
+              "Hover a callout to trace it into the code, click it for a full deep-dive modal with a Learn more link",
+              "Light and dark themes",
+              "Fully mobile-responsive: tap to pin a callout, tap again to open it",
+              "Sidebar ranked by real-world popularity (TIOBE Index), toggleable to A-Z, with instant search",
+              "Syntax highlighting by Shiki, the same engine VS Code uses",
+              "Deep-linkable URLs for every language and variant",
+              "Concept pages applying the same anatomy to non-code artifacts: a website, a settings screen, a mobile app, a dashboard, an email, a CI pipeline, and a GitHub contribution"
+            ],
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "author": { "@id": "https://lunarwerx.com/#org" },
+            "publisher": { "@id": "https://lunarwerx.com/#org" }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://lunarwerx.com/#org",
+            "name": "LunarWerx Studios",
+            "url": "https://lunarwerx.com/",
+            "logo": "https://lunarwerx.com/logowhite.webp",
+            "sameAs": ["https://github.com/LunarWerxs"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://anatomyof.lunarwerx.com/#site",
+            "name": "AnatomyOf",
+            "url": "https://anatomyof.lunarwerx.com/",
+            "publisher": { "@id": "https://lunarwerx.com/#org" }
+          }
+        ]
+      }
+    </script>
 </head>
   <body>
     <div id="app"></div>
+    <noscript>
+      <h1>AnatomyOf</h1>
+      <p>
+        AnatomyOf is an interactive, annotated tour of what's inside a source file, one
+        language at a time. It opens an example source file in a code window with
+        color-coded callouts explaining every structural part: shebang, imports, class
+        definitions, control flow, and more. It's built for developers who want to see the
+        anatomy of a language they don't know yet, or a refresher on one they do.
+      </p>
+      <p>
+        Beyond real languages, concept pages apply the same idea to things that aren't
+        code: the structural anatomy of a website, a settings screen, a mobile app, a
+        dashboard, an email, a CI pipeline, and a GitHub contribution.
+      </p>
+      <ul>
+        <li>Dozens of languages, from Python and Rust to Ada, Prolog, COBOL, GML, and WebAssembly</li>
+        <li>Color-coded callouts wired to the exact lines they describe, with a full deep-dive writeup per callout</li>
+        <li>Every language ships a minimal and a verbose example, each with a shareable, deep-linked URL</li>
+        <li>Light and dark themes, and fully mobile-responsive</li>
+        <li>Sidebar ranked by real-world popularity (TIOBE Index), toggleable to A-Z, with instant search</li>
+        <li>Syntax highlighting by Shiki, the same engine VS Code uses</li>
+      </ul>
+      <p>This page requires JavaScript to run the interactive tour. Enable JavaScript to use AnatomyOf.</p>
+    </noscript>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
