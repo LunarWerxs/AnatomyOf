@@ -3,11 +3,13 @@ import { ArrowLeft, Github, Menu } from 'lucide-vue-next'
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppSidebar from './components/AppSidebar.vue'
+import DiscordMark from './components/DiscordMark.vue'
 import BrandMark from './components/BrandMark.vue'
 import { useSmoothScroll } from './composables/useSmoothScroll'
 import { defaultLanguage, languages } from './data'
 
 const repoUrl = 'https://github.com/LunarWerxs/anatomyof'
+const discordUrl = 'https://discord.gg/PsWpeNUzhk'
 
 const route = useRoute()
 const router = useRouter()
@@ -58,18 +60,38 @@ watch(
     />
 
     <main class="flex min-w-0 flex-1 flex-col overflow-hidden">
-      <!-- Desktop: floating "view source" link in the top-right corner. Mobile
-           has its own copy in the top bar below. -->
-      <a
-        :href="repoUrl"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="View source on GitHub"
-        title="View source on GitHub"
-        class="fixed right-4 top-4 z-30 hidden cursor-pointer rounded-lg border border-zinc-200 bg-white/70 p-2 text-zinc-500 shadow-sm backdrop-blur transition-colors hover:bg-zinc-100 hover:text-zinc-900 md:flex dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-      >
-        <Github class="size-5" />
-      </a>
+      <!-- Desktop: floating links in the top-right corner. Mobile has its own
+           copies in the top bar below.
+
+           The Discord invite sits HERE, beside view-source, rather than as the
+           floating corner badge the rest of the fleet carries. This app is a
+           full-height two-pane reader with its own chrome, so a pill in the
+           opposite corner would be a third floating thing competing with the
+           sidebar and the code panel. Asked for this way (owner, 2026-08-21),
+           and it is the right call: it inherits the app's own tokens and its
+           light/dark treatment for free. -->
+      <div class="fixed right-4 top-4 z-30 hidden items-center gap-2 md:flex">
+        <a
+          :href="discordUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Join the LunarWerx Discord"
+          title="Join the LunarWerx Discord"
+          class="cursor-pointer rounded-lg border border-zinc-200 bg-white/70 p-2 text-zinc-500 shadow-sm backdrop-blur transition-colors hover:bg-zinc-100 hover:text-[#5865f2] dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-[#7d88ff]"
+        >
+          <DiscordMark class="size-5" />
+        </a>
+        <a
+          :href="repoUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View source on GitHub"
+          title="View source on GitHub"
+          class="cursor-pointer rounded-lg border border-zinc-200 bg-white/70 p-2 text-zinc-500 shadow-sm backdrop-blur transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900/70 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+        >
+          <Github class="size-5" />
+        </a>
+      </div>
 
       <!-- Mobile top bar -->
       <div
@@ -96,12 +118,22 @@ watch(
         <BrandMark class="size-5 shrink-0 text-zinc-900 dark:text-zinc-100" />
         <span class="truncate text-sm font-extrabold tracking-tight">AnatomyOf</span>
         <a
+          :href="discordUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Join the LunarWerx Discord"
+          title="Join the LunarWerx Discord"
+          class="ml-auto shrink-0 cursor-pointer rounded-md p-1.5 text-zinc-600 transition-colors hover:bg-zinc-200 hover:text-[#5865f2] dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-[#7d88ff]"
+        >
+          <DiscordMark class="size-5" />
+        </a>
+        <a
           :href="repoUrl"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="View source on GitHub"
           title="View source on GitHub"
-          class="ml-auto shrink-0 cursor-pointer rounded-md p-1.5 text-zinc-600 transition-colors hover:bg-zinc-200 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          class="shrink-0 cursor-pointer rounded-md p-1.5 text-zinc-600 transition-colors hover:bg-zinc-200 dark:text-zinc-300 dark:hover:bg-zinc-800"
         >
           <Github class="size-5" />
         </a>
