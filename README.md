@@ -18,6 +18,12 @@
 
 ---
 
+AnatomyOf is a free, open-source web app that teaches programming language syntax through
+interactively annotated source-code examples, pairing minimal and verbose code samples with
+hover-and-click callouts that explain each structural part (imports, control flow, class
+definitions) for dozens of languages, plus non-code concept pages like a website or a CI
+pipeline.
+
 **[AnatomyOf](https://anatomyof.lunarwerx.com)** opens an example source file in a code
 window with color-coded callouts explaining every structural part: shebang, imports, class
 definitions, control flow, and more. **Hover** a callout to trace it into the code; **click**
@@ -48,7 +54,7 @@ contribution: the same idea, applied to things that aren't code.
 
 **Bun** · **Vite** · **Vue 3** · **TypeScript** · **Tailwind CSS 4** · **Reka UI** · **Shiki** · **Biome**
 
-## 🧑‍💻 Develop
+## 🧑‍💻 Quick start / Develop
 
 ```sh
 cd app
@@ -134,6 +140,61 @@ cookies, no third-party trackers, no personal data; server-side it becomes a dai
 count (with coarse country) that expires after 90 days. Browsers signaling
 **Do Not Track** or **Global Privacy Control** are never pinged.
 
+## 🆚 How it compares
+
+AnatomyOf sits closest to **[Learn X in Y Minutes](https://learnxinyminutes.com)**, a free,
+open-source, community-maintained catalog of language, framework, and tool overviews
+under a CC BY-SA license, hosted on GitHub and open to pull requests. Both are free tours
+across many languages with no account required. The formats differ: Learn X in Y Minutes
+presents each language as a single commented code file, read top to bottom like an article.
+AnatomyOf instead renders a code window with clickable, color-coded callouts tied to exact
+lines, a separate deep-dive modal per concept, minimal and verbose variants, and light/dark
+themes, and it extends that same annotated-tour format to non-code concepts (a CI pipeline,
+a GitHub contribution) that a syntax-focused catalog doesn't cover. Compared with a
+language's own official docs or tutorial, AnatomyOf is narrower in depth (it is not a full
+reference) but consistent in presentation across every language it covers.
+
+## ❓ FAQ
+
+**Is AnatomyOf free?**
+Yes. AnatomyOf is free and open source under the MIT License, with the full source on
+GitHub. There is no account, sign-up, or paid tier: opening the site is the entire
+onboarding, and anyone can fork or self-host it under the same license.
+
+**Does it work offline?**
+No. AnatomyOf is a client-side web app deployed to GitHub Pages with no service worker or
+offline mode built in, so it needs an internet connection to load. You can run a local copy
+with `bun install` and `bun run dev` (see Quick start, above) and use it on your own network
+instead.
+
+**What are the system requirements?**
+None beyond a reasonably current desktop or mobile browser. AnatomyOf is a static Vue 3
+single-page app with no installer, account, or backend to configure; the layout is fully
+mobile-responsive, so a phone or tablet works as well as a laptop.
+
+**How is it different from Learn X in Y Minutes?**
+Both are free tours across many languages, but the format differs. Learn X in Y Minutes
+presents each language as a single commented code file read top to bottom; AnatomyOf renders
+a code window with clickable, color-coded callouts, a separate deep-dive modal per concept,
+minimal and verbose variants, and light/dark themes.
+
+**Is my data sent anywhere?**
+Almost none. On page load AnatomyOf sends one anonymous visit ping (a random visitor id in
+localStorage, plus a coarse country) to LunarWerx's own endpoint, with no cookies and no
+third-party trackers. It expires after 90 days, and the ping is skipped entirely for
+browsers signaling Do Not Track or Global Privacy Control.
+
+**Which languages does it cover?**
+Dozens, from mainstream ones like Python, Rust, and TypeScript to less common picks such as
+Ada, Prolog, COBOL, GML, and WebAssembly, each ranked in the sidebar by real-world
+popularity via the TIOBE Index (toggleable to A-Z). Concept pages extend the same format to
+things that aren't code, like a CI pipeline or a GitHub contribution.
+
+**Can I add a language myself?**
+Yes. AnatomyOf is data-driven: adding a language means creating one `LanguageDef` file under
+`app/src/data/`, with minimal and verbose code examples plus an annotation catalog, then
+adding its grammar to the highlighter. See "Adding a language," above, for the full steps.
+
 ## 📄 License
 
 [MIT](LICENSE) © [LunarWerx](https://lunarwerx.com): free to use, fork, and adapt.
@@ -143,4 +204,11 @@ count (with coarse country) that expires after 90 days. Browsers signaling
   <a href="https://anatomyof.lunarwerx.com"><img src="app/public/apple-touch-icon.png" alt="AnatomyOf" width="48" /></a>
   <br /><br />
   <sub>Built by <a href="https://lunarwerx.com"><b>LunarWerx</b></a> · Deployed on GitHub Pages</sub>
+  <br /><br />
+  <sub>
+    Made by <a href="https://lunarwerx.com"><b>LunarWerx Studios</b></a>. Also check out
+    <a href="https://repoyeti.com">RepoYeti</a>,
+    <a href="https://devwebui.lunarwerx.com">DevWebUI</a>, and
+    <a href="https://quickdictate.lunarwerx.com">QuickDictate</a>.
+  </sub>
 </div>

@@ -14,6 +14,14 @@ User-agent: Claude-User
 Allow: /
 User-agent: PerplexityBot
 Allow: /
+User-agent: Perplexity-User
+Allow: /
+User-agent: MistralAI-User
+Allow: /
+User-agent: DuckAssistBot
+Allow: /
+User-agent: Google-CloudVertexBot
+Allow: /
 
 # Training crawlers: allowed on purpose. These are free, open products.
 User-agent: GPTBot
@@ -33,6 +41,12 @@ Allow: /
 User-agent: meta-externalagent
 Allow: /
 User-agent: Bytespider
+Allow: /
+
+# Web indexers that answer engines retrieve from. Same access as the
+# wildcard group below, stated explicitly so it does not depend on a
+# fall-through.
+User-agent: Bingbot
 Allow: /
 
 # Everyone else.

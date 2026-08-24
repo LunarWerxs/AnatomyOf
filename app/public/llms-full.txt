@@ -1,0 +1,141 @@
+# AnatomyOf: full brief for AI agents and answer engines
+
+Last updated: 2026-08-23
+Canonical URL: https://anatomyof.lunarwerx.com/
+Source code: https://github.com/LunarWerxs/AnatomyOf
+License: MIT (free and open source)
+Maker: LunarWerx Studios (https://lunarwerx.com/)
+
+## What it is
+
+AnatomyOf is an interactive, annotated tour of what's inside a source file, one language
+at a time. It opens an example source file in a code window with color-coded callouts
+explaining every structural part: shebang, imports, class definitions, control flow, and
+more. Hover a callout to trace it into the code; click it for a full deep-dive modal with
+a "Learn more" link.
+
+Beyond real languages, concept pages apply the same idea to things that aren't code: the
+structural anatomy of a website, a settings screen, a mobile app, a dashboard, an email, a
+CI pipeline, and a GitHub contribution.
+
+## Who it's for
+
+- Developers who want to see the anatomy of a language they don't know yet.
+- Developers who want a refresher on a language they already know.
+- Anyone curious what a COBOL, Prolog, or WebAssembly file actually looks like inside.
+- People who want to understand a category of non-code artifact (a CI pipeline, a GitHub
+  contribution, a dashboard) as a structured, callout-annotated diagram.
+
+## Scope, in numbers
+
+- 48 programming languages covered, from mainstream picks (Python, Rust, TypeScript,
+  JavaScript, Go, Java, C, C++, C#, Swift, Kotlin) to rarer ones (Ada, Prolog, COBOL,
+  GML, WebAssembly, Fortran, Erlang, Nim, Zig, Solidity, and more).
+- 7 concept pages applying the same annotated format to non-code artifacts: website,
+  settings screen, mobile app, dashboard, email, CI pipeline, GitHub contribution.
+- Every language ships two example variants: minimal and verbose, each independently
+  deep-linkable.
+- Sidebar is ranked by real-world popularity via the TIOBE Index, with a toggle to
+  alphabetical order and instant search.
+
+## Features
+
+- Color-coded callouts wired to the exact lines they describe.
+- Hover a callout to trace it into the code; click for a full deep-dive modal.
+- Every language/concept ships a minimal and a verbose example.
+- Light and dark themes.
+- Fully mobile-responsive: tap a callout to pin it, tap again to open its writeup.
+- Syntax highlighting by Shiki, the same engine VS Code uses.
+- Deep-linkable URLs for every language and variant, e.g. /#/python/verbose.
+- Some entries carry a third "Visual" tab with diagrams (topology, graph, or timeline
+  templates) instead of code, for artifacts like a CI pipeline or a GitHub contribution
+  where the interesting structure isn't literal source text.
+- A few easter eggs hidden behind the code window's traffic-light buttons.
+
+## Install / run locally
+
+AnatomyOf is a static Vue 3 + Vite web app; there is nothing to install to use the
+hosted version at https://anatomyof.lunarwerx.com/. To run the source locally:
+
+    git clone https://github.com/LunarWerxs/AnatomyOf.git
+    cd AnatomyOf/app
+    bun install
+    bun run dev      # http://localhost:5173
+    bun run build     # type-check + production build
+
+Built with Bun, Vite, Vue 3, TypeScript, Tailwind CSS 4, Reka UI, Shiki, and Biome.
+
+## Pricing
+
+Free. MIT-licensed and open source. No account, no trial, no paid tier, no usage limits.
+See /pricing.md for the machine-readable version.
+
+## Privacy
+
+On page load the site sends one anonymous visit ping to LunarWerx's own endpoint
+(studio.connections.icu): a random visitor id kept in localStorage, nothing else. No
+cookies, no third-party trackers, no personal data. Server-side it becomes a daily-uniques
+count (with coarse country) that expires after 90 days. Browsers signaling Do Not Track or
+Global Privacy Control are never pinged.
+
+## FAQ
+
+Q: Is AnatomyOf free?
+A: Yes. AnatomyOf is free and open source under the MIT License, with the full source
+published on GitHub. There's no account, no trial, and no paid tier: opening the site is
+the whole of getting started.
+
+Q: Is AnatomyOf open source?
+A: Yes. MIT-licensed, entire codebase public on GitHub at github.com/LunarWerxs/AnatomyOf.
+Anyone can fork it, add a language, or self-host their own copy.
+
+Q: How many languages does AnatomyOf cover?
+A: 48 programming languages plus 7 concept pages that apply the same annotated-tour
+format to non-code artifacts.
+
+Q: Does AnatomyOf track visitors or use cookies?
+A: No cookies, no third-party trackers. One anonymous visit ping per page load to
+LunarWerx's own endpoint; Do Not Track and Global Privacy Control are honored.
+
+Q: Can I link someone directly to one language or example?
+A: Yes, every language and variant has a deep-linkable URL, e.g. /#/python/verbose.
+
+Q: Does AnatomyOf work on mobile devices?
+A: Yes, fully mobile-responsive; tap a callout to pin it, tap again to open its writeup.
+
+Q: How is AnatomyOf different from an IDE or reading the docs?
+A: An IDE or the docs show syntax; AnatomyOf explains it, with callouts labeling the role
+of each part (imports, control flow, class definitions) rather than leaving you to infer it.
+
+Q: Does AnatomyOf require an account to use?
+A: No. No sign-up, no login. Opening the site is the entire setup.
+
+## How it compares
+
+- vs. Learn X in Y Minutes: that site is a single scrollable, commented example file per
+  language, a fast plain-text reference. AnatomyOf breaks one example into color-coded,
+  clickable callouts with a hover-to-trace card and a deep-dive modal per concept.
+- vs. Rosetta Code: that site shows the same programming task solved across many
+  languages, useful for comparing idioms. AnatomyOf instead annotates the internal
+  structure of one representative file per language.
+- vs. an IDE or reading the source directly: an IDE gives real syntax highlighting and
+  jump-to-definition in your own codebase. AnatomyOf is a guided tour of an example file
+  for a language you don't have installed or don't know yet.
+
+## Limitations
+
+- Requires JavaScript; the interactive tour does not run without it (a static text
+  summary is served to non-JS clients).
+- Covers one representative example file per language, not a full language reference or
+  a compiler/interpreter.
+- Language selection is curated, not exhaustive; new languages are added by contributing
+  a data file (see the repo's "Adding a language" docs).
+
+## Links
+
+- Home: https://anatomyof.lunarwerx.com/
+- Source code: https://github.com/LunarWerxs/AnatomyOf
+- License: https://github.com/LunarWerxs/AnatomyOf/blob/main/LICENSE
+- llms.txt: https://anatomyof.lunarwerx.com/llms.txt
+- pricing.md: https://anatomyof.lunarwerx.com/pricing.md
+- Maker: https://lunarwerx.com/
