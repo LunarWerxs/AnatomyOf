@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "gen:catalog": "bun run scripts/gen-catalog.ts",
-    "build": "bun run scripts/gen-catalog.ts && bun run scripts/check-grammars.ts && vue-tsc -b && vite build",
+    "build": "bun run scripts/gen-catalog.ts && bun run scripts/check-grammars.ts && vue-tsc -b && vite build && bun run scripts/prerender.ts",
     "preview": "vite preview",
     "check": "biome check . && bun run scripts/check-grammars.ts && bun run scripts/check-examples.ts",
     "check:examples": "bun run scripts/check-examples.ts",
