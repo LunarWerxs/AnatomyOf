@@ -149,6 +149,15 @@ export function layoutTopology(panel: TopologyPanel): TopologyLayout {
   })
 
   const byId = new Map(nodes.map((n) => [n.id, n]))
+  const edges = layoutTopologyEdges(panel, byId)
+
+  return { width: VIEW_W, height, zones, nodes, edges }
+}
+
+function layoutTopologyEdges(
+  panel: TopologyPanel,
+  byId: Map<string, LaidNode>,
+): LaidEdge[] {
   const edges: LaidEdge[] = []
   for (const edge of panel.edges) {
     const from = byId.get(edge.from)
@@ -188,8 +197,7 @@ export function layoutTopology(panel: TopologyPanel): TopologyLayout {
       labelAnchor: 'middle',
     })
   }
-
-  return { width: VIEW_W, height, zones, nodes, edges }
+  return edges
 }
 
 /* ── Graph ─────────────────────────────────────────────────────────────── */
@@ -356,27 +364,41 @@ export function layoutTimeline(panel: TimelinePanel): TimelineLayout {
 
 /* ── Shared ────────────────────────────────────────────────────────────── */
 
+type RefAdder = (ref?: string) => void
+
+function addTopologyRefs(panel: TopologyPanel, add: RefAdder): void {
+  for (const zone of panel.zones) {
+    for (const node of zone.nodes) {
+      add(node.ref)
+      for (const row of node.rows ?? []) add(row.ref)
+    }
+  }
+  for (const edge of panel.edges) add(edge.ref)
+}
+
+function addGraphRefs(panel: GraphPanel, add: RefAdder): void {
+  for (const node of panel.nodes) add(node.ref)
+  for (const link of panel.links) add(link.ref)
+}
+
+function addTimelineRefs(panel: TimelinePanel, add: RefAdder): void {
+  for (const bar of panel.bars) add(bar.ref)
+  for (const marker of panel.markers ?? []) add(marker.ref)
+}
+
 /** Every annotation id a visual block references, in first-appearance order. */
 export function visualRefs(panels: VisualPanelDef[]): string[] {
   const refs: string[] = []
-  const add = (ref?: string) => {
+  const add: RefAdder = (ref) => {
     if (ref && !refs.includes(ref)) refs.push(ref)
   }
   for (const panel of panels) {
     if (panel.template === 'topology') {
-      for (const zone of panel.zones) {
-        for (const node of zone.nodes) {
-          add(node.ref)
-          for (const row of node.rows ?? []) add(row.ref)
-        }
-      }
-      for (const edge of panel.edges) add(edge.ref)
+      addTopologyRefs(panel, add)
     } else if (panel.template === 'graph') {
-      for (const node of panel.nodes) add(node.ref)
-      for (const link of panel.links) add(link.ref)
+      addGraphRefs(panel, add)
     } else {
-      for (const bar of panel.bars) add(bar.ref)
-      for (const marker of panel.markers ?? []) add(marker.ref)
+      addTimelineRefs(panel, add)
     }
   }
   return refs

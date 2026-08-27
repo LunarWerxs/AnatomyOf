@@ -44,6 +44,76 @@ function find(selector: string): Element | null {
   return found
 }
 
+interface ConnectorTarget {
+  id: string
+  endX: number
+  endY: number
+}
+
+// Each target is one endpoint: a code-line range (code mode) or a UI
+// region (mockup mode). Code endpoints sit at the panel edge; region
+// endpoints at the region's own near edge.
+function resolveTargets(
+  annotation: ResolvedAnnotation,
+  fromLeft: boolean,
+  region: boolean,
+  cRect: DOMRect,
+  codeRect: DOMRect,
+): ConnectorTarget[] {
+  const targets: ConnectorTarget[] = []
+
+  if (region) {
+    const el = find(`[data-region="${annotation.id}"]`)
+    if (el) {
+      const r = el.getBoundingClientRect()
+      targets.push({
+        id: annotation.id,
+        endX: (fromLeft ? r.left : r.right) - cRect.left,
+        endY: r.top + r.height / 2 - cRect.top,
+      })
+    }
+    return targets
+  }
+
+  const panelEndX = (fromLeft ? codeRect.left : codeRect.right) - cRect.left
+  for (const [first, last] of annotation.ranges) {
+    const firstEl = find(`[data-code-line="${first}"]`)
+    const lastEl = find(`[data-code-line="${last}"]`) ?? firstEl
+    if (!firstEl || !lastEl) continue
+    targets.push({
+      id: `${annotation.id}:${first}`,
+      endX: panelEndX,
+      endY:
+        (firstEl.getBoundingClientRect().top + lastEl.getBoundingClientRect().bottom) / 2 -
+        cRect.top,
+    })
+  }
+  return targets
+}
+
+function buildPaths(
+  annotation: ResolvedAnnotation,
+  targets: ConnectorTarget[],
+  startX: number,
+  startY: number,
+  bend: number,
+): ConnectorPath[] {
+  const built: ConnectorPath[] = []
+  for (const t of targets) {
+    // Guard against transient garbage coordinates mid-layout.
+    if (!Number.isFinite(startX) || !Number.isFinite(t.endY) || t.endX <= 0) continue
+    const midX = startX + (t.endX - startX) * bend
+    built.push({
+      id: t.id,
+      d: `M ${startX} ${startY} L ${midX} ${startY} L ${midX} ${t.endY} L ${t.endX} ${t.endY}`,
+      colorClass: accentStyles[annotation.color].connector,
+      endX: t.endX,
+      endY: t.endY,
+    })
+  }
+  return built
+}
+
 function compute() {
   const container = props.container
   if (!container || !window.matchMedia(XL_QUERY).matches) {
@@ -69,52 +139,12 @@ function compute() {
     const startX = (fromLeft ? cardRect.right : cardRect.left) - cRect.left
     const startY = cardRect.top + cardRect.height / 2 - cRect.top
 
-    // Each target is one endpoint: a code-line range (code mode) or a UI
-    // region (mockup mode). Code endpoints sit at the panel edge; region
-    // endpoints at the region's own near edge.
-    const targets: Array<{ id: string; endX: number; endY: number }> = []
-
-    if (region) {
-      const el = find(`[data-region="${annotation.id}"]`)
-      if (el) {
-        const r = el.getBoundingClientRect()
-        targets.push({
-          id: annotation.id,
-          endX: (fromLeft ? r.left : r.right) - cRect.left,
-          endY: r.top + r.height / 2 - cRect.top,
-        })
-      }
-    } else {
-      const panelEndX = (fromLeft ? codeRect.left : codeRect.right) - cRect.left
-      for (const [first, last] of annotation.ranges) {
-        const firstEl = find(`[data-code-line="${first}"]`)
-        const lastEl = find(`[data-code-line="${last}"]`) ?? firstEl
-        if (!firstEl || !lastEl) continue
-        targets.push({
-          id: `${annotation.id}:${first}`,
-          endX: panelEndX,
-          endY:
-            (firstEl.getBoundingClientRect().top + lastEl.getBoundingClientRect().bottom) / 2 -
-            cRect.top,
-        })
-      }
-    }
+    const targets = resolveTargets(annotation, fromLeft, region, cRect, codeRect)
 
     // stagger the elbow position so parallel lines don't overlap
     const bend = 0.42 + (index % 4) * 0.12
 
-    for (const t of targets) {
-      // Guard against transient garbage coordinates mid-layout.
-      if (!Number.isFinite(startX) || !Number.isFinite(t.endY) || t.endX <= 0) continue
-      const midX = startX + (t.endX - startX) * bend
-      next.push({
-        id: t.id,
-        d: `M ${startX} ${startY} L ${midX} ${startY} L ${midX} ${t.endY} L ${t.endX} ${t.endY}`,
-        colorClass: accentStyles[annotation.color].connector,
-        endX: t.endX,
-        endY: t.endY,
-      })
-    }
+    next.push(...buildPaths(annotation, targets, startX, startY, bend))
   })
 
   paths.value = next
