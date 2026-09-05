@@ -11,7 +11,8 @@
     "check": "biome check . && bun run scripts/check-grammars.ts && bun run scripts/check-examples.ts",
     "check:examples": "bun run scripts/check-examples.ts",
     "check:links": "bun run scripts/check-links.ts",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "test": "vitest run"
   },
   "dependencies": {
     "@shikijs/langs": "^4.3.1",
@@ -32,6 +33,7 @@
     "tailwindcss": "^4.3.2",
     "typescript": "~6.0.2",
     "vite": "^8.1.1",
+    "vitest": "^5.0.0",
     "vue-tsc": "^3.3.5"
   }
 }

@@ -1,0 +1,32 @@
+name: CI
+
+# Gate every push and PR on the same checks a contributor is expected to run
+# locally before opening one: bun run check (Biome plus the grammar/example
+# content-integrity scripts) and bun run test (vitest over app/src/lib).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Check (biome, grammars, examples)
+        run: bun run check
+
+      - name: Test
+        run: bun run test

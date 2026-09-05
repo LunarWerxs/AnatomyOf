@@ -154,10 +154,7 @@ export function layoutTopology(panel: TopologyPanel): TopologyLayout {
   return { width: VIEW_W, height, zones, nodes, edges }
 }
 
-function layoutTopologyEdges(
-  panel: TopologyPanel,
-  byId: Map<string, LaidNode>,
-): LaidEdge[] {
+function layoutTopologyEdges(panel: TopologyPanel, byId: Map<string, LaidNode>): LaidEdge[] {
   const edges: LaidEdge[] = []
   for (const edge of panel.edges) {
     const from = byId.get(edge.from)
