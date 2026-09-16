@@ -45,7 +45,7 @@ annotations (call stack, async APIs, the two queues, the rule) that no example
 references. The alternative was bolting async code onto its code examples purely to
 justify the annotations, which would have made the code variants worse in order to serve
 the diagram. Runtime facts are not syntax, so they appear on the Visual tab and nowhere
-else. `scripts/check-examples.ts` enforces both directions: every diagram `ref` must
+else. `app/scripts/check-examples.ts` enforces both directions: every diagram `ref` must
 resolve, and no annotation may be orphaned.
 
 **The "annotated product screenshot" direction was rejected as a variant.** A mocked-up

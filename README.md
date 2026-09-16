@@ -86,7 +86,7 @@ Everything is data-driven, one file per language in `app/src/data/`:
    literals, keep the code valid and still clearly teaching, and never rename an
    identifier that an annotation references. 2-5 touches per language.
 2. Add the grammar import to `app/src/lib/highlighter.ts` (enforced by
-   `scripts/check-grammars.ts`, which runs in `bun run build`/`check`).
+   `app/scripts/check-grammars.ts`, which runs in `bun run build`/`check`).
 3. Set a `popularity` rank on the `LanguageDef` and remove it from `comingSoon.ts` if
    applicable. Run `bun run gen:catalog` (also run automatically by `bun run build`) to
    regenerate the catalog and lazy-loader map. The sidebar's **Languages** group is sorted
@@ -122,7 +122,7 @@ at once. See `ci.ts` (topology + timeline) and `github.ts` (topology + graph).
 An annotation may be referenced **only** by a diagram, in which case it appears on the
 Visual tab and nowhere else. That is how `javascript.ts` documents the event loop without
 inventing async code for its examples: the call stack and the two queues are runtime
-facts, not syntax. `scripts/check-examples.ts` enforces both directions, that every
+facts, not syntax. `app/scripts/check-examples.ts` enforces both directions, that every
 diagram `ref` resolves to a real annotation, and that no annotation is orphaned.
 
 > `topology` suits things with a client/server split and does not generalize to a single
