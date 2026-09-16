@@ -26,7 +26,7 @@ defineProps<{
     <div class="grid grid-cols-[110px_1.1fr_1.6fr]">
       <!-- Folders -->
       <MockupRegion id="folders" :active-id="activeId" :color="colorMap.folders ?? 'blue'">
-        <nav class="flex h-full flex-col gap-1 border-r border-zinc-200 p-2 text-xs dark:border-zinc-800">
+        <nav class="flex h-full flex-col gap-1 border-e border-zinc-200 p-2 text-xs dark:border-zinc-800">
           <MockupRegion id="compose" :active-id="activeId" :color="colorMap.compose ?? 'green'">
             <div class="mb-1 rounded-full bg-sky-600 px-3 py-1.5 text-center text-[11px] font-bold text-white">✎ Compose</div>
           </MockupRegion>
@@ -39,9 +39,9 @@ defineProps<{
 
       <!-- Message list -->
       <MockupRegion id="message-list" :active-id="activeId" :color="colorMap['message-list'] ?? 'teal'">
-        <div class="flex h-full flex-col border-r border-zinc-200 dark:border-zinc-800">
+        <div class="flex h-full flex-col border-e border-zinc-200 dark:border-zinc-800">
           <MockupRegion id="message" :active-id="activeId" :color="colorMap.message ?? 'purple'">
-            <div class="border-l-2 border-sky-500 bg-sky-50 px-3 py-2 dark:bg-sky-950/40">
+            <div class="border-s-2 border-sky-500 bg-sky-50 px-3 py-2 dark:bg-sky-950/40">
               <div class="flex justify-between text-xs font-bold text-zinc-800 dark:text-zinc-100"><span>Globex Corp</span><span class="text-[10px] font-normal text-zinc-400">9:41</span></div>
               <div class="truncate text-[11px] font-medium text-zinc-700 dark:text-zinc-200">Q3 invoice attached</div>
               <div class="truncate text-[10px] text-zinc-400">Hi, please find the invoice for…</div>

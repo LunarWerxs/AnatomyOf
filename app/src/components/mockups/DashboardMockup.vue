@@ -14,7 +14,7 @@ const bars = [40, 62, 48, 75, 58, 88, 70]
   <div class="grid grid-cols-[132px_1fr] bg-white text-zinc-800 dark:bg-zinc-900 dark:text-zinc-100">
     <!-- Sidebar -->
     <MockupRegion id="sidebar" :active-id="activeId" :color="colorMap.sidebar ?? 'slate'">
-      <aside class="flex h-full flex-col gap-1 border-r border-zinc-200 p-2 text-xs dark:border-zinc-800">
+      <aside class="flex h-full flex-col gap-1 border-e border-zinc-200 p-2 text-xs dark:border-zinc-800">
         <div class="mb-2 px-2 text-sm font-black text-zinc-900 dark:text-zinc-50">◆ Acme</div>
         <span class="rounded bg-zinc-900 px-2.5 py-1.5 font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900">Overview</span>
         <span class="px-2.5 py-1.5 text-zinc-500 dark:text-zinc-400">Reports</span>
@@ -83,19 +83,19 @@ const bars = [40, 62, 48, 75, 58, 88, 70]
         <MockupRegion id="table" :active-id="activeId" :color="colorMap.table ?? 'indigo'">
           <div class="overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-700">
             <div class="flex bg-zinc-50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-zinc-400 dark:bg-zinc-800">
-              <span class="flex-1">Customer</span><span class="w-16">Plan</span><span class="w-16 text-right">MRR</span>
+              <span class="flex-1">Customer</span><span class="w-16">Plan</span><span class="w-16 text-end">MRR</span>
             </div>
             <MockupRegion id="row" :active-id="activeId" :color="colorMap.row ?? 'rose'">
               <div class="flex items-center border-t border-zinc-100 px-3 py-2 text-xs dark:border-zinc-800">
                 <span class="flex-1 text-zinc-700 dark:text-zinc-200">Globex Corp</span>
                 <span class="w-16 text-zinc-500 dark:text-zinc-400">Pro</span>
-                <span class="w-16 text-right font-semibold text-zinc-800 dark:text-zinc-100">$1,200</span>
+                <span class="w-16 text-end font-semibold text-zinc-800 dark:text-zinc-100">$1,200</span>
               </div>
             </MockupRegion>
             <div class="flex items-center border-t border-zinc-100 px-3 py-2 text-xs dark:border-zinc-800">
               <span class="flex-1 text-zinc-700 dark:text-zinc-200">Initech</span>
               <span class="w-16 text-zinc-500 dark:text-zinc-400">Team</span>
-              <span class="w-16 text-right font-semibold text-zinc-800 dark:text-zinc-100">$640</span>
+              <span class="w-16 text-end font-semibold text-zinc-800 dark:text-zinc-100">$640</span>
             </div>
             <MockupRegion id="pagination" :active-id="activeId" :color="colorMap.pagination ?? 'green'">
               <div class="flex items-center justify-end gap-1 border-t border-zinc-100 px-3 py-1.5 text-[10px] text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">

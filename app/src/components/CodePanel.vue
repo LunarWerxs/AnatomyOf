@@ -169,7 +169,7 @@ function onLineClick(line: number) {
         @click="toggleCodeTheme"
       />
       <Transition name="fade-swap" mode="out-in" :duration="250">
-        <span :key="fileName" class="ml-3 font-mono text-xs text-zinc-400">{{ fileName }}</span>
+        <span :key="fileName" class="ms-3 font-mono text-xs text-zinc-400">{{ fileName }}</span>
       </Transition>
     </div>
 
@@ -196,7 +196,7 @@ function onLineClick(line: number) {
               v-for="(line, index) in current.lines"
               :key="index"
               :data-code-line="index + 1"
-              class="flex h-6 items-center border-l-2 pr-4 transition-colors duration-75"
+              class="flex h-6 items-center border-s-2 pe-4 transition-colors duration-75"
               :class="[
                 lineClasses(index + 1),
                 lineAnnotation.has(index + 1) ? 'cursor-pointer' : '',
@@ -205,12 +205,12 @@ function onLineClick(line: number) {
               @click="onLineClick(index + 1)"
             >
               <span
-                class="w-9 shrink-0 select-none pr-3 text-right text-[11px]"
+                class="w-9 shrink-0 select-none pe-3 text-end text-[11px]"
                 :class="chrome.gutter"
               >
                 {{ index + 1 }}
               </span>
-              <span class="mr-2 flex w-1.5 shrink-0 justify-center">
+              <span class="me-2 flex w-1.5 shrink-0 justify-center">
                 <span
                   v-if="lineAnnotation.has(index + 1)"
                   class="size-1.5 rounded-full opacity-70"

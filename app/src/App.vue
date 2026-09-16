@@ -123,7 +123,7 @@ watch(
           rel="noopener noreferrer"
           aria-label="Join the LunarWerx Discord"
           title="Join the LunarWerx Discord"
-          class="ml-auto shrink-0 cursor-pointer rounded-md p-1.5 text-zinc-600 transition-colors hover:bg-zinc-200 hover:text-[#5865f2] dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-[#7d88ff]"
+          class="ms-auto shrink-0 cursor-pointer rounded-md p-1.5 text-zinc-600 transition-colors hover:bg-zinc-200 hover:text-[#5865f2] dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-[#7d88ff]"
         >
           <DiscordMark class="size-5" />
         </a>

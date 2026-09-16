@@ -104,7 +104,7 @@ function toggleTheme() {
 
 <template>
   <aside
-    class="flex h-full w-60 shrink-0 flex-col border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950"
+    class="flex h-full w-60 shrink-0 flex-col border-e border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950"
   >
     <!-- Up to the studio. AnatomyOf serves from a lunarwerx.com subdomain, and
          this row is the only route back to the parent site. It sits above the
@@ -128,7 +128,7 @@ function toggleTheme() {
       </div>
       <button
         type="button"
-        class="ml-auto cursor-pointer rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+        class="ms-auto cursor-pointer rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
         :aria-label="mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
         @click="toggleTheme"
       >
@@ -149,7 +149,7 @@ function toggleTheme() {
             type="text"
             placeholder="Search…"
             aria-label="Search file types"
-            class="w-full rounded-md border border-zinc-200 bg-zinc-50 py-1.5 pl-8 pr-7 text-[13px] text-zinc-800 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-500"
+            class="w-full rounded-md border border-zinc-200 bg-zinc-50 py-1.5 ps-8 pe-7 text-[13px] text-zinc-800 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-500"
           />
           <button
             v-if="query"
@@ -194,7 +194,7 @@ function toggleTheme() {
             v-for="lang in languageItems"
             :key="lang.id"
             :value="lang.id"
-            class="group flex cursor-pointer items-center gap-2.5 rounded-md px-3 py-1 text-left text-[13px] font-medium text-zinc-600 transition-colors hover:bg-zinc-100 data-[state=active]:bg-zinc-900 data-[state=active]:text-white dark:text-zinc-400 dark:hover:bg-zinc-800 dark:data-[state=active]:bg-zinc-100 dark:data-[state=active]:text-zinc-900"
+            class="group flex cursor-pointer items-center gap-2.5 rounded-md px-3 py-1 text-start text-[13px] font-medium text-zinc-600 transition-colors hover:bg-zinc-100 data-[state=active]:bg-zinc-900 data-[state=active]:text-white dark:text-zinc-400 dark:hover:bg-zinc-800 dark:data-[state=active]:bg-zinc-100 dark:data-[state=active]:text-zinc-900"
           >
             <span
               class="size-1.5 shrink-0 rounded-full"
@@ -202,7 +202,7 @@ function toggleTheme() {
             />
             {{ lang.name }}
             <span
-              class="ml-auto text-[10px] text-zinc-400 group-data-[state=active]:text-zinc-400 dark:text-zinc-500 dark:group-data-[state=active]:text-zinc-500"
+              class="ms-auto text-[10px] text-zinc-400 group-data-[state=active]:text-zinc-400 dark:text-zinc-500 dark:group-data-[state=active]:text-zinc-500"
             >
               {{ lang.extensions.join(' ') }}
             </span>
@@ -218,7 +218,7 @@ function toggleTheme() {
             v-for="lang in conceptItems"
             :key="lang.id"
             :value="lang.id"
-            class="group flex cursor-pointer items-center gap-2.5 rounded-md px-3 py-1 text-left text-[13px] font-medium text-zinc-600 transition-colors hover:bg-zinc-100 data-[state=active]:bg-zinc-900 data-[state=active]:text-white dark:text-zinc-400 dark:hover:bg-zinc-800 dark:data-[state=active]:bg-zinc-100 dark:data-[state=active]:text-zinc-900"
+            class="group flex cursor-pointer items-center gap-2.5 rounded-md px-3 py-1 text-start text-[13px] font-medium text-zinc-600 transition-colors hover:bg-zinc-100 data-[state=active]:bg-zinc-900 data-[state=active]:text-white dark:text-zinc-400 dark:hover:bg-zinc-800 dark:data-[state=active]:bg-zinc-100 dark:data-[state=active]:text-zinc-900"
           >
             <span
               class="size-1.5 shrink-0 rounded-full"
@@ -243,12 +243,12 @@ function toggleTheme() {
         >
           <span class="size-1.5 shrink-0 rounded-full bg-zinc-300 dark:bg-zinc-700" />
           {{ item.name }}
-          <span class="ml-auto text-[10px] text-zinc-300 dark:text-zinc-700">{{ item.ext }}</span>
+          <span class="ms-auto text-[10px] text-zinc-300 dark:text-zinc-700">{{ item.ext }}</span>
         </li>
         <li>
           <button
             type="button"
-            class="flex w-full cursor-pointer items-center gap-2.5 rounded-md px-3 py-1 text-left text-[13px] text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-sky-600 dark:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-sky-400"
+            class="flex w-full cursor-pointer items-center gap-2.5 rounded-md px-3 py-1 text-start text-[13px] text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-sky-600 dark:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-sky-400"
             @click="suggestOpen = true"
           >
             <!-- Icon centered in a 6px-wide slot (same footprint as the row

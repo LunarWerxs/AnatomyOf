@@ -98,7 +98,7 @@ function onClick(event: MouseEvent) {
         @click="toggleParty"
       />
       <div
-        class="ml-3 flex-1 truncate rounded bg-white px-3 py-1 text-center font-mono text-[11px] text-zinc-500 dark:bg-zinc-700 dark:text-zinc-300"
+        class="ms-3 flex-1 truncate rounded bg-white px-3 py-1 text-center font-mono text-[11px] text-zinc-500 dark:bg-zinc-700 dark:text-zinc-300"
       >
         diagram
       </div>

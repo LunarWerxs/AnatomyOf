@@ -24,7 +24,7 @@ defineProps<{
     <div class="grid grid-cols-[140px_1fr]">
       <!-- Category nav -->
       <MockupRegion id="nav" :active-id="activeId" :color="colorMap.nav ?? 'blue'">
-        <nav class="flex h-full flex-col gap-0.5 border-r border-zinc-200 p-2 text-xs dark:border-zinc-700">
+        <nav class="flex h-full flex-col gap-0.5 border-e border-zinc-200 p-2 text-xs dark:border-zinc-700">
           <span class="rounded bg-zinc-900 px-2.5 py-1.5 font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900">Account</span>
           <span class="px-2.5 py-1.5 text-zinc-500 dark:text-zinc-400">Notifications</span>
           <span class="px-2.5 py-1.5 text-zinc-500 dark:text-zinc-400">Appearance</span>
@@ -83,7 +83,7 @@ defineProps<{
               inline
             >
               <span class="flex h-5 w-9 items-center rounded-full bg-green-500 px-0.5">
-                <span class="ml-auto size-4 rounded-full bg-white shadow" />
+                <span class="ms-auto size-4 rounded-full bg-white shadow" />
               </span>
             </MockupRegion>
           </div>

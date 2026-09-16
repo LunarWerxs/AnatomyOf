@@ -148,7 +148,7 @@ function setVariant(value: unknown) {
           class="group underline decoration-transparent decoration-4 underline-offset-8 transition-colors hover:decoration-current"
           :style="{ color: language.accentHex }"
         >{{ language.titleWord }}<ExternalLink
-            class="mb-4 ml-1 inline size-4 opacity-0 transition-opacity group-hover:opacity-70"
+            class="mb-4 ms-1 inline size-4 opacity-0 transition-opacity group-hover:opacity-70"
           /></a>{{ nounSuffix }}
       </h1>
     </Transition>

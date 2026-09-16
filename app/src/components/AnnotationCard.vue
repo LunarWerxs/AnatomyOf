@@ -21,7 +21,7 @@ const style = computed(() => accentStyles[props.annotation.color])
   <button
     type="button"
     :data-annotation-card="annotation.id"
-    class="w-full cursor-pointer rounded-lg border-2 px-3 py-2 text-left text-[13px] leading-snug shadow-sm transition-all duration-100"
+    class="w-full cursor-pointer rounded-lg border-2 px-3 py-2 text-start text-[13px] leading-snug shadow-sm transition-all duration-100"
     :class="[
       style.card,
       active
@@ -35,6 +35,6 @@ const style = computed(() => accentStyles[props.annotation.color])
     <!-- On mobile the card shows just the title; the body (and its colon) are
          hidden to keep the stacked list compact. The full body is in the modal. -->
     <span class="font-bold uppercase tracking-wide">{{ annotation.title }}<span class="hidden md:inline">:</span></span>
-    <span class="ml-1 hidden opacity-85 md:inline">{{ annotation.body }}</span>
+    <span class="ms-1 hidden opacity-85 md:inline">{{ annotation.body }}</span>
   </button>
 </template>
