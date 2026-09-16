@@ -37,6 +37,7 @@ export const svelte: LanguageDef = {
       title: 'Props',
       body: 'Values passed in from a parent, read with the `$props()` rune.',
       details:
+        // arkitect-allow: no-bandaids - "legacy mode" is Svelte 5's own documented compatibility switch for `export let` props, the framework feature this entry explains; nothing here keeps a legacy path alive
         "`let { name = 'world' } = $props()` destructures the values the parent passed to this component, with a default for anything omitted. Because it is ordinary destructuring, renaming (`let { class: className } = $props()`) and collecting the rest (`let { title, ...others } = $props()`) work exactly as they do anywhere else in JavaScript.\n\nProps are read-only by default: assigning to one is a mistake the compiler will flag, because the parent owns that value. A prop declared `$bindable()` opts into two-way flow so the child can write back to it, which is what `bind:` on a component uses under the hood. Before Svelte 5 this was written as `export let name`, which still works in legacy mode.",
       learnMore: 'https://svelte.dev/docs/svelte/$props',
       color: 'green',

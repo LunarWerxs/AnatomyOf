@@ -49,7 +49,7 @@ const languageItems = computed(() => {
     .filter((lang) => (lang.category ?? 'language') === 'language')
     .filter((lang) => matches(lang.name, lang.extensions))
   return sortMode.value === 'name'
-    ? [...items].sort((a, b) => a.name.localeCompare(b.name, 'en'))
+    ? [...items].sort((a, b) => a.name.localeCompare(b.name))
     : items
 })
 const conceptItems = computed(() =>

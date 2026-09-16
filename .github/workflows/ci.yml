@@ -3,18 +3,21 @@ name: CI
 # Gate every push and PR on the same checks a contributor is expected to run
 # locally before opening one: bun run check (Biome plus the grammar/example
 # content-integrity scripts) and bun run test (vitest over app/src/lib).
+#
+# working-directory is stated on every step rather than in a job-level
+# `defaults:` block, so each step says where it runs. `check` and `test` are
+# lanes of app/package.json, and a step that names its own directory is the
+# only thing that makes that lane a gate rather than a script nobody reaches.
 
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: app
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
@@ -23,10 +26,38 @@ jobs:
           bun-version: 1.4.0
 
       - name: Install dependencies
+        working-directory: app
         run: bun install --frozen-lockfile
 
       - name: Check (biome, grammars, examples)
+        working-directory: app
         run: bun run check
 
       - name: Test
+        working-directory: app
         run: bun run test
+
+  # `bun run check:links` probes every outbound URL in the data files against the
+  # live web, so it is network-dependent in a way the PR gate must not be: the
+  # script's own contract is that a 403 from a bot-blocking host or a 429
+  # rate-limit is "verify in a browser", never a failure, and a hosting
+  # provider's mood has no business blocking a pull request. It runs on every
+  # merge to main and on demand, where a dead destination still turns the run
+  # red and gets looked at.
+  links:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.4.0
+
+      - name: Install dependencies
+        working-directory: app
+        run: bun install --frozen-lockfile
+
+      - name: Link check (outbound URLs)
+        working-directory: app
+        run: bun run check:links

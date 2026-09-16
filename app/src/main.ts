@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import AnatomyPage from './components/AnatomyPage.vue'
 import { sendVisitPing } from './lib/analytics'
+import { installImeCompositionGuard } from './lib/ime-composition-guard'
 import './style.css'
 
 /**
@@ -44,6 +45,12 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [{ path: '/:langId?/:variant?', name: 'anatomy', component: AnatomyPage }],
 })
+
+// One capture-phase guard, before anything can listen: on Safari and Chrome on
+// macOS the Enter that commits an input-method candidate (Chinese, Japanese,
+// Korean typing) arrives as a plain key="Enter" and would otherwise reach every
+// Enter handler in a half-typed state.
+installImeCompositionGuard()
 
 createApp(App).use(router).mount('#app')
 

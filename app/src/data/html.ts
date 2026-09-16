@@ -27,6 +27,7 @@ export const html: LanguageDef = {
       title: 'Document type declaration',
       body: 'Instructs the browser about the HTML version (<!DOCTYPE html>).',
       details:
+        // arkitect-allow: no-bandaids - HTML's own history is this entry's subject: quirks mode exists so doctype-less pre-CSS documents still render, and no shim in this repo keeps it alive
         '`<!DOCTYPE html>` must be the very first line of an HTML5 document. It is not an HTML tag but an instruction to the browser to render the page in standards mode rather than quirks mode, which older, doctype-less documents triggered for backward compatibility with pre-CSS layouts.\n\nQuirks mode changes box-model math, table sizing, and other layout behaviors in ways that are hard to predict, so omitting or misplacing the doctype can silently break a modern layout. The HTML5 doctype is deliberately short compared to the versioned, DTD-referencing doctypes required by HTML 4.01 and XHTML.',
       learnMore: 'https://developer.mozilla.org/en-US/docs/Glossary/Doctype',
       color: 'blue',
