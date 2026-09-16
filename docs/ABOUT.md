@@ -53,29 +53,29 @@ edit the dossier, not this block. Everything ABOVE the marker is yours.
 
 ### Features
 
-12 recorded - 12 shipped, 0 partial, 0 planned. Each `path:line` is where the feature is DEFINED, checked by `odin codex check`.
+12 recorded - 12 shipped, 0 partial, 0 planned. Each path is where the feature is DEFINED; the exact lines live in the Codex entry, which `odin codex check` re-verifies and repairs.
 
 **Shipped**
 
-- **Language anatomy pages** - Dozens of languages (Python to Ada, Prolog, COBOL, GML, WebAssembly) each get an annotated code window with color-coded callouts for every structural part, ranked in the sidebar by TIOBE popularity. - `app/src/lib/types.ts:194`, `app/src/data/index.ts:11`
-- **Concept pages (non-code anatomy)** - The same annotated-tour format applied to things that aren't code: a website, a settings screen, a mobile app, a dashboard, an email, a CI pipeline, and a GitHub contribution flow, each with a live UI mockup instead of source. - `app/src/data/website.ts:5`, `app/src/data/ci.ts:6`, `app/src/components/MockupPanel.vue:10`
-- **Hover-to-trace, click-to-deep-dive callouts** - Hovering a callout draws a connector line into the exact code lines it describes; clicking opens a full deep-dive modal with a Learn more link. - `app/src/components/AnnotationCard.vue:31`, `app/src/components/AnnotationDialog.vue:1`, `app/src/components/ConnectorLayer.vue:1`
-- **Minimal / verbose / visual view toggle with deep-linkable URLs** - Every entry ships minimal and verbose code variants (a third Visual tab where defined), each reachable by a shareable URL like /#/python/verbose. - `app/src/components/AnatomyPage.vue:80`, `app/src/lib/types.ts:22`
-- **Visual diagram tab (topology / graph / timeline)** - A data-driven third tab renders diagrams (client/server topology, branch/merge graphs, overlap timelines) from reusable templates instead of hand-drawn SVG; annotations can be shared between the code and diagram views. Live on 7 of 55 entries as of the design doc. - `app/src/lib/visual.ts:85`, `app/src/lib/types.ts:115`, `app/src/components/visual/TopologyDiagram.vue:1`
-- **Sidebar search and popularity sort** - Instant name/extension filter over languages and concepts, toggleable between TIOBE-popularity order and A-Z, plus a Coming soon section for unimplemented entries. - `app/src/components/AppSidebar.vue:29`, `app/src/components/AppSidebar.vue:43`
-- **Light / dark theme** - Persisted theme toggle (defaults dark) for the whole app and the code window. - `app/src/components/AppSidebar.vue:77`, `app/src/components/AppSidebar.vue:83`
-- **Mobile-responsive layout with tap-to-pin callouts** - On touch devices a first tap pins a callout (showing its connector) and a second tap opens the deep-dive modal, replacing hover for devices with no pointer. - `app/src/components/AnatomyView.vue:98`, `app/src/components/AnatomyView.vue:112`
-- **Shiki syntax highlighting** - Code is highlighted with Shiki, the same engine VS Code uses; languages and themes are lazy-loaded per page so the light theme only ever downloads if the traffic-light easter egg is used. - `app/src/lib/highlighter.ts:95`, `app/src/lib/highlighter.ts:27`
-- **Traffic-light easter eggs** - The code window's macOS-style traffic-light buttons hide small jokes: green flips the concept mockup into a party-mode animation, red gives the window a playful shake. - `app/src/components/CodePanel.vue:29`, `app/src/components/CodePanel.vue:41`
-- **Suggest a language or concept** - A form that opens the visitor's own email client with a pre-filled mailto to the maintainer - no backend or account needed to submit a request. - `app/src/components/SuggestDialog.vue:40`, `app/src/lib/suggest.ts:4`
-- **Privacy-respecting visit counter** - One fire-and-forget anonymous ping per session to LunarWerx's own endpoint (random localStorage id, coarse country, no cookies, no third-party trackers, 90-day expiry); skipped entirely for Do Not Track / Global Privacy Control browsers. - `app/src/lib/analytics.ts:10`
+- **Language anatomy pages** - Dozens of languages (Python to Ada, Prolog, COBOL, GML, WebAssembly) each get an annotated code window with color-coded callouts for every structural part, ranked in the sidebar by TIOBE popularity. - `app/src/lib/types.ts`, `app/src/data/index.ts`
+- **Concept pages (non-code anatomy)** - The same annotated-tour format applied to things that aren't code: a website, a settings screen, a mobile app, a dashboard, an email, a CI pipeline, and a GitHub contribution flow, each with a live UI mockup instead of source. - `app/src/data/website.ts`, `app/src/data/ci.ts`, `app/src/components/MockupPanel.vue`
+- **Hover-to-trace, click-to-deep-dive callouts** - Hovering a callout draws a connector line into the exact code lines it describes; clicking opens a full deep-dive modal with a Learn more link. - `app/src/components/AnnotationCard.vue`, `app/src/components/AnnotationDialog.vue`, `app/src/components/ConnectorLayer.vue`
+- **Minimal / verbose / visual view toggle with deep-linkable URLs** - Every entry ships minimal and verbose code variants (a third Visual tab where defined), each reachable by a shareable URL like /#/python/verbose. - `app/src/components/AnatomyPage.vue`, `app/src/lib/types.ts`
+- **Visual diagram tab (topology / graph / timeline)** - A data-driven third tab renders diagrams (client/server topology, branch/merge graphs, overlap timelines) from reusable templates instead of hand-drawn SVG; annotations can be shared between the code and diagram views. Live on 7 of 55 entries as of the design doc. - `app/src/lib/visual.ts`, `app/src/lib/types.ts`, `app/src/components/visual/TopologyDiagram.vue`
+- **Sidebar search and popularity sort** - Instant name/extension filter over languages and concepts, toggleable between TIOBE-popularity order and A-Z, plus a Coming soon section for unimplemented entries. - `app/src/components/AppSidebar.vue`
+- **Light / dark theme** - Persisted theme toggle (defaults dark) for the whole app and the code window. - `app/src/components/AppSidebar.vue`
+- **Mobile-responsive layout with tap-to-pin callouts** - On touch devices a first tap pins a callout (showing its connector) and a second tap opens the deep-dive modal, replacing hover for devices with no pointer. - `app/src/components/AnatomyView.vue`
+- **Shiki syntax highlighting** - Code is highlighted with Shiki, the same engine VS Code uses; languages and themes are lazy-loaded per page so the light theme only ever downloads if the traffic-light easter egg is used. - `app/src/lib/highlighter.ts`
+- **Traffic-light easter eggs** - The code window's macOS-style traffic-light buttons hide small jokes: green flips the concept mockup into a party-mode animation, red gives the window a playful shake. - `app/src/components/CodePanel.vue`
+- **Suggest a language or concept** - A form that opens the visitor's own email client with a pre-filled mailto to the maintainer - no backend or account needed to submit a request. - `app/src/components/SuggestDialog.vue`, `app/src/lib/suggest.ts`
+- **Privacy-respecting visit counter** - One fire-and-forget anonymous ping per session to LunarWerx's own endpoint (random localStorage id, coarse country, no cookies, no third-party trackers, 90-day expiry); skipped entirely for Do Not Track / Global Privacy Control browsers. - `app/src/lib/analytics.ts`
 
 ### Where to add a new one
 
-- **a new language or concept page** - add app/src/data/<id>.ts exporting a LanguageDef (metadata, annotation catalog, minimal/verbose example segments); register its Shiki grammar in highlighter.ts; set a popularity rank and run `bun run gen:catalog` to regenerate the lazy-loader map anchors: `app/src/lib/types.ts:194`, `app/src/lib/highlighter.ts:27`, `app/scripts/gen-catalog.ts:19`
-- **a Visual diagram on an existing entry** - add a `visual` block to the LanguageDef naming a topology/graph/timeline template and its content; app/src/lib/visual.ts computes geometry, the components under app/src/components/visual/ only draw it - see docs/visual-variants.md for which entries earn one anchors: `app/src/lib/visual.ts:85`, `app/src/lib/types.ts:187`
-- **a content-integrity check** - add a script under app/scripts/ wired into `bun run check`/`bun run build` (pattern: check-examples.ts validates annotation<->diagram ref consistency, check-grammars.ts validates highlighter imports, check-links.ts probes learnMore URLs) anchors: `app/scripts/check-examples.ts:3`, `app/scripts/check-grammars.ts:13`
-- **a concept-page mockup** - add a component under app/src/components/mockups/ and wire it from MockupPanel.vue for a LanguageDef with `category: 'concept'` anchors: `app/src/components/MockupPanel.vue:10`
+- **a new language or concept page** - add app/src/data/<id>.ts exporting a LanguageDef (metadata, annotation catalog, minimal/verbose example segments); register its Shiki grammar in highlighter.ts; set a popularity rank and run `bun run gen:catalog` to regenerate the lazy-loader map anchors: `app/src/lib/types.ts`, `app/src/lib/highlighter.ts`, `app/scripts/gen-catalog.ts`
+- **a Visual diagram on an existing entry** - add a `visual` block to the LanguageDef naming a topology/graph/timeline template and its content; app/src/lib/visual.ts computes geometry, the components under app/src/components/visual/ only draw it - see docs/visual-variants.md for which entries earn one anchors: `app/src/lib/visual.ts`, `app/src/lib/types.ts`
+- **a content-integrity check** - add a script under app/scripts/ wired into `bun run check`/`bun run build` (pattern: check-examples.ts validates annotation<->diagram ref consistency, check-grammars.ts validates highlighter imports, check-links.ts probes learnMore URLs) anchors: `app/scripts/check-examples.ts`, `app/scripts/check-grammars.ts`
+- **a concept-page mockup** - add a component under app/src/components/mockups/ and wire it from MockupPanel.vue for a LanguageDef with `category: 'concept'` anchors: `app/src/components/MockupPanel.vue`
 
 ### Gaps and wants
 
@@ -85,4 +85,4 @@ _Read it with `python odin.py codex brief anatomyof` in the Odin clone._
 ---
 
 _Generated by `odin codex about --publish anatomyof` on 2026-09-16 from a Codex dossier stamped 2026-09-05. Regenerate after the product moves; `odin codex about` reports drift._
-<!-- odin:about GENERATED END sha=c067aba4b101 -->
+<!-- odin:about GENERATED END sha=3df01dc4e0b4 -->
