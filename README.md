@@ -55,7 +55,7 @@ contribution: the same idea, applied to things that aren't code.
 
 **Bun** · **Vite** · **Vue 3** · **TypeScript** · **Tailwind CSS 4** · **Reka UI** · **Shiki** · **Biome**
 
-## 🧑‍💻 Quick start / Develop
+## 🧑💻 Quick start / Develop
 
 ```sh
 cd app
