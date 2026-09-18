@@ -51,7 +51,7 @@ async function probe(url: string): Promise<number | string> {
 
 // Hosts that 403 automated requests but serve fine in a real browser. Their
 // 403s are reported as "skipped", not failures, verify them manually.
-const BOT_BLOCKED_HOSTS = ['mathworks.com', 'clojure.org']
+const BOT_BLOCKED_HOSTS = ['mathworks.com', 'clojure.org', 'cppreference.com', 'isocpp.org']
 const skipped: Array<{ url: string; status: string }> = []
 
 function isUnavailableToChecker(url: string, status: string): boolean {

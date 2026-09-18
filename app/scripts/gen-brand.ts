@@ -26,7 +26,7 @@ const paths = [...logo.matchAll(/<path\s+d="([^"]+)"/g)].map((m) => m[1])
 if (paths.length !== 2) throw new Error(`expected 2 paths in logo.svg, got ${paths.length}`)
 
 /** Fit the (slightly wider-than-tall) logo into a square box, centered vertically. */
-function fit(box: number, pad: number) {
+function fitMark(box: number, pad: number) {
   const inner = box - pad * 2
   const scale = inner / VB_W // width-limited
   const drawH = VB_H * scale
@@ -57,7 +57,7 @@ ${mark}
 )
 
 // --- favicon.svg: dark rounded tile + light logo ---
-const f = fit(64, 12)
+const f = fitMark(64, 12)
 writeFileSync(
   'public/favicon.svg',
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="AnatomyOf">
@@ -70,7 +70,7 @@ ${paths.map((d) => `    <path d="${d}" />`).join('\n')}
 )
 
 // --- og-image.svg: swap the logo mark into the existing card's tile ---
-const t = fit(120, 20)
+const t = fitMark(120, 20)
 const og = readFileSync('public/og-image.svg', 'utf8').replace(
   / {2}<!-- logo mark -->\n {2}<g transform="translate\(96 104\)">[\s\S]*?\n {2}<\/g>/,
   `  <!-- logo mark -->
