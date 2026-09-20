@@ -32,7 +32,7 @@
       content="Interactive, annotated tours of source files, one language at a time."
     />
     <meta name="twitter:image" content="https://anatomyof.lunarwerx.com/og-image.png" />
-      <!-- ARGUS Analytics Pixel (Connections, analytics.connections.icu).
+      <!-- ARGUS Analytics Pixel (Connections, analytics.connectionsapi.com).
          The key is a PUBLIC ingest key and is meant to ship in client JS.
          Honours DNT and Sec-GPC by itself, and is grant-by-default outside the
          EU/EEA/UK/CH (the pixel is stamped per-visitor at the edge). localhost
@@ -64,7 +64,7 @@
                 // ?v= is the cache-bust lever: the pixel is served max-age=3600
                 // from ONE origin shared by every tracked site, so bump this when
                 // a pixel change has to reach existing readers now.
-                j.src = 'https://analytics.connections.icu/pixel.js?v=2';
+                j.src = 'https://analytics.connectionsapi.com/pixel.js?v=2';
                 j.onerror = function () { warn('[ARGUS] pixel.js failed to load (check CSP script-src / network / ad-blocker)'); };
                 var mount = d.head || d.getElementsByTagName('head')[0] || d.documentElement || d.body;
                 if (!mount) { warn('[ARGUS] no DOM mount point for pixel; skipping'); return; }

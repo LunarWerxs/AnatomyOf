@@ -3,7 +3,7 @@
 // timestamp (90-day retention). No cookies, no PII, nothing readable back. Honors Do Not
 // Track / Global Privacy Control, and a failure can never affect the app.
 
-const PING_URL = 'https://studio.connections.icu/v1/app/anatomyof/latest'
+const PING_URL = 'https://studio.connectionsapi.com/v1/app/anatomyof/latest'
 const ID_KEY = 'anatomyof:visitor-id'
 const SESSION_KEY = 'anatomyof:pinged'
 
