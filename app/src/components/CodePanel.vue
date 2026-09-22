@@ -8,6 +8,7 @@ import {
   type CodeThemeKey,
   getHighlighter,
 } from '../lib/highlighter'
+import { prebuiltTokens } from '../lib/prebuilt-tokens'
 import type { ResolvedAnnotation } from '../lib/types'
 
 const props = defineProps<{
@@ -65,6 +66,18 @@ function plainLines(code: string): ThemedToken[][] {
 async function tokenize() {
   const key = props.panelKey
   let lines: ThemedToken[][]
+  // The dark theme's tokens for every shipped example are computed at build time, so the
+  // usual first render needs neither Shiki's ~270 kB nor a tokenizing pass on the main thread.
+  const prebuilt =
+    codeTheme.value === 'dark' ? await prebuiltTokens(props.shikiLang, props.code) : null
+  if (prebuilt) {
+    // On a repeat visit the tokens are cached and would land before the first paint, making
+    // that frame lay out every code line; let the page paint once first (measured: first
+    // paint ~130 ms sooner on a warm phone visit).
+    if (!current.value) await new Promise((r) => requestAnimationFrame(() => setTimeout(r)))
+    if (key === props.panelKey) current.value = { key, lines: prebuilt }
+    return
+  }
   try {
     const highlighter = await getHighlighter(props.shikiLang, CODE_THEMES[codeTheme.value])
     lines = highlighter.codeToTokens(props.code, {
@@ -82,10 +95,16 @@ async function tokenize() {
 watch(() => props.panelKey, tokenize, { immediate: true })
 watch(codeTheme, tokenize)
 
-/** Every line row is a fixed 24px, so the body height is known and animatable. */
+/**
+ * Every line row is a fixed 24px, so the body height is known and animatable. Before the
+ * first tokens land it is taken from the code's own line count, not a 96px placeholder:
+ * growing from the placeholder pushed everything under the panel down (CLS 0.19 on a cold
+ * phone visit).
+ */
 const bodyHeight = computed(() => {
   if (collapsed.value) return '0px'
-  return current.value ? `${current.value.lines.length * 24 + 24}px` : '96px'
+  const lineCount = current.value ? current.value.lines.length : props.code.split('\n').length
+  return `${lineCount * 24 + 24}px`
 })
 
 function rangeSpan(annotation: ResolvedAnnotation): number {

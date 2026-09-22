@@ -3,7 +3,7 @@ import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { defaultLanguage, languages, loadLanguage } from '../data'
 import { importChunk } from '../lib/chunk'
-import { warmHighlighter } from '../lib/highlighter'
+import { warmPrebuiltTokens } from '../lib/prebuilt-tokens'
 import type { LanguageDef, ViewVariant } from '../lib/types'
 import AnatomyView from './AnatomyView.vue'
 
@@ -51,13 +51,16 @@ watch(
     // that the warm waits until the data has landed AND this is still the current
     // route, which means a language merely passed through never costs a grammar.
     // Concept pages render a mockup, not code, so they never pay for Shiki at all.
+    // The code panel's first render reads build-time tokens (scripts/gen-tokens.ts), so what
+    // is warmed here is that small per-grammar file; Shiki itself only loads if an example
+    // was not prebuilt, for the light-theme easter egg, or for a dialog's code chips.
     const cold = language.value === null
-    if (cold && meta.value.category !== 'concept') warmHighlighter(meta.value.shikiLang)
+    if (cold && meta.value.category !== 'concept') warmPrebuiltTokens(meta.value.shikiLang)
     try {
       const def = await importChunk(() => loadLanguage(id))
       if (mine !== latest) return
       language.value = def
-      if (!cold && def.category !== 'concept') warmHighlighter(def.shikiLang)
+      if (!cold && def.category !== 'concept') warmPrebuiltTokens(def.shikiLang)
     } catch (error) {
       console.error(`[anatomy] failed to load language "${id}"`, error)
     }

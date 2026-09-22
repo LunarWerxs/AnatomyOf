@@ -27,6 +27,10 @@ export function useSmoothScroll(
   onMounted(async () => {
     const wrapperEl = wrapper.value
     if (!wrapperEl || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    // Lenis only smooths wheel/trackpad input. A device with no fine pointer at all (a phone)
+    // never produces any, so there it would only cost an 18 kB chunk, a layout pass and a
+    // requestAnimationFrame loop that runs for the life of the page.
+    if (!window.matchMedia('(any-pointer: fine)').matches) return
 
     let Lenis: typeof import('lenis').default
     try {

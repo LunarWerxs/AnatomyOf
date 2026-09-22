@@ -9,7 +9,8 @@
       "!node_modules",
       "!dist",
       "!src/style.css",
-      "!**/*.generated.ts"
+      "!**/*.generated.ts",
+      "!src/data/tokens.generated"
     ]
   },
   "formatter": {
