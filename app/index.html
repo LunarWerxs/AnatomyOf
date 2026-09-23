@@ -6,6 +6,18 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0b0c0f" />
+    <!-- The saved theme, applied before the prerendered page paints. The app's own switch
+         (useColorMode in AppSidebar) only runs after hydration, which would flash a dark-theme
+         reader's page light first. Dark is the default, as it is there. -->
+    <script>
+      try {
+        if (localStorage.getItem('anatomy-theme') !== 'light') {
+          document.documentElement.classList.add('dark')
+        }
+      } catch (e) {
+        document.documentElement.classList.add('dark')
+      }
+    </script>
     <title>AnatomyOf</title>
     <meta
       name="description"

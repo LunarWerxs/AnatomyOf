@@ -28,6 +28,15 @@
  * resolves, but they canonicalize to the base page: same tour, different example
  * size, and asking search to hold three near-identical copies of each language
  * helps nobody.
+ *
+ * ── The first view is real HTML ──────────────────────────────────────────
+ * Every page, the front one included, also carries its route rendered by the app
+ * itself (src/entry-server.ts, built by `vite build --ssr` into dist-ssr/) inside
+ * `#app`. Until then the heading, the code and the callouts all waited for the
+ * entry bundle to download and run, which on a throttled phone put first paint
+ * behind ~90 KB of JavaScript. Now the browser paints the page from the HTML and
+ * the app hydrates it in place, so the markup has to be exactly what the app's
+ * first render produces: see loadFirstView in src/app.ts.
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
@@ -38,6 +47,10 @@ const ORIGIN = 'https://anatomyof.lunarwerx.com'
 const DIST = resolve(import.meta.dirname, '..', 'dist')
 const DATA_DIR = resolve(import.meta.dirname, '..', 'src', 'data')
 const LASTMOD = new Date().toISOString().slice(0, 10)
+
+/** Vue reads NODE_ENV when the SSR bundle first imports it; unset, it is the dev build. */
+process.env.NODE_ENV = 'production'
+const SSR_ENTRY = resolve(import.meta.dirname, '..', 'dist-ssr', 'entry-server.js')
 
 const esc = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -212,6 +225,7 @@ function buildPage(
   url: string,
   canonical: string,
   all: LanguageDef[],
+  app: string,
 ): string {
   const title = `${headline(def)} | AnatomyOf`
   const desc = describe(def)
@@ -263,7 +277,20 @@ function buildPage(
   const ns = noscriptFor(def, all).replace('{{TOTAL}}', String(all.length))
   html = html.slice(0, nsStart) + ns + html.slice(nsEnd + '</noscript>'.length)
 
-  return html
+  // Last, so none of the anchored swaps above can match inside the rendered page.
+  return withApp(html, app)
+}
+
+/** The shell with the app's rendered first view inside its mount point. */
+function withApp(shell: string, app: string): string {
+  const mount = '<div id="app"></div>'
+  if (!shell.includes(mount)) {
+    throw new Error(
+      'prerender: the shell has no empty #app mount (already prerendered? vite build first)',
+    )
+  }
+  if (!app) throw new Error('prerender: the app rendered nothing')
+  return shell.replace(mount, () => `<div id="app">${app}</div>`)
 }
 
 function write(dir: string, html: string): void {
@@ -276,13 +303,24 @@ if (!existsSync(join(DIST, 'index.html'))) {
   throw new Error('prerender: dist/index.html is missing; run vite build first')
 }
 const shell = readFileSync(join(DIST, 'index.html'), 'utf8')
+if (!existsSync(SSR_ENTRY)) {
+  throw new Error('prerender: dist-ssr/entry-server.js is missing; run vite build --ssr first')
+}
+const { render } = (await import(pathToFileURL(SSR_ENTRY).href)) as {
+  render: (url: string) => Promise<string>
+}
+// The front page is the default tour, rendered like every other.
+writeFileSync(join(DIST, 'index.html'), withApp(shell, await render('/')))
 
 let pages = 0
 const urls: Array<{ loc: string; priority: string }> = [{ loc: `${ORIGIN}/`, priority: '1.0' }]
 
 for (const def of defs) {
   const canonical = `${ORIGIN}/${def.id}/`
-  write(join(DIST, def.id), buildPage(shell, def, canonical, canonical, defs))
+  write(
+    join(DIST, def.id),
+    buildPage(shell, def, canonical, canonical, defs, await render(`/${def.id}/`)),
+  )
   urls.push({ loc: canonical, priority: '0.8' })
   pages += 1
 
@@ -291,7 +329,8 @@ for (const def of defs) {
   if (def.visual) variants.add('visual')
   for (const variant of variants) {
     const url = `${ORIGIN}/${def.id}/${variant}`
-    write(join(DIST, def.id, variant), buildPage(shell, def, url, canonical, defs))
+    const app = await render(`/${def.id}/${variant}`)
+    write(join(DIST, def.id, variant), buildPage(shell, def, url, canonical, defs, app))
     pages += 1
   }
 }
@@ -347,6 +386,6 @@ if (existsSync(llmsPath)) {
 }
 
 console.log(
-  `prerender: ${pages} pages for ${defs.length} entries, sitemap lists ${urls.length} canonical URLs,` +
-    ' llms.txt lists every tour',
+  `prerender: ${pages + 1} pages rendered for ${defs.length} entries, sitemap lists ${urls.length}` +
+    ' canonical URLs, llms.txt lists every tour',
 )

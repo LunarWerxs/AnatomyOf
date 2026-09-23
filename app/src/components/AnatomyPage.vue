@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { defaultLanguage, languages, loadLanguage } from '../data'
+import { defaultLanguage, languages, loadedLanguage, loadLanguage } from '../data'
 import { importChunk } from '../lib/chunk'
 import { warmPrebuiltTokens } from '../lib/prebuilt-tokens'
 import type { LanguageDef, ViewVariant } from '../lib/types'
@@ -20,7 +20,9 @@ const meta = computed(
 // visible until the next resolves so switching languages doesn't flash empty, and
 // guard against out-of-order resolution when the route changes mid-load.
 // A dropped chunk request is retried rather than left as a permanently blank page.
-const language = ref<LanguageDef | null>(null)
+// On a prerendered page the definition was loaded before hydration (loadFirstView in app.ts)
+// and is used from the first render, which is what makes that render match the HTML.
+const language = ref<LanguageDef | null>(loadedLanguage(meta.value.id))
 
 // 'visual' only counts once the loaded definition actually carries a diagram,
 // so /#/python/visual falls back instead of rendering an empty panel.
@@ -41,6 +43,7 @@ watch(
   () => meta.value.id,
   async (id) => {
     const mine = ++latest
+    if (language.value?.id === id) return
     // Grammars are by far the largest assets here, and warming one for every route
     // the user passes THROUGH is what made a quick click-through look frozen: a
     // dozen of them queue up on the connection and the chunk for the language

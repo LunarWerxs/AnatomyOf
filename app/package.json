@@ -7,7 +7,7 @@
     "dev": "vite",
     "gen:catalog": "bun run scripts/gen-catalog.ts",
     "gen:tokens": "bun run scripts/gen-tokens.ts",
-    "build": "bun run scripts/gen-catalog.ts && bun run scripts/check-grammars.ts && bun run scripts/gen-tokens.ts && vue-tsc -b && vite build && bun run scripts/prerender.ts",
+    "build": "bun run scripts/gen-catalog.ts && bun run scripts/check-grammars.ts && bun run scripts/gen-tokens.ts && vue-tsc -b && vite build && vite build --ssr src/entry-server.ts --outDir dist-ssr && bun run scripts/prerender.ts",
     "preview": "vite preview",
     "check": "bun run check:biome && bun run check:grammars && bun run check:examples",
     "check:biome": "biome check .",

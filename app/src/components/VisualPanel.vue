@@ -109,11 +109,13 @@ function onClick(event: MouseEvent) {
       :style="{ gridTemplateRows: collapsed ? '0fr' : '1fr' }"
     >
       <div class="overflow-hidden">
+        <!-- `appear` through v-bind so the SSR compiler does not hide the prerendered panel in
+             a <template> until hydration (see CodePanel). -->
         <Transition
           name="code-swap"
           mode="out-in"
           :duration="{ enter: 360, leave: 160 }"
-          appear
+          v-bind="{ appear: true }"
           @after-enter="emit('rendered')"
           @after-appear="emit('rendered')"
         >

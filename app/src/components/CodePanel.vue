@@ -8,7 +8,7 @@ import {
   type CodeThemeKey,
   getHighlighter,
 } from '../lib/highlighter'
-import { prebuiltTokens } from '../lib/prebuilt-tokens'
+import { peekPrebuiltTokens, prebuiltTokens } from '../lib/prebuilt-tokens'
 import type { ResolvedAnnotation } from '../lib/types'
 
 const props = defineProps<{
@@ -46,8 +46,16 @@ function nudge() {
   }, 450)
 }
 
-/** Snapshot of key + tokens so old content can animate out while new loads. */
-const current = shallowRef<{ key: string; lines: ThemedToken[][] } | null>(null)
+/**
+ * Snapshot of key + tokens so old content can animate out while new loads. It starts filled when
+ * the grammar's build-time tokens are already loaded, as they are for a prerendered page's first
+ * view (loadFirstView in app.ts): the server writes the highlighted code into the HTML, and the
+ * render that hydrates it has to show the same code, not an empty panel.
+ */
+const firstLines = peekPrebuiltTokens(props.shikiLang, props.code)
+const current = shallowRef<{ key: string; lines: ThemedToken[][] } | null>(
+  firstLines ? { key: props.panelKey, lines: firstLines } : null,
+)
 
 /**
  * Unhighlighted stand-in: one plain token per line, in the theme's default text
@@ -92,7 +100,7 @@ async function tokenize() {
   if (key === props.panelKey) current.value = { key, lines }
 }
 
-watch(() => props.panelKey, tokenize, { immediate: true })
+watch(() => props.panelKey, tokenize, { immediate: !current.value })
 watch(codeTheme, tokenize)
 
 /**
@@ -197,10 +205,13 @@ function onLineClick(line: number) {
         class="transition-[height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
         :style="{ height: bodyHeight }"
       >
+        <!-- `appear` goes in through v-bind, not as an attribute: for an attribute, Vue's SSR
+             compiler wraps the content in an inert <template> until hydration, which would
+             blank the prerendered code. Hydrating never animates it either way. -->
         <Transition
           name="code-swap"
           mode="out-in"
-          appear
+          v-bind="{ appear: true }"
           :duration="{ enter: 360, leave: 160 }"
           @after-enter="emit('rendered')"
           @after-appear="emit('rendered')"

@@ -15,16 +15,28 @@ type TokenFile = { colors: string[]; examples: Record<string, [string, number][]
 const FILES = import.meta.glob<TokenFile>('../data/tokens.generated/*.json', { import: 'default' })
 
 const loaded = new Map<string, Promise<TokenFile | null>>()
+/** The files that have finished loading, readable without awaiting (see peekPrebuiltTokens). */
+const settled = new Map<string, TokenFile | null>()
 
 function loadFile(lang: string): Promise<TokenFile | null> {
   const load = FILES[`../data/tokens.generated/${lang}.json`]
   if (!load) return Promise.resolve(null)
-  return cacheUnlessRejected(loaded, lang, () => importChunk(load))
+  return cacheUnlessRejected(loaded, lang, () =>
+    importChunk(load).then((file) => {
+      settled.set(lang, file)
+      return file
+    }),
+  )
 }
 
 /** Start fetching a grammar's prebuilt tokens without waiting (failures surface later). */
 export function warmPrebuiltTokens(lang: string): void {
   void loadFile(lang).catch(() => {})
+}
+
+/** Fetch a grammar's prebuilt tokens and wait for them; a failure only means live highlighting. */
+export async function loadPrebuiltTokens(lang: string): Promise<void> {
+  await loadFile(lang).catch(() => {})
 }
 
 /**
@@ -39,6 +51,19 @@ export async function prebuiltTokens(lang: string, code: string): Promise<Themed
   } catch {
     return null
   }
+  return tokensFor(file, code)
+}
+
+/**
+ * prebuiltTokens without the wait: null unless the grammar's file has already loaded. The code
+ * panel's first render uses this, so a prerendered page and the render that hydrates it both show
+ * the highlighted code on their first pass instead of an empty panel that fills a frame later.
+ */
+export function peekPrebuiltTokens(lang: string, code: string): ThemedToken[][] | null {
+  return tokensFor(settled.get(lang) ?? null, code)
+}
+
+function tokensFor(file: TokenFile | null, code: string): ThemedToken[][] | null {
   const lines = file?.examples[fnv1a(code)]
   if (!file || !lines) return null
   let offset = 0

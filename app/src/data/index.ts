@@ -15,6 +15,8 @@ export const languages: LanguageMeta[] = [...catalog].sort(
 export const defaultLanguage: LanguageMeta =
   catalog.find((lang) => lang.id === 'python') ?? catalog[0]
 
+const loaded = new Map<string, LanguageDef>()
+
 /**
  * Lazily load a language's FULL definition (annotations + examples), one dynamic
  * import() per language, so its content stays out of the entry bundle until the
@@ -22,5 +24,17 @@ export const defaultLanguage: LanguageMeta =
  */
 export function loadLanguage(id: string): Promise<LanguageDef> {
   const load = loaders[id] ?? loaders[defaultLanguage.id]
-  return load()
+  return load().then((def) => {
+    loaded.set(id, def)
+    return def
+  })
+}
+
+/**
+ * A definition that has already finished loading, or null. The first render reads this instead
+ * of awaiting, because a hydrating render has to match the prerendered HTML on its first pass
+ * (see loadFirstView in app.ts).
+ */
+export function loadedLanguage(id: string): LanguageDef | null {
+  return loaded.get(id) ?? null
 }

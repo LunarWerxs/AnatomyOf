@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useColorMode, useStorage } from '@vueuse/core'
+import { useColorMode, useMounted, useStorage } from '@vueuse/core'
 import {
   ArrowDownAZ,
   ArrowDownWideNarrow,
@@ -38,7 +38,11 @@ function matches(name: string, ext: string | string[]): boolean {
  * Only languages are re-sorted: concepts keep their curated order.
  */
 type SortMode = 'popularity' | 'name'
-const sortMode = useStorage<SortMode>('anatomy-lang-sort', 'popularity')
+// Read once mounted: the prerendered sidebar is in the default order, and the render that
+// hydrates it has to be too, so a saved A-Z choice applies a moment after.
+const sortMode = useStorage<SortMode>('anatomy-lang-sort', 'popularity', undefined, {
+  initOnMounted: true,
+})
 
 function toggleSort() {
   sortMode.value = sortMode.value === 'popularity' ? 'name' : 'popularity'
@@ -73,6 +77,13 @@ function onScroll(event: Event) {
 }
 
 const mode = useColorMode({ storageKey: 'anatomy-theme', initialValue: 'dark' })
+// The saved theme is only known in the browser, so the prerendered button is the default (dark)
+// one and the hydrating render must say the same. The icon follows the `dark` class, which
+// index.html sets before first paint; the label catches up once mounted.
+const mounted = useMounted()
+const themeLabel = computed(() =>
+  mounted.value && mode.value !== 'dark' ? 'Switch to dark theme' : 'Switch to light theme',
+)
 
 type ViewTransitionDocument = Document & {
   startViewTransition?: (callback: () => unknown) => { finished: Promise<void> }
@@ -127,11 +138,11 @@ function toggleTheme() {
       <button
         type="button"
         class="ms-auto cursor-pointer rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-        :aria-label="mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+        :aria-label="themeLabel"
         @click="toggleTheme"
       >
-        <Moon v-if="mode === 'dark'" class="size-4" />
-        <Sun v-else class="size-4" />
+        <Moon class="hidden size-4 dark:block" />
+        <Sun class="size-4 dark:hidden" />
       </button>
     </div>
 
