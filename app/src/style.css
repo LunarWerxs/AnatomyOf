@@ -152,6 +152,35 @@
   opacity: 0;
 }
 
+/* Minimal <-> verbose morph (CodePanel + lib/morph.ts): rows shared by both
+   variants slide to their new position, rows unique to one side fade. Here
+   rows DO move, which the note above warns about; it is safe because the
+   variant switch clears the hovered callout and the connectors are only
+   remeasured after the rows have settled. Leaving rows are taken out of flow
+   so the rest can close up around them. */
+.code-morph-move {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.code-morph-enter-active {
+  transition: opacity 0.3s ease 0.15s;
+}
+.code-morph-leave-active {
+  position: absolute;
+  inset-inline: 0;
+  transition: opacity 0.15s ease;
+}
+.code-morph-enter-from,
+.code-morph-leave-to {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .code-morph-move,
+  .code-morph-enter-active,
+  .code-morph-leave-active {
+    transition: none;
+  }
+}
+
 /* Party mode: the green traffic-light turns the concept mockup into a
    rainbow-cycling, gently bouncing disco. */
 @keyframes mockup-party {

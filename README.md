@@ -28,8 +28,9 @@ pipeline.
 **[AnatomyOf](https://anatomyof.lunarwerx.com)** opens an example source file in a code
 window with color-coded callouts explaining every structural part: shebang, imports, class
 definitions, control flow, and more. **Hover** a callout to trace it into the code; **click**
-it for an in-depth writeup. Every language ships a **minimal** and a **verbose** example,
-light & dark themes, and shareable URLs like
+it for an in-depth writeup. Every language ships a **minimal** and a **verbose** example
+(switching between them morphs the code: lines the two share slide to their new place and
+only the differing lines fade in or out), light & dark themes, and shareable URLs like
 [`/#/python/verbose`](https://anatomyof.lunarwerx.com/#/python/verbose).
 
 Beyond real languages, **concept pages** dissect the structural anatomy of a website, a

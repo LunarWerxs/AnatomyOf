@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BundledLanguage, ThemedToken } from 'shiki'
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed, nextTick, ref, shallowRef, watch } from 'vue'
 import { accentStyles } from '../lib/accents'
 import {
   CODE_THEME_CHROME,
@@ -8,12 +8,19 @@ import {
   type CodeThemeKey,
   getHighlighter,
 } from '../lib/highlighter'
+import { carryLineKeys } from '../lib/morph'
 import { peekPrebuiltTokens, prebuiltTokens } from '../lib/prebuilt-tokens'
 import type { ResolvedAnnotation } from '../lib/types'
 
 const props = defineProps<{
   /** Changes whenever code content changes (language + variant) */
   panelKey: string
+  /**
+   * Panels sharing a morph group (one language's minimal and verbose code) morph into each other:
+   * shared lines slide to their new row and only the differing lines fade. A different group, or
+   * none, crossfades the whole body as before.
+   */
+  morphGroup?: string
   fileName: string
   shikiLang: string
   code: string
@@ -53,9 +60,65 @@ function nudge() {
  * render that hydrates it has to show the same code, not an empty panel.
  */
 const firstLines = peekPrebuiltTokens(props.shikiLang, props.code)
-const current = shallowRef<{ key: string; lines: ThemedToken[][] } | null>(
-  firstLines ? { key: props.panelKey, lines: firstLines } : null,
+
+/**
+ * What the body renders. `group` keys the whole-body crossfade; `lineKeys` key each row inside it,
+ * and a row that keeps its key across a variant switch is the same element gliding to a new place.
+ */
+interface Shown {
+  key: string
+  group: string
+  lines: ThemedToken[][]
+  texts: string[]
+  lineKeys: string[]
+}
+
+function lineText(line: ThemedToken[]): string {
+  return line.map((token) => token.content).join('')
+}
+
+let lineSerial = 0
+function freshKey(): string {
+  return `l${lineSerial++}`
+}
+
+function shown(key: string, group: string, lines: ThemedToken[][]): Shown {
+  return { key, group, lines, texts: lines.map(lineText), lineKeys: lines.map(freshKey) }
+}
+
+const current = shallowRef<Shown | null>(
+  firstLines ? shown(props.panelKey, props.morphGroup ?? props.panelKey, firstLines) : null,
 )
+
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+}
+
+/**
+ * Swap in freshly tokenized lines. Same key (a theme recolour) keeps every row as is; a new key in
+ * the same morph group carries matched rows over so they move instead of fading; anything else
+ * starts a new group, which the outer Transition crossfades. Reduced motion always crossfades.
+ */
+function show(key: string, lines: ThemedToken[][]) {
+  const prev = current.value
+  const group = prefersReducedMotion() ? key : (props.morphGroup ?? key)
+  if (prev && prev.key === key) {
+    current.value = { ...prev, lines, texts: lines.map(lineText) }
+    return
+  }
+  if (!prev || prev.group !== group) {
+    current.value = shown(key, group, lines)
+    return
+  }
+  const texts = lines.map(lineText)
+  const lineKeys = carryLineKeys(prev.texts, prev.lineKeys, texts, freshKey)
+  current.value = { key, group, lines, texts, lineKeys }
+  // The outer Transition does not run for a morph, so it cannot report the new layout; report it
+  // here instead. The connector remeasure it triggers waits out the row motion.
+  nextTick(() => emit('rendered'))
+}
 
 /**
  * Unhighlighted stand-in: one plain token per line, in the theme's default text
@@ -83,7 +146,7 @@ async function tokenize() {
     // that frame lay out every code line; let the page paint once first (measured: first
     // paint ~130 ms sooner on a warm phone visit).
     if (!current.value) await new Promise((r) => requestAnimationFrame(() => setTimeout(r)))
-    if (key === props.panelKey) current.value = { key, lines: prebuilt }
+    if (key === props.panelKey) show(key, prebuilt)
     return
   }
   try {
@@ -97,7 +160,7 @@ async function tokenize() {
     lines = plainLines(props.code)
   }
   // Same key on a theme toggle => recolor in place (no crossfade); new key => crossfade.
-  if (key === props.panelKey) current.value = { key, lines }
+  if (key === props.panelKey) show(key, lines)
 }
 
 watch(() => props.panelKey, tokenize, { immediate: !current.value })
@@ -218,41 +281,45 @@ function onLineClick(line: number) {
         >
           <div
             v-if="current"
-            :key="current.key"
+            :key="current.group"
             class="py-3 font-mono text-[13px] [tab-size:4]"
             @mouseleave="emit('hoverLine', null)"
           >
-            <div
-              v-for="(line, index) in current.lines"
-              :key="index"
-              :data-code-line="index + 1"
-              class="flex h-6 items-center border-s-2 pe-4 transition-colors duration-75"
-              :class="[
-                lineClasses(index + 1),
-                lineAnnotation.has(index + 1) ? 'cursor-pointer' : '',
-              ]"
-              @mouseenter="emit('hoverLine', lineAnnotation.get(index + 1)?.id ?? null)"
-              @click="onLineClick(index + 1)"
-            >
-              <span
-                class="w-9 shrink-0 select-none pe-3 text-end text-[11px]"
-                :class="chrome.gutter"
+            <!-- Rows keep their key across a minimal <-> verbose switch when the line is shared,
+                 so the group slides them to their new row (see show() and lib/morph.ts). -->
+            <TransitionGroup tag="div" name="code-morph" class="relative">
+              <div
+                v-for="(line, index) in current.lines"
+                :key="current.lineKeys[index]"
+                :data-code-line="index + 1"
+                class="flex h-6 items-center border-s-2 pe-4 transition-colors duration-75"
+                :class="[
+                  lineClasses(index + 1),
+                  lineAnnotation.has(index + 1) ? 'cursor-pointer' : '',
+                ]"
+                @mouseenter="emit('hoverLine', lineAnnotation.get(index + 1)?.id ?? null)"
+                @click="onLineClick(index + 1)"
               >
-                {{ index + 1 }}
-              </span>
-              <span class="me-2 flex w-1.5 shrink-0 justify-center">
                 <span
-                  v-if="lineAnnotation.has(index + 1)"
-                  class="size-1.5 rounded-full opacity-70"
-                  :class="accentStyles[lineAnnotation.get(index + 1)!.color].marker"
-                />
-              </span>
-              <code class="whitespace-pre leading-6">
-                <span v-for="(token, t) in line" :key="t" :style="{ color: token.color }">{{
-                  token.content
-                }}</span>
-              </code>
-            </div>
+                  class="w-9 shrink-0 select-none pe-3 text-end text-[11px]"
+                  :class="chrome.gutter"
+                >
+                  {{ index + 1 }}
+                </span>
+                <span class="me-2 flex w-1.5 shrink-0 justify-center">
+                  <span
+                    v-if="lineAnnotation.has(index + 1)"
+                    class="size-1.5 rounded-full opacity-70"
+                    :class="accentStyles[lineAnnotation.get(index + 1)!.color].marker"
+                  />
+                </span>
+                <code class="whitespace-pre leading-6">
+                  <span v-for="(token, t) in line" :key="t" :style="{ color: token.color }">{{
+                    token.content
+                  }}</span>
+                </code>
+              </div>
+            </TransitionGroup>
           </div>
         </Transition>
       </div>
