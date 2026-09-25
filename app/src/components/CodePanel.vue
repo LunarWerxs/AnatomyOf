@@ -116,7 +116,7 @@ function show(key: string, lines: ThemedToken[][]) {
   const lineKeys = carryLineKeys(prev.texts, prev.lineKeys, texts, freshKey)
   current.value = { key, group, lines, texts, lineKeys }
   // The outer Transition does not run for a morph, so it cannot report the new layout; report it
-  // here instead. The connector remeasure it triggers waits out the row motion.
+  // here instead. The connector tracking it triggers follows the rows as they move.
   nextTick(() => emit('rendered'))
 }
 
@@ -286,8 +286,14 @@ function onLineClick(line: number) {
             @mouseleave="emit('hoverLine', null)"
           >
             <!-- Rows keep their key across a minimal <-> verbose switch when the line is shared,
-                 so the group slides them to their new row (see show() and lib/morph.ts). -->
-            <TransitionGroup tag="div" name="code-morph" class="relative">
+                 so the group slides them to their new row (see show() and lib/morph.ts).
+                 A leaving row drops its line number so it is never taken for the new row with it. -->
+            <TransitionGroup
+              tag="div"
+              name="code-morph"
+              class="relative"
+              @before-leave="(el: Element) => el.removeAttribute('data-code-line')"
+            >
               <div
                 v-for="(line, index) in current.lines"
                 :key="current.lineKeys[index]"

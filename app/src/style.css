@@ -155,9 +155,9 @@
 /* Minimal <-> verbose morph (CodePanel + lib/morph.ts): rows shared by both
    variants slide to their new position, rows unique to one side fade. Here
    rows DO move, which the note above warns about; it is safe because the
-   variant switch clears the hovered callout and the connectors are only
-   remeasured after the rows have settled. Leaving rows are taken out of flow
-   so the rest can close up around them. */
+   variant switch clears the hovered callout and the connectors re-track every
+   frame through the swap, so they glide with the rows. Leaving rows are taken
+   out of flow so the rest can close up around them. */
 .code-morph-move {
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
