@@ -236,6 +236,7 @@ function setVariant(value: unknown) {
           <CodePanel
             v-else
             :panel-key="panelKey"
+            :morph-group="language.id"
             :file-name="fileName"
             :shiki-lang="language.shikiLang"
             :code="resolved.code"

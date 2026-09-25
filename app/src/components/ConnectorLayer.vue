@@ -30,12 +30,14 @@ const XL_QUERY = '(min-width: 1280px)'
 // The same handful of cards/lines are measured on every tracked frame, and
 // re-running querySelector for each of them was the bulk of this component's
 // scroll cost. Elements are looked up once and reused until they leave the DOM
-// (a language/variant swap replaces them, and isConnected catches that).
+// (a language swap replaces them, and isConnected catches that) or stop
+// matching: a minimal <-> verbose morph keeps a shared row in the DOM and only
+// renumbers its data-code-line, so a still-connected entry can be stale.
 let elementCache = new Map<string, Element>()
 
 function find(selector: string): Element | null {
   const cached = elementCache.get(selector)
-  if (cached?.isConnected) return cached
+  if (cached?.isConnected && cached.matches(selector)) return cached
 
   const found = props.container?.querySelector(selector) ?? null
   // Misses aren't cached: the element may simply not have rendered yet.
