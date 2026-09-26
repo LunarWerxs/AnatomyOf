@@ -6,6 +6,8 @@ import { defineConfig } from 'vitest/config'
 // down for nothing they exercise.
 export default defineConfig({
   test: {
+    pool: 'threads',
+    maxWorkers: 4,
     include: ['src/lib/**/*.test.ts'],
     environment: 'node',
   },

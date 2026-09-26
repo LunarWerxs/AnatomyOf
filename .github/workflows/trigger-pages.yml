@@ -10,8 +10,13 @@ on:
   push:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   dispatch:
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     env:
       TOKEN: ${{ secrets.PAGES_DISPATCH_TOKEN }}
