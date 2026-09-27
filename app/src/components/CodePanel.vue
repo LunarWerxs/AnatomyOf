@@ -9,7 +9,9 @@ import {
   getHighlighter,
 } from '../lib/highlighter'
 import { carryLineKeys } from '../lib/morph'
+import { waitForNextPaint } from '../lib/next-paint'
 import { peekPrebuiltTokens, prebuiltTokens } from '../lib/prebuilt-tokens'
+import { prefersReducedMotion } from '../lib/reduced-motion'
 import type { ResolvedAnnotation } from '../lib/types'
 
 const props = defineProps<{
@@ -90,12 +92,6 @@ const current = shallowRef<Shown | null>(
   firstLines ? shown(props.panelKey, props.morphGroup ?? props.panelKey, firstLines) : null,
 )
 
-function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
-}
-
 /**
  * Swap in freshly tokenized lines. Same key (a theme recolour) keeps every row as is; a new key in
  * the same morph group carries matched rows over so they move instead of fading; anything else
@@ -145,7 +141,7 @@ async function tokenize() {
     // On a repeat visit the tokens are cached and would land before the first paint, making
     // that frame lay out every code line; let the page paint once first (measured: first
     // paint ~130 ms sooner on a warm phone visit).
-    if (!current.value) await new Promise((r) => requestAnimationFrame(() => setTimeout(r)))
+    if (!current.value) await waitForNextPaint()
     if (key === props.panelKey) show(key, prebuilt)
     return
   }

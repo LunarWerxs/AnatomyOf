@@ -11,7 +11,7 @@ import {
   X,
 } from 'lucide-vue-next'
 import { TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
-import { computed, nextTick, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { comingSoon } from '../data/comingSoon'
 import type { LanguageMeta } from '../lib/types'
 import BrandMark from './BrandMark.vue'
@@ -85,35 +85,17 @@ const themeLabel = computed(() =>
   mounted.value && mode.value !== 'dark' ? 'Switch to dark theme' : 'Switch to light theme',
 )
 
-type ViewTransitionDocument = Document & {
-  startViewTransition?: (callback: () => unknown) => { finished: Promise<void> }
-}
-
+// Flip the theme directly. Only the large surfaces (this sidebar and the graph-paper
+// backdrop) fade their colors, each with its own scoped transition; the rest switches
+// instantly. Snapshotting the whole page or transitioning every element both stutter.
 function toggleTheme() {
-  const next = mode.value === 'dark' ? 'light' : 'dark'
-  const doc = document as ViewTransitionDocument
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-  // A view transition crossfades one snapshot of the page on the compositor.
-  // Where it isn't available, switch instantly rather than falling back to
-  // transitioning every element, which is the stutter this replaced.
-  if (reduced || typeof doc.startViewTransition !== 'function') {
-    mode.value = next
-    return
-  }
-
-  // The DOM change has to happen inside the callback, and useColorMode writes the
-  // class in a watcher, so wait for Vue to flush before the snapshot is taken.
-  doc.startViewTransition(async () => {
-    mode.value = next
-    await nextTick()
-  })
+  mode.value = mode.value === 'dark' ? 'light' : 'dark'
 }
 </script>
 
 <template>
   <aside
-    class="flex h-full w-60 shrink-0 flex-col border-e border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950"
+    class="flex h-full w-60 shrink-0 flex-col border-e border-zinc-200 bg-white transition-colors duration-300 motion-reduce:transition-none dark:border-zinc-800 dark:bg-zinc-950"
   >
     <!-- Up to the studio. AnatomyOf serves from a lunarwerx.com subdomain, and
          this row is the only route back to the parent site. It sits above the

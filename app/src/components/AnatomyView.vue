@@ -134,7 +134,7 @@ function setVariant(value: unknown) {
 </script>
 
 <template>
-  <div class="mx-auto max-w-[1400px] px-4 py-4 md:px-8 md:py-10">
+  <div class="mx-auto max-w-350 p-4 md:px-8 md:py-10">
     <Transition name="title-swap" mode="out-in" :duration="260">
       <h1
         :key="language.id"

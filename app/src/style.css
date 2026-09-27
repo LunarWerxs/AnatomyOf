@@ -2,24 +2,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Crossfade the theme switch as a single compositor animation over a snapshot of
-   the page (see AppSidebar). The previous approach put a 0.35s color transition on
-   every element with !important, which made one flip recalculate style and repaint
-   the entire tree for the whole duration: fine when idle, roughly 700ms of dropped
-   frames on a machine already under load. Browsers without view transitions get an
-   instant switch, which is cheaper than the stutter it replaces. */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 0.28s;
-  animation-timing-function: ease;
-}
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none !important;
-  }
-}
-
 @theme {
   --font-mono:
     'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
@@ -63,12 +45,19 @@
   }
 }
 
+/* The theme switch fades only this backdrop's color (and the sidebar's, see AppSidebar),
+   never every element: a color transition on the whole tree made one flip restyle and
+   repaint the entire page for its duration, roughly 700ms of dropped frames under load. */
 @utility graph-paper {
   background-color: var(--gp-bg);
   background-image:
     linear-gradient(to right, var(--gp-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--gp-line) 1px, transparent 1px);
   background-size: 24px 24px;
+  transition: background-color 0.28s ease;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 }
 
 /* ---- language-switch transitions ---- */

@@ -257,7 +257,7 @@ const activePaths = computed(() => paths.value.filter((p) => isActive(p.id)))
 
 <template>
   <svg
-    class="pointer-events-none absolute inset-0 z-0 hidden h-full w-full transition-opacity duration-300 xl:block"
+    class="pointer-events-none absolute inset-0 z-0 hidden size-full transition-opacity duration-300 xl:block"
     :class="ready ? 'opacity-100' : 'opacity-0'"
     aria-hidden="true"
   >

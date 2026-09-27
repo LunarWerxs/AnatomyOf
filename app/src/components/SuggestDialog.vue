@@ -75,7 +75,7 @@ function submit() {
       <DialogOverlay data-dialog-overlay class="fixed inset-0 z-40 bg-black/25 dark:bg-black/40" />
       <DialogContent
         data-dialog-content
-        class="fixed inset-y-0 left-0 right-0 z-50 m-auto h-fit max-h-[85vh] w-[min(92vw,440px)] overflow-y-auto rounded-xl border border-zinc-200 bg-white p-6 shadow-2xl md:left-60 dark:border-zinc-700 dark:bg-zinc-900"
+        class="fixed inset-0 z-50 m-auto h-fit max-h-[85vh] w-[min(92vw,440px)] overflow-y-auto rounded-xl border border-zinc-200 bg-white p-6 shadow-2xl md:left-60 dark:border-zinc-700 dark:bg-zinc-900"
       >
         <DialogTitle class="text-base font-extrabold text-zinc-900 dark:text-zinc-100">
           Suggest a language or concept
@@ -111,7 +111,7 @@ function submit() {
             tabindex="-1"
             autocomplete="off"
             aria-hidden="true"
-            class="absolute -left-[9999px] size-0"
+            class="absolute left-[-9999px] size-0"
           />
 
           <p v-if="error" class="text-xs font-medium text-red-500">{{ error }}</p>

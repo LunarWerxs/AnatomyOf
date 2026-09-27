@@ -44,7 +44,7 @@ function formatRange([start, end]: [number, number]): string {
            area (the code/mockup), not the whole viewport. -->
       <DialogContent
         data-dialog-content
-        class="slim-scrollbar fixed inset-y-0 left-0 right-0 z-50 m-auto h-fit max-h-[85vh] w-[min(92vw,560px)] overflow-y-auto rounded-xl border border-zinc-200 bg-white p-6 shadow-2xl md:left-60 dark:border-zinc-700 dark:bg-zinc-900"
+        class="slim-scrollbar fixed inset-0 z-50 m-auto h-fit max-h-[85vh] w-[min(92vw,560px)] overflow-y-auto rounded-xl border border-zinc-200 bg-white p-6 shadow-2xl md:left-60 dark:border-zinc-700 dark:bg-zinc-900"
       >
         <template v-if="annotation">
           <div class="flex items-center gap-2.5 pe-8">

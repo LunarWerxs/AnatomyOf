@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <!-- Phone frame -->
   <div
-    class="relative h-[600px] w-[300px] shrink-0 overflow-hidden rounded-[2.25rem] border-[10px] border-zinc-900 bg-zinc-50 shadow-xl dark:border-black dark:bg-zinc-900"
+    class="relative h-150 w-75 shrink-0 overflow-hidden rounded-[2.25rem] border-10 border-zinc-900 bg-zinc-50 shadow-xl dark:border-black dark:bg-zinc-900"
   >
     <div class="flex h-full flex-col text-zinc-800 dark:text-zinc-100">
       <!-- Status bar -->
@@ -82,7 +82,7 @@ defineProps<{
       </MockupRegion>
 
       <!-- Snackbar -->
-      <div class="absolute bottom-[212px] left-3 right-3">
+      <div class="absolute bottom-53 inset-x-3">
         <MockupRegion id="snackbar" :active-id="activeId" :color="colorMap.snackbar ?? 'indigo'">
           <div
             class="flex items-center justify-between rounded-lg bg-zinc-900 px-3 py-2 text-[11px] text-white shadow-lg dark:bg-zinc-700"
@@ -94,7 +94,7 @@ defineProps<{
       </div>
 
       <!-- Floating action button -->
-      <div class="absolute bottom-[168px] right-4">
+      <div class="absolute bottom-42 right-4">
         <MockupRegion id="fab" :active-id="activeId" :color="colorMap.fab ?? 'green'">
           <div class="grid size-12 place-items-center rounded-2xl bg-sky-600 text-2xl text-white shadow-lg">
             ✎

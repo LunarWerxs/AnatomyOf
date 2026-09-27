@@ -54,7 +54,7 @@ const on = (ref: string) => props.activeId === ref
         :width="zone.w"
         :height="zone.h"
         rx="12"
-        class="fill-zinc-500/[0.04] stroke-zinc-300 dark:stroke-zinc-700"
+        class="fill-zinc-500/4 stroke-zinc-300 dark:stroke-zinc-700"
         stroke-width="1.5"
         stroke-dasharray="5 4"
       />

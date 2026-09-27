@@ -1,5 +1,6 @@
 import { onBeforeUnmount, onMounted, type Ref } from 'vue'
 import { importChunk } from '../lib/chunk'
+import { prefersReducedMotion } from '../lib/reduced-motion'
 
 /**
  * Eased momentum scrolling (Lenis) for the app's custom scroll container.
@@ -26,7 +27,7 @@ export function useSmoothScroll(
 
   onMounted(async () => {
     const wrapperEl = wrapper.value
-    if (!wrapperEl || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (!wrapperEl || prefersReducedMotion()) return
     // Lenis only smooths wheel/trackpad input. A device with no fine pointer at all (a phone)
     // never produces any, so there it would only cost an 18 kB chunk, a layout pass and a
     // requestAnimationFrame loop that runs for the life of the page.
