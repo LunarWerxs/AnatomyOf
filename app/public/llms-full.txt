@@ -73,10 +73,8 @@ See /pricing.md for the machine-readable version.
 ## Privacy
 
 On page load the site sends one anonymous visit ping to LunarWerx's own endpoint
-(studio.connections.icu): a random visitor id kept in localStorage, nothing else. No
-cookies, no third-party trackers, no personal data. Server-side it becomes a daily-uniques
-count (with coarse country) that expires after 90 days. Browsers signaling Do Not Track or
-Global Privacy Control are never pinged.
+(studio.connections.icu): a random visitor id kept in localStorage. Server-side it becomes
+a daily-uniques count (with coarse country) that expires after 90 days.
 
 ## FAQ
 
@@ -94,8 +92,7 @@ A: 48 programming languages plus 7 concept pages that apply the same annotated-t
 format to non-code artifacts.
 
 Q: Does AnatomyOf track visitors or use cookies?
-A: No cookies, no third-party trackers. One anonymous visit ping per page load to
-LunarWerx's own endpoint; Do Not Track and Global Privacy Control are honored.
+A: One anonymous visit ping per page load to LunarWerx's own endpoint.
 
 Q: Can I link someone directly to one language or example?
 A: Yes, every language and variant has a deep-linkable URL, e.g. /#/python/verbose.

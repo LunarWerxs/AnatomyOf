@@ -18,7 +18,7 @@ reason lives nowhere else. Odin never overwrites this section._
 - The code window's macOS-style traffic-light buttons are easter eggs, not real window controls: green flips the concept mockup into a party-mode animation and red just shakes the window. anchors: `app/src/components/CodePanel.vue:29`
 - Touch devices get a two-step tap-to-pin in place of hover: a first tap pins a callout and shows its connector line, a second tap opens the deep-dive modal - do not assume hover handlers alone cover mobile. anchors: `app/src/components/AnatomyView.vue:98`
 - The Suggest-a-language form only opens a mailto: link and immediately marks itself done regardless of whether a mail client actually opened - on a browser/OS with none configured it silently fails with no visible fallback. anchors: `app/src/components/SuggestDialog.vue:40`
-- The visit counter deliberately avoids third-party analytics: one fire-and-forget ping per session to LunarWerx's own endpoint with a random localStorage id and coarse country only, and it is skipped entirely for Do Not Track / Global Privacy Control browsers. anchors: `app/src/lib/analytics.ts:10`
+- The visit counter is one fire-and-forget ping per session to LunarWerx's own endpoint with a random localStorage id and coarse country only. anchors: `app/src/lib/analytics.ts:10`
 - Shiki syntax highlighting is lazy-loaded per language and per theme, so the light-theme assets only download if a visitor actually triggers the light theme - keep new entries registered in highlighter.ts rather than bundling grammars eagerly. anchors: `app/src/lib/highlighter.ts:27`
 
 <!-- odin:about GENERATED BEGIN - rewritten by `odin codex about --publish`; edit the Codex, not this -->
@@ -68,7 +68,7 @@ edit the dossier, not this block. Everything ABOVE the marker is yours.
 - **Shiki syntax highlighting** - Code is highlighted with Shiki, the same engine VS Code uses; languages and themes are lazy-loaded per page so the light theme only ever downloads if the traffic-light easter egg is used. - `app/src/lib/highlighter.ts`
 - **Traffic-light easter eggs** - The code window's macOS-style traffic-light buttons hide small jokes: green flips the concept mockup into a party-mode animation, red gives the window a playful shake. - `app/src/components/CodePanel.vue`
 - **Suggest a language or concept** - A form that opens the visitor's own email client with a pre-filled mailto to the maintainer - no backend or account needed to submit a request. - `app/src/components/SuggestDialog.vue`, `app/src/lib/suggest.ts`
-- **Privacy-respecting visit counter** - One fire-and-forget anonymous ping per session to LunarWerx's own endpoint (random localStorage id, coarse country, no cookies, no third-party trackers, 90-day expiry); skipped entirely for Do Not Track / Global Privacy Control browsers. - `app/src/lib/analytics.ts`
+- **Visit counter** - One fire-and-forget anonymous ping per session to LunarWerx's own endpoint (random localStorage id, coarse country, 90-day expiry). - `app/src/lib/analytics.ts`
 
 ### Where to add a new one
 

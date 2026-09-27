@@ -137,10 +137,11 @@ candidates with what each would cost, and the gotchas worth knowing before touch
 ## 🔒 Privacy
 
 On page load the site sends one anonymous visit ping to LunarWerx's own endpoint
-(`studio.connections.icu`): a random visitor id kept in `localStorage`, nothing else. No
-cookies, no third-party trackers, no personal data; server-side it becomes a daily-uniques
-count (with coarse country) that expires after 90 days. Browsers signaling
-**Do Not Track** or **Global Privacy Control** are never pinged.
+(`studio.connections.icu`): a random visitor id kept in `localStorage`. Server-side it
+becomes a daily-uniques count (with coarse country) that expires after 90 days.
+
+AnatomyOf collects anonymous usage statistics (such as page views, the version in use and
+which features are used) to see what people use and improve it.
 
 ## 🆚 How it compares
 
@@ -181,10 +182,8 @@ a code window with clickable, color-coded callouts, a separate deep-dive modal p
 minimal and verbose variants, and light/dark themes.
 
 **Is my data sent anywhere?**
-Almost none. On page load AnatomyOf sends one anonymous visit ping (a random visitor id in
-localStorage, plus a coarse country) to LunarWerx's own endpoint, with no cookies and no
-third-party trackers. It expires after 90 days, and the ping is skipped entirely for
-browsers signaling Do Not Track or Global Privacy Control.
+On page load AnatomyOf sends one anonymous visit ping (a random visitor id in localStorage,
+plus a coarse country) to LunarWerx's own endpoint. It expires after 90 days.
 
 **Which languages does it cover?**
 Dozens, from mainstream ones like Python, Rust, and TypeScript to less common picks such as

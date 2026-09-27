@@ -14,7 +14,7 @@ AnatomyOf opens an example source file in a code window with color-coded callout
 - Deep-linkable URLs for every language and variant.
 - Built with Bun, Vite, Vue 3, TypeScript, Tailwind CSS 4, Reka UI, Shiki, and Biome.
 - Free and open source under the MIT License.
-- Privacy: one anonymous visit ping per page load to LunarWerx's own endpoint, no cookies, no third-party trackers, no personal data; Do Not Track and Global Privacy Control are honored.
+- Privacy: one anonymous visit ping per page load to LunarWerx's own endpoint.
 
 ## Common questions
 
@@ -25,7 +25,7 @@ Yes. AnatomyOf is free and open source under the MIT License, with the full sour
 Dozens, ranging from mainstream ones like Python and Rust to Ada, Prolog, COBOL, GML, and WebAssembly. Alongside the real languages, concept pages dissect the structural anatomy of a website, a settings screen, a mobile app, a dashboard, an email, a CI pipeline, and a GitHub contribution.
 
 ### Does AnatomyOf track me?
-No. It sends one anonymous visit ping per page load to LunarWerx's own endpoint. There are no cookies, no third-party trackers, and no personal data of any kind. Do Not Track and Global Privacy Control are both honored.
+It sends one anonymous visit ping per page load to LunarWerx's own endpoint.
 
 ### Can I link someone straight to one language?
 Yes. Every language and variant has its own deep-linkable URL, in the shape `/python/verbose`, one real page per language, so a link opens exactly the file and the verbosity level you were looking at rather than the front page.
