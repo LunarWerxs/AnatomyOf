@@ -18,7 +18,7 @@ export const fortran: LanguageDef = {
       body: 'Starts with `!`, ignored by the compiler.',
       details:
         'Free-form Fortran (`.f90`/`.f95`) uses `!` to start a comment anywhere on a line, from the first column through end of line. This replaced the fixed-form rule where a `C` or `*` in column 1 marked an entire line as a comment, which is why old Fortran listings look so column-obsessed.\n\nThere is no block-comment syntax; every commented line needs its own `!`. In practice this means decades of scientific codebases are annotated one line at a time, often by whoever last touched the subroutine and lived to explain it.',
-      learnMore: 'https://fortranwiki.org/fortran/show/Comments',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/hello_world/',
       color: 'slate',
       side: 'left',
     },
@@ -38,7 +38,7 @@ export const fortran: LanguageDef = {
       body: 'Enforces explicit variable declarations.',
       details:
         'Without `implicit none`, Fortran falls back to its historic naming rule: undeclared identifiers starting with `i` through `n` are implicitly `integer`, and everything else is implicitly `real`. That default has quietly caused more misplaced-decimal bugs than most languages manage in a lifetime.\n\n`implicit none` turns off that fallback and requires every variable to be declared, so a typo`d` name becomes a compile error instead of a silently-typed new variable. It is considered mandatory in any code written after roughly 1990.',
-      learnMore: 'https://fortranwiki.org/fortran/show/Implicit+none',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/variables/#declaring-variables',
       color: 'sky',
       side: 'left',
     },
@@ -48,7 +48,7 @@ export const fortran: LanguageDef = {
       body: "Separates a module or program's data/definitions from its internal procedures.",
       details:
         "The `contains` statement marks the boundary between a module's (or program's) declarations and the subroutines/functions defined inside it. Everything after `contains` is an internal procedure that automatically has access to the host's variables through host association.\n\nA program unit may have at most one `contains`, and procedures defined after it cannot themselves contain further nested procedures beyond one level. Fortran keeps the nesting shallow on purpose.",
-      learnMore: 'https://fortranwiki.org/fortran/show/contains',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/organising_code/#modules',
       color: 'purple',
       side: 'right',
     },
@@ -68,7 +68,7 @@ export const fortran: LanguageDef = {
       body: 'Specifies whether a dummy argument is input (`in`), output (`out`), or both (`inout`).',
       details:
         'The `intent` attribute documents and enforces how a subroutine or function uses each dummy argument: `intent(in)` may only be read, `intent(out)` must be assigned before the procedure returns, and `intent(inout)` may be both read and modified. The compiler rejects programs that violate the declared intent.\n\nBeyond safety, `intent` lets the compiler optimize argument passing (e.g. it need not copy an `intent(in)` array back to the caller) and gives tooling enough information to catch an accidental write to what should have been read-only input.',
-      learnMore: 'https://fortranwiki.org/fortran/show/intent',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/organising_code/#subroutines',
       color: 'teal',
       side: 'right',
     },
@@ -78,7 +78,7 @@ export const fortran: LanguageDef = {
       body: 'Imports entities from a module.',
       details:
         "`use module_name` brings a module's public procedures, types, and variables into the current scope. Adding `, only: calculate_square` restricts the import to exactly the named entities, which keeps large scientific codebases from silently colliding on common names like `x` or `n`.\n\n`use` statements must appear before any other declarations in a program unit, immediately after the `program`, `module`, or `subroutine` header: a holdover from the compiler needing to resolve the full symbol table before it processes anything else.",
-      learnMore: 'https://fortranwiki.org/fortran/show/use',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/organising_code/#modules',
       color: 'orange',
       side: 'right',
     },
@@ -88,7 +88,7 @@ export const fortran: LanguageDef = {
       body: 'Declares a variable and its type, optionally as a named constant with `parameter`.',
       details:
         'A type declaration such as `integer :: i, square_val` lists a type followed by `::` and one or more variable names, optionally with attributes like `dimension`, `allocatable`, or `parameter`. Multiple variables of the same type and attributes can share a single declaration line, separated by commas.\n\nAdding the `parameter` attribute, as in `integer, parameter :: limit = 5`, defines a compile-time constant: its value must be set at declaration and can never be reassigned, and the compiler is free to substitute it directly wherever it appears.',
-      learnMore: 'https://fortranwiki.org/fortran/show/parameter',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/variables/#declaring-variables',
       color: 'amber',
       side: 'right',
     },
@@ -98,7 +98,7 @@ export const fortran: LanguageDef = {
       body: 'The main execution point, opened with `program` and closed with `end program`.',
       details:
         'Exactly one `program` block per executable marks where execution begins: analogous to `main` in C or `def main()` elsewhere, except the block also declares its own local variables and can `use` any modules it needs. Fortran does not require the program name to match the source filename.\n\nA standalone program still benefits from `implicit none` and can itself contain internal procedures after `contains`, making it a legitimate host program unit in its own right, not just an entry point that immediately delegates elsewhere.',
-      learnMore: 'https://fortranwiki.org/fortran/show/program',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/hello_world/#hello-world',
       color: 'red',
       side: 'left',
     },
@@ -108,7 +108,7 @@ export const fortran: LanguageDef = {
       body: 'Executes a block of code repeatedly with `do` / `end do`.',
       details:
         "`do i = 1, limit` counts `i` from 1 through `limit` inclusive, stepping by 1 by default (a third value after another comma sets a custom step, including negative ones for counting down). This is Fortran's oldest surviving construct, dating back essentially unchanged in spirit to FORTRAN I in 1957.\n\nModern Fortran also supports `do while (condition)` for condition-driven loops and `exit`/`cycle` as the equivalents of `break`/`continue`. Array-wise operations and `forall`/`do concurrent` often replace explicit loops entirely when the iterations are independent.",
-      learnMore: 'https://fortranwiki.org/fortran/show/do',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/operators_control_flow/#loop-constructs-do',
       color: 'rose',
       side: 'left',
     },
@@ -118,7 +118,7 @@ export const fortran: LanguageDef = {
       body: 'Executes code based on a condition with `if` / `else` / `end if`.',
       details:
         "A block `if (condition) then ... else ... end if` branches on a logical expression; `mod(i, 2) == 0` is Fortran's modulo test, since there is no `%` operator. Multiple branches chain with `else if (condition) then`, and every block form must be explicitly closed with `end if`.\n\nA single-line form, `if (condition) statement`, skips the `then`/`end if` entirely for a one-statement action, which is convenient for guard clauses but cannot itself contain another `if` block.",
-      learnMore: 'https://fortranwiki.org/fortran/show/if',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/operators_control_flow/#conditional-construct-if',
       color: 'pink',
       side: 'left',
     },
@@ -128,7 +128,7 @@ export const fortran: LanguageDef = {
       body: 'Outputs data to standard output with `print`.',
       details:
         '`print *, ...` writes a comma-separated list of values to standard output using Fortran\'s default ("list-directed") formatting, which chooses reasonable spacing and precision automatically. The asterisk stands in for a format specifier, meaning "use the default format" instead of a hand-written `FORMAT` string.\n\nFor precise column alignment or fixed decimal places, `write(*, "(format)")` accepts an explicit edit descriptor string, a facility that goes back to Fortran\'s original need to produce punch-card-aligned tabular output.',
-      learnMore: 'https://fortranwiki.org/fortran/show/print',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/variables/#standard-input-output',
       color: 'indigo',
       side: 'right',
     },
@@ -138,7 +138,7 @@ export const fortran: LanguageDef = {
       body: 'Executes a subroutine with `call`.',
       details:
         'A subroutine cannot be invoked like a function; it must be invoked with the `call` statement, e.g. `call calculate_square(i, square_val)`. Arguments are matched positionally to the subroutine\'s dummy arguments unless keyword form (`call foo(n=5)`) is used.\n\nBecause arguments are typically passed by reference, a `call` can change the caller\'s variables directly through any `intent(out)` or `intent(inout)` parameter. There is no need to capture a return value since the "return" happens by mutating what you passed in.',
-      learnMore: 'https://fortranwiki.org/fortran/show/call',
+      learnMore: 'https://fortran-lang.org/learn/quickstart/organising_code/#subroutines',
       color: 'blue',
       side: 'right',
     },
