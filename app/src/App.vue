@@ -9,7 +9,7 @@ import { useSmoothScroll } from './composables/useSmoothScroll'
 import { defaultLanguage, languages } from './data'
 
 const repoUrl = 'https://github.com/LunarWerxs/anatomyof'
-const discordUrl = 'https://discord.gg/w5qSU7qbJB'
+const discordUrl = 'https://lunarwerx.com/discord/anatomyof'
 
 const route = useRoute()
 const router = useRouter()
