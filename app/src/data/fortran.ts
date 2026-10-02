@@ -108,7 +108,8 @@ export const fortran: LanguageDef = {
       body: 'Executes a block of code repeatedly with `do` / `end do`.',
       details:
         "`do i = 1, limit` counts `i` from 1 through `limit` inclusive, stepping by 1 by default (a third value after another comma sets a custom step, including negative ones for counting down). This is Fortran's oldest surviving construct, dating back essentially unchanged in spirit to FORTRAN I in 1957.\n\nModern Fortran also supports `do while (condition)` for condition-driven loops and `exit`/`cycle` as the equivalents of `break`/`continue`. Array-wise operations and `forall`/`do concurrent` often replace explicit loops entirely when the iterations are independent.",
-      learnMore: 'https://fortran-lang.org/learn/quickstart/operators_control_flow/#loop-constructs-do',
+      learnMore:
+        'https://fortran-lang.org/learn/quickstart/operators_control_flow/#loop-constructs-do',
       color: 'rose',
       side: 'left',
     },
@@ -118,7 +119,8 @@ export const fortran: LanguageDef = {
       body: 'Executes code based on a condition with `if` / `else` / `end if`.',
       details:
         "A block `if (condition) then ... else ... end if` branches on a logical expression; `mod(i, 2) == 0` is Fortran's modulo test, since there is no `%` operator. Multiple branches chain with `else if (condition) then`, and every block form must be explicitly closed with `end if`.\n\nA single-line form, `if (condition) statement`, skips the `then`/`end if` entirely for a one-statement action, which is convenient for guard clauses but cannot itself contain another `if` block.",
-      learnMore: 'https://fortran-lang.org/learn/quickstart/operators_control_flow/#conditional-construct-if',
+      learnMore:
+        'https://fortran-lang.org/learn/quickstart/operators_control_flow/#conditional-construct-if',
       color: 'pink',
       side: 'left',
     },
