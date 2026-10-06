@@ -1,5 +1,7 @@
 schema: hydra-rsi/1
-# Committed bytes of what the Anatomy-of-a-File web app ships (source, index.html, public assets); tests excluded.
+# Committed bytes of what the Anatomy-of-a-File web app ships (app/src, app/index.html, app/public assets).
+# Excluded: tests, SSR-only entry-server.ts, build-regenerated catalog.generated.ts and tokens.generated/,
+# and public/sitemap.xml (prerender overwrites it in dist).
 metrics:
   - id: app.shipped_bytes
     kind: size
