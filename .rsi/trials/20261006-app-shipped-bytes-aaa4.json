@@ -1,0 +1,24 @@
+{
+ "closed": null,
+ "def_hash": "9578ae1a8f28905d",
+ "id": "20261006-app-shipped-bytes-aaa4",
+ "idea": "lossless PNG recompression of og-image.png and apple-touch-icon.png (pixels identical)",
+ "lane": "normal",
+ "metric": "app.shipped_bytes",
+ "opened": {
+  "at": "2026-10-06T10:55:34+00:00",
+  "by": "blogi",
+  "commit": "ec2a91f168aa98df139c09a46efb5cfc5ed5b03d",
+  "machine": "MPC-HELL"
+ },
+ "pass_line": null,
+ "predict": {
+  "expect": 2300.0,
+  "hi": 4000.0,
+  "lo": 1000.0,
+  "p_keep": 0.8
+ },
+ "probe_minutes": null,
+ "project": "anatomyof",
+ "schema": "hydra-rsi-trial/1"
+}
