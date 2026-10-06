@@ -1,0 +1,11 @@
+schema: hydra-rsi/1
+# Committed bytes of what the Anatomy-of-a-File web app ships (source, index.html, public assets); tests excluded.
+metrics:
+  - id: app.shipped_bytes
+    kind: size
+    better: lower
+    unit: bytes
+    measure: "python scripts/rsi/shipped_bytes.py"
+    pick: 'shipped_bytes=(\d+)'
+    gate: exact
+    light: true
