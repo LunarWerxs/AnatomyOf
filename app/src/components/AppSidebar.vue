@@ -103,7 +103,7 @@ function toggleTheme() {
          it actually is: studio, then product. -->
     <a
       href="https://lunarwerx.com/"
-      class="flex items-center gap-1.5 px-4 pt-3 text-[11px] font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+      class="flex items-center gap-1.5 px-4 pt-3 text-caption font-medium text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
     >
       <ArrowLeft class="size-3.5 shrink-0" />
       LunarWerx Studios
@@ -115,7 +115,7 @@ function toggleTheme() {
         <div class="truncate text-sm font-extrabold tracking-tight text-zinc-900 dark:text-zinc-100">
           AnatomyOf
         </div>
-        <div class="text-[11px] text-zinc-500 dark:text-zinc-400">interactive edition</div>
+        <div class="text-caption text-zinc-500 dark:text-zinc-400">interactive edition</div>
       </div>
       <button
         type="button"
@@ -177,7 +177,7 @@ function toggleTheme() {
         <TabsList class="flex flex-col gap-0.5" aria-label="Languages and concepts">
           <div
             v-if="languageItems.length"
-            class="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500"
+            class="px-3 pb-1 text-caption font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500"
           >
             Languages
           </div>
@@ -193,7 +193,7 @@ function toggleTheme() {
             />
             {{ lang.name }}
             <span
-              class="ms-auto text-[10px] text-zinc-400 group-data-[state=active]:text-zinc-400 dark:text-zinc-500 dark:group-data-[state=active]:text-zinc-500"
+              class="ms-auto text-micro text-zinc-400 group-data-[state=active]:text-zinc-400 dark:text-zinc-500 dark:group-data-[state=active]:text-zinc-500"
             >
               {{ lang.extensions.join(' ') }}
             </span>
@@ -201,7 +201,7 @@ function toggleTheme() {
 
           <div
             v-if="conceptItems.length"
-            class="mt-4 px-3 pb-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500"
+            class="mt-4 px-3 pb-1 text-caption font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500"
           >
             Concepts
           </div>
@@ -222,7 +222,7 @@ function toggleTheme() {
 
       <div
         v-if="comingItems.length"
-        class="mt-5 px-3 text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500"
+        class="mt-5 px-3 text-caption font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500"
       >
         Coming soon
       </div>
@@ -234,7 +234,7 @@ function toggleTheme() {
         >
           <span class="size-1.5 shrink-0 rounded-full bg-zinc-300 dark:bg-zinc-700" />
           {{ item.name }}
-          <span class="ms-auto text-[10px] text-zinc-300 dark:text-zinc-700">{{ item.ext }}</span>
+          <span class="ms-auto text-micro text-zinc-300 dark:text-zinc-700">{{ item.ext }}</span>
         </li>
         <li>
           <button
@@ -271,7 +271,7 @@ function toggleTheme() {
       "
     >
       <img src="/lunarwerx.webp" alt="LunarWerx" class="size-4 shrink-0 rounded" />
-      <span class="text-[11px] leading-tight">
+      <span class="text-caption leading-tight">
         <span class="text-zinc-400 dark:text-zinc-500">Built by</span>
         <span class="font-bold text-zinc-600 dark:text-zinc-300">LunarWerx</span>
       </span>

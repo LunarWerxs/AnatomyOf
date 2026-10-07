@@ -1,0 +1,24 @@
+{
+ "closed": null,
+ "def_hash": "6e6ac7762091097c",
+ "id": "20261007-arkitect-warnings-ca23",
+ "idea": "name the 10px/11px text sizes as @theme tokens (text-micro/text-caption) so raw text-[Npx] utilities stop tripping design-system-typography",
+ "lane": "moonshot",
+ "metric": "arkitect_warnings",
+ "opened": {
+  "at": "2026-10-07T10:15:20+00:00",
+  "by": "blogi",
+  "commit": "d9724e6abaceb3ebaa884e0ed02f274a5ac76764",
+  "machine": "MPC-HELL"
+ },
+ "pass_line": "arkitect_warnings drops by 30 or more with identical rendered CSS",
+ "predict": {
+  "expect": 800.0,
+  "hi": 840.0,
+  "lo": 700.0,
+  "p_keep": 0.4
+ },
+ "probe_minutes": 20.0,
+ "project": "anatomyof",
+ "schema": "hydra-rsi-trial/1"
+}

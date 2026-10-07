@@ -17,10 +17,10 @@ defineProps<{
       <!-- Status bar -->
       <MockupRegion id="status-bar" :active-id="activeId" :color="colorMap['status-bar'] ?? 'slate'">
         <div
-          class="flex h-7 items-center justify-between px-5 pt-1 text-[11px] font-semibold text-zinc-900 dark:text-zinc-100"
+          class="flex h-7 items-center justify-between px-5 pt-1 text-caption font-semibold text-zinc-900 dark:text-zinc-100"
         >
           <span>9:41</span>
-          <span class="flex items-center gap-1 text-[10px]">
+          <span class="flex items-center gap-1 text-micro">
             <span>▮▮▮</span><span>Wi‑Fi</span><span>100%</span>
           </span>
         </div>
@@ -37,7 +37,7 @@ defineProps<{
           </span>
           <span class="flex items-center gap-3 text-zinc-500 dark:text-zinc-400">
             <span>⌕</span>
-            <span class="grid size-6 place-items-center rounded-full bg-zinc-200 text-[10px] dark:bg-zinc-700">JD</span>
+            <span class="grid size-6 place-items-center rounded-full bg-zinc-200 text-micro dark:bg-zinc-700">JD</span>
           </span>
         </header>
       </MockupRegion>
@@ -85,7 +85,7 @@ defineProps<{
       <div class="absolute bottom-53 inset-x-3">
         <MockupRegion id="snackbar" :active-id="activeId" :color="colorMap.snackbar ?? 'indigo'">
           <div
-            class="flex items-center justify-between rounded-lg bg-zinc-900 px-3 py-2 text-[11px] text-white shadow-lg dark:bg-zinc-700"
+            class="flex items-center justify-between rounded-lg bg-zinc-900 px-3 py-2 text-caption text-white shadow-lg dark:bg-zinc-700"
           >
             <span>Message archived</span>
             <span class="font-bold text-sky-400">UNDO</span>
@@ -124,7 +124,7 @@ defineProps<{
       <div class="absolute inset-x-0 bottom-0">
         <MockupRegion id="bottom-nav" :active-id="activeId" :color="colorMap['bottom-nav'] ?? 'rose'">
           <nav
-            class="flex items-center justify-around border-t border-zinc-200 bg-white py-2 text-[10px] dark:border-zinc-800 dark:bg-zinc-900"
+            class="flex items-center justify-around border-t border-zinc-200 bg-white py-2 text-micro dark:border-zinc-800 dark:bg-zinc-900"
           >
             <span class="flex flex-col items-center gap-0.5 text-sky-600 dark:text-sky-400">
               <span class="text-base leading-none">✉</span>Mail

@@ -60,7 +60,7 @@ const on = (ref: string) => props.activeId === ref
       <text
         x="16"
         :y="lane.y - 24"
-        class="fill-zinc-400 text-[10px] font-bold uppercase tracking-[0.13em] dark:fill-zinc-500"
+        class="fill-zinc-400 text-micro font-bold uppercase tracking-[0.13em] dark:fill-zinc-500"
       >
         {{ lane.label }}
       </text>

@@ -303,7 +303,7 @@ function onLineClick(line: number) {
                 @click="onLineClick(index + 1)"
               >
                 <span
-                  class="w-9 shrink-0 select-none pe-3 text-end text-[11px]"
+                  class="w-9 shrink-0 select-none pe-3 text-end text-caption"
                   :class="chrome.gutter"
                 >
                   {{ index + 1 }}
