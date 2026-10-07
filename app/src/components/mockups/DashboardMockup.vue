@@ -30,9 +30,9 @@ const bars = [40, 62, 48, 75, 58, 88, 70]
           <div class="text-sm font-black text-zinc-900 dark:text-zinc-50">Overview</div>
           <div class="flex items-center gap-3">
             <MockupRegion id="search" :active-id="activeId" :color="colorMap.search ?? 'sky'" inline>
-              <span class="flex items-center gap-1.5 rounded-full bg-zinc-100 px-3 py-1 text-caption text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500">⌕ Search</span>
+              <span class="flex items-center gap-1.5 rounded-full bg-zinc-100 px-3 py-1 text-[11px] text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500">⌕ Search</span>
             </MockupRegion>
-            <span class="grid size-6 place-items-center rounded-full bg-zinc-200 text-micro dark:bg-zinc-700">JD</span>
+            <span class="grid size-6 place-items-center rounded-full bg-zinc-200 text-[10px] dark:bg-zinc-700">JD</span>
           </div>
         </header>
       </MockupRegion>
@@ -42,20 +42,20 @@ const bars = [40, 62, 48, 75, 58, 88, 70]
         <div class="grid grid-cols-3 gap-3">
           <MockupRegion id="kpi" :active-id="activeId" :color="colorMap.kpi ?? 'teal'">
             <div class="rounded-lg border border-zinc-200 p-3 dark:border-zinc-700">
-              <div class="text-micro uppercase tracking-wide text-zinc-400">Revenue</div>
+              <div class="text-[10px] uppercase tracking-wide text-zinc-400">Revenue</div>
               <div class="text-lg font-black text-zinc-900 dark:text-zinc-50">$48.2k</div>
-              <div class="text-micro font-semibold text-green-600 dark:text-green-400">▲ 12.4%</div>
+              <div class="text-[10px] font-semibold text-green-600 dark:text-green-400">▲ 12.4%</div>
             </div>
           </MockupRegion>
           <div class="rounded-lg border border-zinc-200 p-3 dark:border-zinc-700">
-            <div class="text-micro uppercase tracking-wide text-zinc-400">Users</div>
+            <div class="text-[10px] uppercase tracking-wide text-zinc-400">Users</div>
             <div class="text-lg font-black text-zinc-900 dark:text-zinc-50">3,914</div>
-            <div class="text-micro font-semibold text-green-600 dark:text-green-400">▲ 5.1%</div>
+            <div class="text-[10px] font-semibold text-green-600 dark:text-green-400">▲ 5.1%</div>
           </div>
           <div class="rounded-lg border border-zinc-200 p-3 dark:border-zinc-700">
-            <div class="text-micro uppercase tracking-wide text-zinc-400">Churn</div>
+            <div class="text-[10px] uppercase tracking-wide text-zinc-400">Churn</div>
             <div class="text-lg font-black text-zinc-900 dark:text-zinc-50">1.8%</div>
-            <div class="text-micro font-semibold text-red-500 dark:text-red-400">▼ 0.3%</div>
+            <div class="text-[10px] font-semibold text-red-500 dark:text-red-400">▼ 0.3%</div>
           </div>
         </div>
 
@@ -65,7 +65,7 @@ const bars = [40, 62, 48, 75, 58, 88, 70]
             <div class="mb-2 flex items-center justify-between">
               <span class="text-xs font-bold text-zinc-700 dark:text-zinc-200">Weekly revenue</span>
               <MockupRegion id="filter" :active-id="activeId" :color="colorMap.filter ?? 'amber'" inline>
-                <span class="flex items-center gap-1 rounded border border-zinc-300 px-2 py-0.5 text-micro text-zinc-500 dark:border-zinc-600 dark:text-zinc-400">Last 7 days ▾</span>
+                <span class="flex items-center gap-1 rounded border border-zinc-300 px-2 py-0.5 text-[10px] text-zinc-500 dark:border-zinc-600 dark:text-zinc-400">Last 7 days ▾</span>
               </MockupRegion>
             </div>
             <div class="flex h-20 items-end gap-2">
@@ -82,7 +82,7 @@ const bars = [40, 62, 48, 75, 58, 88, 70]
         <!-- Table -->
         <MockupRegion id="table" :active-id="activeId" :color="colorMap.table ?? 'indigo'">
           <div class="overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-700">
-            <div class="flex bg-zinc-50 px-3 py-1.5 text-micro font-bold uppercase tracking-wide text-zinc-400 dark:bg-zinc-800">
+            <div class="flex bg-zinc-50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-zinc-400 dark:bg-zinc-800">
               <span class="flex-1">Customer</span><span class="w-16">Plan</span><span class="w-16 text-end">MRR</span>
             </div>
             <MockupRegion id="row" :active-id="activeId" :color="colorMap.row ?? 'rose'">
@@ -98,7 +98,7 @@ const bars = [40, 62, 48, 75, 58, 88, 70]
               <span class="w-16 text-end font-semibold text-zinc-800 dark:text-zinc-100">$640</span>
             </div>
             <MockupRegion id="pagination" :active-id="activeId" :color="colorMap.pagination ?? 'green'">
-              <div class="flex items-center justify-end gap-1 border-t border-zinc-100 px-3 py-1.5 text-micro text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
+              <div class="flex items-center justify-end gap-1 border-t border-zinc-100 px-3 py-1.5 text-[10px] text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
                 <span class="rounded border border-zinc-300 px-1.5 dark:border-zinc-600">‹</span>
                 <span>1 / 12</span>
                 <span class="rounded border border-zinc-300 px-1.5 dark:border-zinc-600">›</span>

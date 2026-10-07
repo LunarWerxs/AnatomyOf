@@ -6,8 +6,6 @@
   --font-mono:
     'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
     'Liberation Mono', monospace;
-  --text-micro: 10px;
-  --text-caption: 11px;
 }
 
 /* The graph-paper backdrop from the original infographics */

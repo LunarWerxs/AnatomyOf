@@ -15,7 +15,7 @@ defineProps<{
       <header class="flex items-center justify-between border-b border-zinc-200 px-5 py-3 dark:border-zinc-700">
         <div>
           <div class="text-sm font-black text-zinc-900 dark:text-zinc-50">Settings</div>
-          <div class="text-micro text-zinc-500 dark:text-zinc-400">Manage your account and preferences</div>
+          <div class="text-[10px] text-zinc-500 dark:text-zinc-400">Manage your account and preferences</div>
         </div>
         <span class="grid size-7 place-items-center rounded-full bg-zinc-200 text-xs dark:bg-zinc-700">JD</span>
       </header>
@@ -53,7 +53,7 @@ defineProps<{
               <div>
                 <div class="text-xs font-medium text-zinc-700 dark:text-zinc-200">Language</div>
                 <MockupRegion id="help" :active-id="activeId" :color="colorMap.help ?? 'sky'" inline>
-                  <span class="text-micro text-zinc-400 dark:text-zinc-500">Used across the interface.</span>
+                  <span class="text-[10px] text-zinc-400 dark:text-zinc-500">Used across the interface.</span>
                 </MockupRegion>
               </div>
               <MockupRegion
@@ -94,8 +94,8 @@ defineProps<{
           <section class="rounded-md border border-red-300 bg-red-50 p-3 dark:border-red-900 dark:bg-red-950/40">
             <h3 class="mb-1 text-xs font-bold uppercase tracking-wide text-red-600 dark:text-red-400">Danger zone</h3>
             <div class="flex items-center justify-between gap-3">
-              <span class="text-micro text-red-500 dark:text-red-400">Permanently delete this account.</span>
-              <span class="rounded bg-red-600 px-2.5 py-1 text-caption font-bold text-white">
+              <span class="text-[10px] text-red-500 dark:text-red-400">Permanently delete this account.</span>
+              <span class="rounded bg-red-600 px-2.5 py-1 text-[11px] font-bold text-white">
                 Delete account
               </span>
             </div>

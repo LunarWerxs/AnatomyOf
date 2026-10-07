@@ -61,7 +61,7 @@ const on = (ref: string) => props.activeId === ref
       <text
         :x="zone.x + 14"
         :y="zone.y - 8"
-        class="fill-zinc-400 text-micro font-bold uppercase tracking-[0.13em] dark:fill-zinc-500"
+        class="fill-zinc-400 text-[10px] font-bold uppercase tracking-[0.13em] dark:fill-zinc-500"
       >
         {{ zone.label }}
       </text>

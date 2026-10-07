@@ -86,13 +86,13 @@ function formatRange([start, end]: [number, number]): string {
           </a>
 
           <div v-if="annotation.ranges.length" class="mt-5 flex flex-wrap items-center gap-1.5">
-            <span class="text-caption font-semibold uppercase tracking-wider text-zinc-400">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
               In this example:
             </span>
             <span
               v-for="range in annotation.ranges"
               :key="`${range[0]}-${range[1]}`"
-              class="rounded-full border border-zinc-200 px-2 py-0.5 font-mono text-caption text-zinc-600 dark:border-zinc-700 dark:text-zinc-300"
+              class="rounded-full border border-zinc-200 px-2 py-0.5 font-mono text-[11px] text-zinc-600 dark:border-zinc-700 dark:text-zinc-300"
             >
               {{ formatRange(range) }}
             </span>

@@ -15,7 +15,7 @@ defineProps<{
       <header class="flex items-center justify-between gap-3 rounded-md bg-zinc-900 px-4 py-3 dark:bg-zinc-950">
         <MockupRegion id="brand" :active-id="activeId" :color="colorMap.brand ?? 'blue'" inline>
           <span class="flex items-center gap-1.5 px-1 text-sm font-black text-white">
-            <span class="grid size-5 place-items-center rounded bg-sky-500 text-caption">◆</span>
+            <span class="grid size-5 place-items-center rounded bg-sky-500 text-[11px]">◆</span>
             Acme
           </span>
         </MockupRegion>
@@ -76,7 +76,7 @@ defineProps<{
 
       <MockupRegion id="aside" :active-id="activeId" :color="colorMap.aside ?? 'amber'">
         <aside class="flex h-full flex-col gap-2 rounded-md border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800">
-          <div class="text-micro font-bold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">Related</div>
+          <div class="text-[10px] font-bold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">Related</div>
           <div class="h-1.5 w-full rounded bg-zinc-200 dark:bg-zinc-700" />
           <div class="h-1.5 w-5/6 rounded bg-zinc-200 dark:bg-zinc-700" />
           <div class="h-1.5 w-full rounded bg-zinc-200 dark:bg-zinc-700" />
@@ -88,7 +88,7 @@ defineProps<{
     <!-- Footer -->
     <MockupRegion id="footer" :active-id="activeId" :color="colorMap.footer ?? 'rose'">
       <footer
-        class="flex items-center justify-between gap-3 rounded-md bg-zinc-900 px-4 py-3 text-micro text-zinc-400 dark:bg-zinc-950"
+        class="flex items-center justify-between gap-3 rounded-md bg-zinc-900 px-4 py-3 text-[10px] text-zinc-400 dark:bg-zinc-950"
       >
         <span>© 2026 Acme, Inc.</span>
         <span class="flex gap-3"><span>Privacy</span><span>Terms</span><span>Status</span></span>
