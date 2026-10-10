@@ -8,7 +8,7 @@ export default defineConfig({
   test: {
     pool: 'threads',
     maxWorkers: 4,
-    include: ['src/lib/**/*.test.ts'],
+    include: ['src/lib/**/*.test.ts', 'scripts/**/*.test.ts'],
     environment: 'node',
   },
 })
