@@ -21,7 +21,7 @@ const style = computed(() => accentStyles[props.annotation.color])
   <button
     type="button"
     :data-annotation-card="annotation.id"
-    class="w-full cursor-pointer rounded-lg border-2 px-3 py-2 text-start text-[13px] leading-snug shadow-sm transition-all duration-100"
+    class="w-full cursor-pointer rounded-lg border-2 px-3 py-2 text-start text-[13px] leading-snug shadow-sm transition-[color,background-color,border-color,box-shadow,transform] duration-100"
     :class="[
       style.card,
       active

@@ -236,7 +236,11 @@ function buildPage(
     html = html.replace(from, to)
   }
 
-  swap('<title>AnatomyOf: Interactive, Annotated Source File Tours</title>', `<title>${esc(title)}</title>`, '<title>')
+  swap(
+    '<title>AnatomyOf: Interactive, Annotated Source File Tours</title>',
+    `<title>${esc(title)}</title>`,
+    '<title>',
+  )
   swap(
     `<link rel="canonical" href="${ORIGIN}/" />`,
     `<link rel="canonical" href="${canonical}" />`,

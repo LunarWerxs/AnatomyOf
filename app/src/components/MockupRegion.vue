@@ -22,7 +22,7 @@ const style = computed(() => accentStyles[props.color])
   <component
     :is="inline ? 'span' : 'div'"
     :data-region="id"
-    class="relative cursor-pointer rounded-md ring-2 transition-all duration-150"
+    class="relative cursor-pointer rounded-md ring-2 transition-[color,background-color,box-shadow] duration-150"
     :class="[
       inline ? 'inline-block align-middle' : 'block',
       active ? `${style.lineBg} ${style.ring}` : 'ring-transparent',
