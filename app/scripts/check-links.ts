@@ -31,7 +31,20 @@ const CONCURRENCY = 10
 const dead: Array<{ url: string; status: string }> = []
 let cursor = 0
 
+// A timeout is a slow answer, not a dead page: a host that serves 200 in 1-8s can
+// still miss the 15s budget once from a busy runner. Retry those before failing.
+const TRANSIENT_ERRORS = new Set(['TimeoutError', 'AbortError'])
+
 async function probe(url: string): Promise<number | string> {
+  let result: number | string = 'unknown'
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    result = await probeOnce(url)
+    if (typeof result !== 'string' || !TRANSIENT_ERRORS.has(result)) return result
+  }
+  return result
+}
+
+async function probeOnce(url: string): Promise<number | string> {
   for (const method of ['HEAD', 'GET'] as const) {
     try {
       const res = await fetch(url, {
