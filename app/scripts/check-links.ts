@@ -40,8 +40,30 @@ async function probe(url: string): Promise<number | string> {
   for (let attempt = 1; attempt <= 3; attempt++) {
     result = await probeOnce(url)
     if (typeof result !== 'string' || !TRANSIENT_ERRORS.has(result)) return result
+    // Back off so a host that is briefly stalling gets room to recover.
+    await new Promise((resolve) => setTimeout(resolve, attempt * 2000))
   }
   return result
+}
+
+// A #fragment never leaves the client, so every anchor on one page is the same request.
+// Probe each page once; gnu.org's manual alone has 17 anchors on 9 pages.
+const pageOf = (url: string) => url.split('#')[0]
+
+// Deal the pages out host by host, so the concurrent workers spread across hosts
+// instead of all hitting one server at once (sorted, a host's pages sit together).
+function interleaveByHost(pages: string[]): string[] {
+  const byHost = new Map<string, string[]>()
+  for (const page of pages) {
+    const host = new URL(page).hostname
+    byHost.set(host, [...(byHost.get(host) ?? []), page])
+  }
+  const groups = [...byHost.values()]
+  const out: string[] = []
+  for (let i = 0; out.length < pages.length; i++) {
+    for (const group of groups) if (i < group.length) out.push(group[i])
+  }
+  return out
 }
 
 async function probeOnce(url: string): Promise<number | string> {
@@ -80,19 +102,26 @@ function isUnavailableToChecker(url: string, status: string): boolean {
   }
 }
 
+const pages = interleaveByHost([...new Set(list.map(pageOf))])
+const pageResult = new Map<string, number | string>()
+
 async function worker() {
-  while (cursor < list.length) {
-    const url = list[cursor++]
-    const result = await probe(url)
-    if (typeof result === 'string' || result >= 400) {
-      const entry = { url, status: String(result) }
-      if (isUnavailableToChecker(url, entry.status)) skipped.push(entry)
-      else dead.push(entry)
-    }
+  while (cursor < pages.length) {
+    const page = pages[cursor++]
+    pageResult.set(page, await probe(page))
   }
 }
 
 await Promise.all(Array.from({ length: CONCURRENCY }, () => worker()))
+
+for (const url of list) {
+  const result = pageResult.get(pageOf(url)) ?? 'unknown'
+  if (typeof result === 'string' || result >= 400) {
+    const entry = { url, status: String(result) }
+    if (isUnavailableToChecker(url, entry.status)) skipped.push(entry)
+    else dead.push(entry)
+  }
+}
 
 if (skipped.length > 0) {
   console.log(
