@@ -11,6 +11,7 @@ Requires Bun (https://bun.sh). Runs `bun install` on first launch if needed.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import shutil
 import socket
 import subprocess
@@ -35,10 +36,25 @@ def find_bun() -> str:
     )
 
 
+def lockfile_digest() -> str:
+    lock = APP_DIR / "bun.lock"
+    return hashlib.sha256(lock.read_bytes()).hexdigest() if lock.is_file() else ""
+
+
 def ensure_deps(bun: str) -> None:
-    if not (APP_DIR / "node_modules").is_dir():
+    # The stamp records the lockfile that the last successful install used.
+    # It lives inside node_modules, so deleting node_modules also forces a reinstall.
+    node_modules = APP_DIR / "node_modules"
+    stamp = node_modules / ".lock-sha256"
+    digest = lockfile_digest()
+    if node_modules.is_dir() and stamp.is_file() and stamp.read_text().strip() == digest:
+        return
+    if node_modules.is_dir():
+        print("Lockfile changed since the last install; updating dependencies...")
+    else:
         print("Installing dependencies (first run)...")
-        subprocess.run([bun, "install"], cwd=APP_DIR, check=True)
+    subprocess.run([bun, "install"], cwd=APP_DIR, check=True)
+    stamp.write_text(digest)
 
 
 def port_is_open(port: int) -> bool:
